@@ -1,5 +1,7 @@
-export default function Libtary () {
-  return (
-    <h2>Library</h2>
-  )
+import { redirect } from 'next/navigation'
+
+import { setsAppPath } from '../utils/paths'
+
+export default function Library () {
+  redirect(setsAppPath)
 }
