@@ -10,7 +10,7 @@ import rightArrowIcon from '@/../public/arrow-right-circle.svg'
 import { libraryAppPath, setsAppPath, videosAppPath } from '@/app/utils/paths'
 import { libraryData } from './sidebarData'
 
-type SideBarType = { title: string, path: string, icon: StaticImport }[]
+type SidebarType = { title: string, path: string, icon: StaticImport }[]
 
 export default function Sidebar({ pathname }: { pathname: string }) {
   const [isStretch, setStretch] = useState(false)
@@ -19,7 +19,7 @@ export default function Sidebar({ pathname }: { pathname: string }) {
     if (isStretch) setStretch(false)
   }, [pathname])
 
-  let sidebarData: SideBarType = []
+  let sidebarData: SidebarType = []
 
   switch(pathname) {
     case libraryAppPath:
@@ -32,7 +32,7 @@ export default function Sidebar({ pathname }: { pathname: string }) {
   }
 
   return (
-    <div className={`sidebar overflow-auto ${!isStretch ? 'w-12 overflow-x-hidden' : 'w-48'} transition-all`}>
+    <div className={`sidebar overflow-auto ${!isStretch ? 'w-14 overflow-x-hidden' : 'w-48'} transition-all`}>
       <button className='mb-8 m-3' onClick={() => setStretch(!isStretch)}>
         <Image src={isStretch ? leftArrowIcon : rightArrowIcon} alt='left-arrow' priority />
       </button>
@@ -40,7 +40,7 @@ export default function Sidebar({ pathname }: { pathname: string }) {
         sidebarData.map((item, index) =>
           <Link
             key={index}
-            className={`flex p-3 ${pathname === item.path ? 'bg-orange-200 rounded-r-full' : ''}`} href={item.path}
+            className={`flex p-3 ${pathname === item.path ? 'bg-orange-200 rounded-r-full mr-1' : ''}`} href={item.path}
           >
             <Image src={item.icon} alt='icon' priority />
             <span className='ml-5'>{item.title}</span>

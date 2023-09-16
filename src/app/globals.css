@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input {
+  outline: none;
+}
+
+@layer components {
+  .set-input {
+    @apply p-2 rounded-xl bg-lime-100 w-full
+  }
+}
