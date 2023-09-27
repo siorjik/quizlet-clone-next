@@ -7,7 +7,7 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 
 import leftArrowIcon from '@/../public/arrow-left-circle.svg'
 import rightArrowIcon from '@/../public/arrow-right-circle.svg'
-import { libraryAppPath, setsAppPath, videosAppPath } from '@/app/utils/paths'
+import { libraryAppPath, setsAppPath, videosAppPath } from '@/utils/paths'
 import { libraryData } from './sidebarData'
 
 type SidebarType = { title: string, path: string, icon: StaticImport }[]

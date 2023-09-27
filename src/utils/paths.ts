@@ -1,5 +1,6 @@
 /***** app *****/
 
+export const homeAppPath = '/home'
 export const profileAppPath = '/profile'
 
 // library

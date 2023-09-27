@@ -1,21 +1,18 @@
-import BreadCrumbs from '@/components/Breadcrumbs'
+'use client'
 
-import SetForm from '@/components/Form/SetForm'
-
-import { getEditSetPath, libraryAppPath, setApiPath, setsAppPath } from '@/app/utils/paths'
-import { SetType } from '@/types/SetTypes'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 
-const getSet = async (id: string) => {
-  const res = await fetch(`${process.env.APP_HOST}${setApiPath}?id=${id}`, { cache: 'no-store' })
+import BreadCrumbs from '@/components/Breadcrumbs'
+import SetForm from '@/components/Form/SetForm'
+import Spinner from '@/components/Spinner'
 
-  if (!res.ok) redirect('/404')
-  else return res.json()
-}
+import { getEditSetPath, libraryAppPath, setApiPath, setsAppPath } from '@/utils/paths'
+import { SetType } from '@/types/SetTypes'
+import useRequest from '@/hooks/useRequest'
 
-export default async function Set ({ params }: { params: { id: string } }) {
-  const set: SetType = await getSet(params.id)
+export default function Set ({ params }: { params: { id: string } }) {
+  const { data: set, isLoading, error } = useRequest<SetType>({ key: `set/${params.id}`, url: `${setApiPath}?id=${params.id}` })
 
   const breadCrumbsData: { title: string, path: string }[] = [
     {
@@ -27,6 +24,9 @@ export default async function Set ({ params }: { params: { id: string } }) {
       path: setsAppPath
     }
   ]
+
+  if (isLoading) return <Spinner />
+  else if (error) return notFound()
 
   return (
     <>
