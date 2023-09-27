@@ -1,5 +1,5 @@
 import listIcon from '@/../public/list-bullet.svg'
-import { setsAppPath, videosAppPath } from '@/app/utils/paths'
+import { setsAppPath, videosAppPath } from '@/utils/paths'
 
 export const libraryData = [
   {

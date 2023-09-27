@@ -3,10 +3,10 @@ type ArrObjectType = { [k:string]: string | number | boolean | ObjectType[] }
 type BodyType = ObjectType | ArrObjectType
 
 export default async(
-  { url, method, cache = 'no-store', body }:
+  { url, method = 'get', cache = 'no-store', body }:
   {
     url: string,
-    method: 'post' | 'get' | 'put' | 'delete',
+    method?: 'post' | 'get' | 'put' | 'delete',
     cache?: RequestCache | undefined,
     body?: BodyType | undefined
   }
@@ -25,7 +25,6 @@ export default async(
 
     return res
   } catch (error) {
-    console.log(error)
     throw error
   }
 }

@@ -21,10 +21,15 @@ export async function POST(req: Request) {
 export async function GET(req: NextRequest) {
   try {
     const id = req.nextUrl.searchParams.get('id')
-    let result = set
-
+    let result = [...set]
+    
+    //const users = await fetch('http://localhost:8080/api/user')
+    //console.log('users - ', await users.json())
+    
     if (id) result = set.filter((item: any) => +item.id === +id)[0]
-
+    
+    console.log('GET - ', result)
+    //return NextResponse.json({ sets: result, users: await users.json() })
     return NextResponse.json(result)
   } catch (error) {
     console.log(error)
@@ -40,7 +45,9 @@ export async function PUT(req: Request) {
 
     const index = set.findIndex(item => item.id === data.id)
     
-    return NextResponse.json(set.splice(index, 1, data))
+    set.splice(index, 1, data)
+
+    return NextResponse.json(set[index])
   } catch (error) {
     console.log(error)
     const err = error as Error

@@ -1,18 +1,22 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 import trashIcon from '@/../public/trash.svg'
 import { SetType } from '@/types/SetTypes'
-import { getSetPath, setApiPath } from '@/app/utils/paths'
+import { getSetPath, setApiPath } from '@/utils/paths'
 import apiService from '@/services/apiService'
 
 export default function SetList({ data }: { data: SetType[] }) {
-  const [list, setList] = useState<SetType[]>(data)
+  const [list, setList] = useState<SetType[]>([])
 
   const { push } = useRouter()
+
+  useEffect(() => {
+    setList(data)
+  }, [data])
 
   const remove = async (e: React.MouseEvent<HTMLImageElement>, id: string) => {
     e.stopPropagation()

@@ -2,7 +2,6 @@
 
 import { Fragment, ReactElement } from 'react'
 import { useForm, useFieldArray, Merge, FieldError, FieldErrorsImpl } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
 
 import Input from '../Input'
 import Button from '../Button'
@@ -10,16 +9,15 @@ import Button from '../Button'
 import trashIcon from '@/../public/trash.svg'
 import Image from 'next/image'
 import { SetType } from '@/types/SetTypes'
-import apiService from '@/services/apiService'
-import { getSetPath, setApiPath, setsAppPath } from '@/app/utils/paths'
 
 const defaultValues = { list: [{ term: '', definition: '' }, { term: '', definition: '' }], title: '' }
 
 type ActionType = 'edit' | 'create' | null
 
-export default function SetForm({ data, action = null }: { data?: SetType, action?: ActionType }) {
-  const router = useRouter()
-
+export default function SetForm(
+  { data, action = null, func }: 
+  { data?: SetType, action?: ActionType, func?: (data: SetType) => Promise<void> }
+) {  
   const { register, handleSubmit, control, formState: { errors }, getValues } = useForm({
     defaultValues: data ? { ...data } : { ...defaultValues }
   })
@@ -29,23 +27,7 @@ export default function SetForm({ data, action = null }: { data?: SetType, actio
 
   const { list } = getValues()
 
-  const submit = async (data: SetType): Promise<void> => {
-    try {
-      if (isCreating) {
-        await apiService({ url: setApiPath, method: 'post', body: data })
-  
-        router.push(setsAppPath)
-      } else {
-        await apiService({ url: setApiPath, method: 'put', body: data })
-  
-        router.push(getSetPath(data.id as string))
-      }
-    } catch (error) {
-      const err = error as Error
-
-      console.log(err)
-    }
-  }
+  const submit = async (data: SetType): Promise<void> => func && await func(data)
 
   const pairBlock = (number: number): ReactElement => (
     <div className='flex mt-5 p-5 flex-col w-full justify-between bg-lime-200 rounded-xl md:flex-row'>
