@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+// https://api.mymemory.translated.net/get?q=injure&langpair=en|ru&mt=1
+// https://api.datamuse.com/words?sp=ring??
+
 let set: any[] = [{ id: '1', title: 'Title', list: [{ term: 'fdfdfd', definition: 'fdfdfdfd' }] }]
 
 export async function POST(req: Request) {
