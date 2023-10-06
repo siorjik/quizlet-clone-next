@@ -31,8 +31,6 @@ export default function Lyout({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  if (pathname === '/not-found') console.log('not-found')
-
   const isShowSidebar = sidebarPathList.find(item => item === pathname)
 
   return (
