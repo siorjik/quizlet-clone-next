@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, ReactElement, useEffect, useRef } from 'react'
+import { Fragment, ReactElement, useEffect, useRef, useState } from 'react'
 import { useForm, useFieldArray, Merge, FieldError, FieldErrorsImpl } from 'react-hook-form'
 
 import Input from '../Input'
@@ -10,21 +10,28 @@ import trashIcon from '@/../public/trash.svg'
 import Image from 'next/image'
 import { SetType } from '@/types/SetTypes'
 import Autocomplete from '../Autocomplete'
+import apiService from '@/services/apiService'
+import { getApiDictionaryPath, getApiTranslatePath } from '@/utils/paths'
 
 const defaultValues = { list: [{ term: '', definition: '' }], title: '' }
 
 type ActionType = 'edit' | 'create' | null
+type DataType = { name: string, words: string[] }
 
 export default function SetForm(
   { data, action = null, func }:
     { data?: SetType, action?: ActionType, func?: (data: SetType) => Promise<void> }
 ) {
+  const [dictionary, setDictionary] = useState<DataType>({ name: '', words: [] })
+  const [translate, setTranslate] = useState<DataType>({ name: '', words: [] })
+
   const { watch, register, handleSubmit, control, formState: { errors }, setValue, getFieldState } = useForm({
     defaultValues: data ? { ...data } : { ...defaultValues }
   })
   const { fields, remove, append } = useFieldArray({ name: 'list', control })
 
   const inputRef = useRef<HTMLInputElement | null>(null)
+  let timeoutRef: { current: NodeJS.Timeout | null } = useRef(null)
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -36,39 +43,80 @@ export default function SetForm(
 
   const submit = async (data: SetType): Promise<void> => func && await func(data)
 
-  const pairBlock = (number: number): ReactElement => (
-    <div className='flex mt-5 p-5 flex-col w-full justify-between relative bg-lime-200 rounded-xl md:flex-row'>
-      <div className='relative w-full md:w-[47%]'>
+  const onChange = async (target: { name: string, value: string }): Promise<void> => {
+    clearTimeout(timeoutRef.current as NodeJS.Timeout)
+
+    timeoutRef.current = setTimeout(async () => {
+      const { name, value } = target
+
+      try {
+        const words = await apiService({ url: getApiDictionaryPath(value) })
+
+        setDictionary({ name, words })
+      } catch (error) {
+        console.log(error)
+      }
+    }, 500)
+  }
+
+  const getTranslates = async (name: string, value: string): Promise<void> => {
+    try {
+      const words = await apiService({ url: getApiTranslatePath(value) })
+
+      setTranslate({ name: name.replace('term', 'definition'), words })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const setTranslateQuery = async (name: `list.${number}.term`, value: string): Promise<void> => {
+    setValue(name, value)
+
+    await getTranslates(name, value)
+  }
+
+  const pairBlock = (number: number): ReactElement => {
+    return (
+      <div className='flex mt-5 p-5 flex-col w-full justify-between relative bg-lime-200 rounded-xl md:flex-row'>
         <Autocomplete
           inputProps={{
             name: 'term',
+            placeholder: 'Term...',
             inputStyle: 'set-input',
+            blockStyle: 'relative w-full md:w-[47%]',
             errors: errors?.list?.[number] as Merge<FieldError, FieldErrorsImpl>,
-            register: { ...register(`list.${number}.term` as const, { required: 'Required!', disabled: !action }) }
+            register: {
+              ...register(`list.${number}.term` as const,
+                { required: 'Required!', disabled: !action, onChange: ({ target }) => onChange(target) })
+            }
           }}
-          data={['facebook', 'liface', 'red']}
+          data={dictionary.name === `list.${number}.term` ? dictionary.words : []}
           q={getFieldState(`list.${number}.term`).isDirty ? list[number].term : ''}
-          setValue={(value: string) => setValue(`list.${number}.term`, value)}
+          setValue={(value: string) => setTranslateQuery(`list.${number}.term`, value)}
         />
-      </div>
-      <div className='relative w-full mt-5 md:w-[47%] md:mt-0'>
+        
         <Autocomplete
           inputProps={{
             name: 'definition',
+            placeholder: 'Definition...',
             inputStyle: 'set-input',
+            blockStyle: 'relative w-full mt-5 md:w-[47%] md:mt-0',
             errors: errors?.list?.[number] as Merge<FieldError, FieldErrorsImpl>,
-            register: { ...register(`list.${number}.definition` as const, { required: 'Required!', disabled: !action }) }
+            register: {
+              ...register(`list.${number}.definition` as const,
+                { required: 'Required!', disabled: !action })
+            }
           }}
-          data={['bebe', 'back', 'bed', 'find']}
+          data={translate.name === `list.${number}.definition` ? translate.words : []}
           q={getFieldState(`list.${number}.definition`).isDirty ? list[number].definition : ''}
           setValue={(value: string) => setValue(`list.${number}.definition`, value)}
         />
+        {action && list.length > 1 && <button type='button' className='mx-auto mt-5 md:m-0' onClick={() => remove(number)}>
+          <Image src={trashIcon} alt='trash' />
+        </button>}
       </div>
-      {action && list.length > 1 && <button type='button' className='mx-auto mt-5 md:m-0' onClick={() => remove(number)}>
-        <Image src={trashIcon} alt='trash' />
-      </button>}
-    </div>
-  )
+    )
+  }
 
   return (
     <form className='flex flex-col'>
@@ -85,7 +133,7 @@ export default function SetForm(
       {action && <>
         <Button
           type='button'
-          css='w-fit m-auto mt-5 border-none bg-lime-300'
+          css='w-fit m-auto mt-5 border-none bg-lime-300 hover:bg-lime-100'
           click={() => append({ term: '', definition: '' })}
         >Add</Button>
         <Button css='w-fit mt-4' type='button' click={handleSubmit(submit)}>{isCreating ? 'Create' : 'Update'}</Button>

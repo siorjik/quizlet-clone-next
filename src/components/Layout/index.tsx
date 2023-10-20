@@ -23,7 +23,7 @@ export default function Lyout({ children }: { children: ReactNode }) {
     const div = mainRef.current!
 
     div.addEventListener('scroll', () => {
-      setSmallHeader(div.scrollTop > 235)
+      setSmallHeader(div.scrollTop > 235 && div.scrollHeight > 1000)
     })
 
     return () => {

@@ -16,10 +16,9 @@ export default function Autocomplete(
   const downPress = useKeyPress('ArrowDown')
   const upPress = useKeyPress('ArrowUp')
   const enterPress = useKeyPress('Enter')
-  const escapePress = useKeyPress('Escape')
   const tabPress = useKeyPress('Tab')
 
-  const { type = 'text', blockStyle = '', inputStyle, errors, placeholder, name = 'name', register } = inputProps
+  const { type = 'text', blockStyle = '', inputStyle, errors, placeholder, name = 'name', register, label } = inputProps
 
   const inputRef = useRef<HTMLInputElement | null>(null)
 
@@ -27,26 +26,35 @@ export default function Autocomplete(
 
   useEffect(() => {
     if (!q) {
-      setList(data)
-      setShow(false)
+      setList([])
       setInputName(undefined)
-    } else if (!list.includes(q)) setList(data.filter(item => item.includes(q)))
+      setCursor(0)
+    }
   }, [q])
 
   useEffect(() => {
-    if (!!list.length && q) {
-      setShow(true)
+    if (!!data.length && !list.includes(q)) {
+      setList(data)
       setInputName(inputRef.current?.name)
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (!!list.length && isTargetInput) {
+      setShow(true)
       setCursor(0)
     }
   }, [list])
 
   useEffect(() => {
-    if (isTargetInput && isShow) {
-      setShow(false)
-      setInputName(undefined)
+    if (isTargetInput && q) {
+      if (isShow) {
+        setShow(false)
+        setInputName(undefined)
+        setValue(q)
+      }
     }
-  }, [escapePress, tabPress])
+  }, [tabPress])
 
   useEffect(() => {
     if (list.length && downPress) {
@@ -54,7 +62,7 @@ export default function Autocomplete(
       inputRef.current?.blur()
     }
   }, [downPress])
-  
+
   useEffect(() => {
     if (list.length && upPress && isTargetInput) {
       if (cursor === 0) inputRef.current?.focus()
@@ -81,6 +89,9 @@ export default function Autocomplete(
 
   const onClick = (item: string) => {
     setShow(false)
+    setInputName(undefined)
+
+    inputRef.current?.focus()
 
     setValue(item)
   }
@@ -107,6 +118,7 @@ export default function Autocomplete(
   return (
     <>
       <div className={`${blockStyle}`}>
+        <label className='absolute left-5 top-[-11px] text-sm'>{label}</label>
         <input
           className={inputStyle}
           placeholder={placeholder}
@@ -122,20 +134,21 @@ export default function Autocomplete(
         {
           errors?.[name] && <div className='px-3 text-red-600 text-sm absolute'>{errors[name]?.message as ReactNode}</div>
         }
+
+        {isShow && !!list.length && isTargetInput && <ul className='absolute p-1 top-12 z-10 bg-red-100 rounded-lg'>
+          {
+            list.map((item, index) => (
+              <ListItem
+                key={index}
+                active={index === cursor}
+                item={item}
+                setSelected={onClick}
+                setHovered={setHovered}
+              />
+            ))
+          }
+        </ul>}
       </div>
-      {isShow && !!list.length && <ul className='absolute p-1 top-12 z-10 bg-red-100 rounded-lg'>
-        {
-          list.map((item, index) => (
-            <ListItem
-              key={index}
-              active={index === cursor}
-              item={item}
-              setSelected={onClick}
-              setHovered={setHovered}
-            />
-          ))
-        }
-      </ul>}
     </>
   )
 }

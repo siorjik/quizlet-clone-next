@@ -11,7 +11,7 @@ import userIcon from '../../../public/user.svg'
 import { homeAppPath, libraryAppPath, profileAppPath } from '@/utils/paths'
 
 export default function Navigation({ isSmall }: { isSmall: boolean }) {
-  const [isShow, setShow] = useState(false)
+  const [isShowMobMenu, setShowMobMenu] = useState(false)
 
   const pathname = usePathname()
 
@@ -38,14 +38,14 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
 
     if (pathname === path || (pathname.startsWith(path) && path !== '/')) {
       if (isMobile) css = '!text-slate-500 font-bold'
-      else css = '!border-gray-600 pb-5'
+      else css = '!border-gray-600 pb-[1.4rem]'
     }
 
     return (
       <Link
         className={`
           px-2 text-gray-600 border-b-2 border-transparent hover:border-gray-600
-          ${isSmall ? '!pb-2' : 'pb-5'} ${css} transition-[border-color,padding]
+          ${isSmall ? '!pb-2' : 'pb-[1.4rem]'} ${css} transition-[border-color,padding]
         `}
         href={path}
       >{title}</Link>
@@ -63,13 +63,13 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
       </div>
 
       <div className='header-content-mobile flex justify-between text-center md:hidden'>
-        <span onClick={() => setShow(!isShow)}><Image src={menuIcon} alt='menu' /></span>
+        <span onClick={() => setShowMobMenu(!isShowMobMenu)}><Image src={menuIcon} alt='menu' /></span>
         {getUserBlock(true)}
         {
-          isShow &&
+          isShowMobMenu &&
           <div
             className='mob-menu fixed w-screen h-screen top-0 right-0 flex justify-center z-10 bg-slate-500/[0.3]'
-            onClick={() => setShow(!isShow)}
+            onClick={() => setShowMobMenu(!isShowMobMenu)}
           >
             <div className='mob-menu-content flex flex-col self-start w-72 bg-slate-200 py-5 my-20 rounded-md'>
               {menu.map((item, index) => <Fragment key={index}>{getMenuItem(item, true)}</Fragment>)}

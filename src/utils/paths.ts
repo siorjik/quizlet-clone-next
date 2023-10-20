@@ -16,5 +16,7 @@ export const getEditSetPath = (id: string) => `${setsAppPath}/${id}/edit`
 // library
 export const libraryApiPath = '/api/library'
 export const setApiPath = `${libraryApiPath}/set`
+export const getApiDictionaryPath = (word: string) => `/api/dictionary?word=${word}`
+export const getApiTranslatePath = (word: string) => `/api/translate?word=${word}`
 
 
