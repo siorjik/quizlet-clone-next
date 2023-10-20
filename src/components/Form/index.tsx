@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import Button from '@/components/Button'
 import Input from '../Input'
 import { Fragment } from 'react'
-import { InputTypes } from '@/types/FormTypes'
+import { InputTypes } from '@/types/InputTypes'
 
 type FormPropsType = {
   submit: (data: { [key: string]: string }) => Promise<void>,

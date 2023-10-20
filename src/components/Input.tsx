@@ -3,10 +3,11 @@ import { ReactNode } from 'react'
 import { FormInputPropTypes } from '@/types/FormTypes'
 
 export default function Input (props: FormInputPropTypes) {
-  const { type = 'text', blockStyle = '', inputStyle, errors, placeholder, name = 'name', register, inputRef } = props
+  const { type = 'text', blockStyle = '', inputStyle, errors, placeholder, name = 'name', register, inputRef, label } = props
 
   return (
-    <div className={`${blockStyle}`}>
+    <div className={`${blockStyle} relative`}>
+      <label className='absolute left-5 top-[-11px] text-sm'>{label}</label>
       <input
         className={inputStyle}
         placeholder={placeholder}
