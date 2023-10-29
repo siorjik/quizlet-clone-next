@@ -50,7 +50,7 @@ export default function SetForm(
       const { name, value } = target
 
       try {
-        const words = await apiService({ url: getApiDictionaryPath(value) })
+        const words: string[] | [] = await apiService({ url: getApiDictionaryPath(value) })
 
         setDictionary({ name, words })
       } catch (error) {
@@ -61,7 +61,7 @@ export default function SetForm(
 
   const getTranslates = async (name: string, value: string): Promise<void> => {
     try {
-      const words = await apiService({ url: getApiTranslatePath(value) })
+      const words: string[] = await apiService({ url: getApiTranslatePath(value) })
 
       setTranslate({ name: name.replace('term', 'definition'), words })
     } catch (error) {

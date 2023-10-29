@@ -1,16 +1,16 @@
-type ObjectType = { [k:string]: string | number | boolean }
-type ArrObjectType = { [k:string]: string | number | boolean | ObjectType[] }
+type ObjectType = { [k: string]: string | number | boolean }
+type ArrObjectType = { [k: string]: string | number | boolean | ObjectType[] }
 type BodyType = ObjectType | ArrObjectType
 
-export default async(
-  { url, method = 'get', cache = 'no-store', body }:
-  {
-    url: string,
-    method?: 'post' | 'get' | 'put' | 'delete',
-    cache?: RequestCache | undefined,
-    body?: BodyType | undefined
-  }
-) => {
+export default async<T>(
+  { url, method = 'GET', cache = 'no-store', body }:
+    {
+      url: string,
+      method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH',
+      cache?: RequestCache | undefined,
+      body?: BodyType | undefined
+    }
+): Promise<T> => {
   try {
     const resp = await fetch(url, {
       headers: { 'Content-Type': 'application/json' },
@@ -21,7 +21,7 @@ export default async(
 
     const res = await resp.json()
 
-    if (res.error) throw res.error
+    if (res.error) throw res
 
     return res
   } catch (error) {

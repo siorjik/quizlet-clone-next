@@ -10,10 +10,11 @@ type RequestType = {
 }
 
 export default function useRequest<T>(
-  { key, url, body, method = 'get' }:
-  { key: string | string[], url: string, body?: ObjType, method?: 'post' | 'get' | 'put' }
+  { key, url, body, method = 'GET' }:
+    { key: string | string[], url: string, body?: ObjType, method?: 'POST' | 'GET' | 'PUT' | 'PATCH' }
 ): { data: T } & RequestType {
-  const { data, error, isLoading, mutate } = useSWR(key, () => apiService({ url, body, method }), { revalidateOnFocus: false })
+  const { data, error, isLoading, mutate } =
+    useSWR(key, async (): Promise<any> => await apiService<T>({ url, body, method }), { revalidateOnFocus: false })
 
   return { data, error, isLoading, mutate }
 }

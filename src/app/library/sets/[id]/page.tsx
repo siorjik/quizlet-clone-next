@@ -7,12 +7,13 @@ import BreadCrumbs from '@/components/Breadcrumbs'
 import SetForm from '@/components/Form/SetForm'
 import Spinner from '@/components/Spinner'
 
-import { getEditSetPath, libraryAppPath, setApiPath, setsAppPath } from '@/utils/paths'
+import { getEditSetAppPath, libraryAppPath, getSetApiPath, setsAppPath } from '@/utils/paths'
 import { SetType } from '@/types/SetTypes'
 import useRequest from '@/hooks/useRequest'
 
-export default function Set ({ params }: { params: { id: string } }) {
-  const { data: set, isLoading, error } = useRequest<SetType>({ key: `set/${params.id}`, url: `${setApiPath}?id=${params.id}` })
+export default function Set({ params }: { params: { id: string } }) {
+  const { data: set, isLoading, error } =
+    useRequest<SetType>({ key: `set/${params.id}`, url: `${getSetApiPath()}?id=${params.id}` })
 
   const breadCrumbsData: { title: string, path: string }[] = [
     {
@@ -33,7 +34,7 @@ export default function Set ({ params }: { params: { id: string } }) {
       <BreadCrumbs data={breadCrumbsData} />
       <Link
         className='mb-8 inline-block border-2 rounded-md px-5 py-2 hover:bg-slate-200 transition-all'
-        href={getEditSetPath(params.id)}
+        href={getEditSetAppPath(params.id)}
       >Edit</Link>
       <SetForm data={set} />
     </>
