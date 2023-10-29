@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 
 import BreadCrumbs from '@/components/Breadcrumbs'
 
-import { libraryAppPath, setApiPath, setsAppPath } from '@/utils/paths'
+import { libraryAppPath, getSetApiPath, setsAppPath } from '@/utils/paths'
 import SetForm from '@/components/Form/SetForm'
 import apiService from '@/services/apiService'
 import { SetType } from '@/types/SetTypes'
@@ -12,9 +12,9 @@ import { SetType } from '@/types/SetTypes'
 export default function Create() {
   const { push } = useRouter()
 
-  const create = async (data: SetType): Promise<void> => {
+  const create = async (body: SetType): Promise<void> => {
     try {
-      await apiService({ url: setApiPath, method: 'post', body: data })
+      await apiService<SetType>({ url: getSetApiPath(), method: 'POST', body: { ...body, userId: '652fe4bb1e70cb4f997e1174' } })
   
       push(setsAppPath)
     } catch (error) {

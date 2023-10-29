@@ -1,5 +1,5 @@
 export  type SetType = {
-  id?: string,
+  _id?: string,
   title: string,
-  list: { term: string, definition: string }[]  
+  list: { term: string, definition: string }[],
 }

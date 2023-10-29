@@ -4,7 +4,8 @@ import apiErrorservice from '@/services/apiErrorservice'
 
 type DictionaryType = { word: string, score: number }[]
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest):
+  Promise<NextResponse<string[] | { error: { message: string, status: number } }>> {
   let res: string[] = []
 
   try {
@@ -20,7 +21,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json(res)
   } catch (error) {
     const err = error as Error
-    
+
     return apiErrorservice(err, 400)
-  }  
+  }
 }
