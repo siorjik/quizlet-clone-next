@@ -9,12 +9,9 @@ type RequestType = {
   mutate: KeyedMutator<ObjType>
 }
 
-export default function useRequest<T>(
-  { key, url, body, method = 'GET' }:
-    { key: string | string[], url: string, body?: ObjType, method?: 'POST' | 'GET' | 'PUT' | 'PATCH' }
-): { data: T } & RequestType {
+export default function useRequest<T>({ key, url }: { key: string | string[] | null, url: string }): { data: T } & RequestType {
   const { data, error, isLoading, mutate } =
-    useSWR(key, async (): Promise<any> => await apiService<T>({ url, body, method }), { revalidateOnFocus: false })
+    useSWR(key, async (): Promise<any> => await apiService<T>({ url }), { revalidateOnFocus: false })
 
   return { data, error, isLoading, mutate }
 }

@@ -4,16 +4,16 @@ import { createContext, useContext, useState, Dispatch, SetStateAction } from 'r
 
 import { SetType } from '@/types/SetTypes'
 
-type SetContextType = { list: SetType[] | [], data: SetType | {} }
+export type SetContextType = { list: SetType[] | [], data: SetType | {} }
 
-const SetContext = createContext<SetContextType & { setSet: Dispatch<SetStateAction<SetContextType>> }>
-  ({ list: [], data: {}, setSet: (): SetContextType => ({ list: [], data: {} }) })
+const SetContext = createContext<SetContextType & { setContext: Dispatch<SetStateAction<SetContextType>> }>
+  ({ list: [], data: {}, setContext: (): SetContextType => ({ list: [], data: {} }) })
 
 export const SetContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [set, setSet] = useState<SetContextType>({ data: {}, list: [] })
+  const [context, setContext] = useState<SetContextType>({ data: {}, list: [] })
 
   return (
-    <SetContext.Provider value={{ ...set, setSet }}>
+    <SetContext.Provider value={{ ...context, setContext }}>
       {children}
     </SetContext.Provider>
   )
