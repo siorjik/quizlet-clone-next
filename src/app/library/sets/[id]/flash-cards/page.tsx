@@ -53,7 +53,7 @@ export default function FlashCards({ params }: { params: { id: string } }) {
     if (up || down) setAnimation('animate-rotate-x animate-duration-500')
   }, [left, right, up, down])
 
-  const { list } = data as SetType || []
+  const { list, title } = data as SetType || []
 
   const { all, current } = counting
 
@@ -93,26 +93,35 @@ export default function FlashCards({ params }: { params: { id: string } }) {
     arrows: false,
   }
 
+  const arrowStyle = 'p-2 border-solid border-black rounded-full border-2 cursor-pointer'
+
   if (isLoading) return <Spinner />
   else if (error) return notFound()
 
   return (
     <>
       <BreadCrumbs data={breadCrumbsData} />
-      <Slider {...settings} ref={sliderRef}>
-        {list.map((item, index) => (
-          <div
-            className={`h-60 p-5 !flex items-center justify-center bg-slate-100 cursor-pointer ${animation}`}
-            key={index}
-            onClick={() => setAnimation('animate-rotate-x animate-duration-500')}
-          ><span className='text-2xl'>{item[mode]}</span>
-          </div>
-        ))}
-      </Slider>
-      <div className=' w-36 my-5 mx-auto flex justify-between'>
-        <Image className='cursor-pointer' src={leftIcon} alt='left' onClick={previous} />
+      <h2 className='page-title'>{title}</h2>
+      <div className='flex justify-center'>
+        <Slider
+          {...settings}
+          ref={sliderRef}
+          className={`w-[95%] ${animation ? '' : 'shadow-[20px_20px_25px_5px_rgba(0,0,0,0.1)] rounded-lg'}`}
+        >
+          {list.map((item, index) => (
+            <div
+              className={`h-60 p-5 !flex items-center justify-center bg-slate-100 cursor-pointer rounded-lg ${animation}`}
+              key={index}
+              onClick={() => setAnimation('animate-rotate-x animate-duration-500')}
+            ><span className='text-2xl'>{item[mode]}</span>
+            </div>
+          ))}
+        </Slider>
+      </div>
+      <div className='w-52 md:w-80 my-10 mx-auto flex justify-between items-center'>
+        <span className={arrowStyle}><Image src={leftIcon} alt='left' onClick={previous} /></span>
         <div>{`${current} / ${all}`}</div>
-        <Image className='cursor-pointer' src={rightIcon} alt='right' onClick={next} />
+        <span className={arrowStyle}><Image className='cursor-pointer' src={rightIcon} alt='right' onClick={next} /></span>
       </div>
     </>
   )

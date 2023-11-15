@@ -24,6 +24,7 @@ export default function SetForm(
 ) {
   const [dictionary, setDictionary] = useState<DataType>({ name: '', words: [] })
   const [translate, setTranslate] = useState<DataType>({ name: '', words: [] })
+  const [isLoading, setLoading] = useState(false)
 
   const { watch, register, handleSubmit, control, formState: { errors }, setValue, getFieldState } = useForm({
     defaultValues: data ? { ...data } : { ...defaultValues }
@@ -63,16 +64,22 @@ export default function SetForm(
     try {
       const words: string[] = await apiService({ url: getApiTranslatePath(value) })
 
-      setTranslate({ name: name.replace('term', 'definition'), words })
+      setTranslate({ name, words })
     } catch (error) {
       console.log(error)
     }
   }
 
   const setTranslateQuery = async (name: `list.${number}.term`, value: string): Promise<void> => {
-    setValue(name, value)
+    const definitionName = name.replace('term', 'definition') as `list.${number}.definition`
 
-    await getTranslates(name, value)
+    setValue(definitionName, '')
+    setValue(name, value)
+    setLoading(true)
+
+    await getTranslates(definitionName, value)
+
+    setLoading(false)
   }
 
   const pairBlock = (number: number): ReactElement => {
@@ -98,7 +105,7 @@ export default function SetForm(
         <Autocomplete
           inputProps={{
             name: 'definition',
-            placeholder: 'Definition...',
+            placeholder: isLoading ? 'Translates loading...' : 'Definition...',
             inputStyle: 'set-input',
             blockStyle: 'relative w-full mt-5 md:w-[47%] md:mt-0',
             errors: errors?.list?.[number] as Merge<FieldError, FieldErrorsImpl>,
