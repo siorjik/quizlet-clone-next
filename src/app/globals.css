@@ -10,4 +10,8 @@ input {
   .set-input {
     @apply p-2 rounded-xl bg-lime-100 w-full
   }
+
+  .page-title {
+    @apply mb-8 text-center text-3xl
+  }
 }

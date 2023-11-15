@@ -25,7 +25,9 @@ export default function Edit({ params }: { params: { id: string } }) {
     try {
       await apiService<SetType>({ url: getSetApiPath(), method: 'PATCH', body })
   
-      setContext({ list, data: body })
+      const filtered = list.filter(item => item._id !== body._id)
+
+      setContext({ list: [body, ...filtered], data: body })
   
       push(getSetAppPath(body._id as string))
     } catch (error) {

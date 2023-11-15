@@ -27,7 +27,9 @@ export default function SetList({ data, remove }: { data: SetType[], remove: (id
             onClick={() => handleClick(item._id as string)}
           >
             <div className='flex justify-between'>
-              <span>{item.title}</span>
+              <div className='flex items-center'>
+                <span className='text-xs'>{item.list.length} items</span> &nbsp;|&nbsp; <span>{item.title}</span>
+              </div>
               <span onClick={async (e) => await deleteSet(e, item._id as string)}><TrashIcon /></span>
             </div>
           </div>
