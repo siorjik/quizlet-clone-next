@@ -100,6 +100,7 @@ export default function SetForm(
           data={dictionary.name === `list.${number}.term` ? dictionary.words : []}
           q={getFieldState(`list.${number}.term`).isDirty ? list[number].term : ''}
           setValue={(value: string) => setTranslateQuery(`list.${number}.term`, value)}
+          clearData={() => setDictionary({ name: '', words: [] })}
         />
         
         <Autocomplete
@@ -117,6 +118,7 @@ export default function SetForm(
           data={translate.name === `list.${number}.definition` ? translate.words : []}
           q={getFieldState(`list.${number}.definition`).isDirty ? list[number].definition : ''}
           setValue={(value: string) => setValue(`list.${number}.definition`, value)}
+          clearData={() => setTranslate({ name: '', words: [] })}
         />
         {action && list.length > 1 && <button type='button' className='mx-auto mt-5 md:m-0' onClick={() => remove(number)}>
           <Image src={trashIcon} alt='trash' />

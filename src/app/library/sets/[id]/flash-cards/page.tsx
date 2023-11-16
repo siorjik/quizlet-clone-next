@@ -48,10 +48,14 @@ export default function FlashCards({ params }: { params: { id: string } }) {
   }, [data])
 
   useEffect(() => {
+    if (up || down) setAnimation('animate-rotate-x animate-duration-500')
+  }, [up, down])
+
+  useEffect(() => {
+    if (mode !== 'term') setMode('term')
     if (left) previous()
     if (right) next()
-    if (up || down) setAnimation('animate-rotate-x animate-duration-500')
-  }, [left, right, up, down])
+  }, [left, right])
 
   const { list, title } = data as SetType || []
 
