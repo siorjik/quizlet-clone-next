@@ -12,7 +12,7 @@ export async function GET(req: NextRequest):
     const word = req.nextUrl.searchParams.get('word')
 
     if (word) {
-      const resp = await fetch(`https://api.datamuse.com/words?sp=${word}??`)
+      const resp = await fetch(`${process.env.DICTIONARY_API_URL}?sp=${word}??`)
       const words: DictionaryType = await resp.json()
 
       res = !!words.length ? words.splice(0, 3).map(item => item.word) : [word]

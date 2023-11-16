@@ -41,7 +41,7 @@ export async function PATCH(req: Request): Promise<NextResponse<SetType | ApiErr
   try {
     const body = await req.json()
 
-    const res: SetType = await apiService({ url: `${getSetApiPath(true)}/${body._id}`, method: 'PATCH', body })
+    const res: SetType = await apiService({ url: getSetApiPath(true), method: 'PATCH', body })
 
     return NextResponse.json(res)
   } catch (error) {
