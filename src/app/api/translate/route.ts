@@ -35,12 +35,12 @@ export async function GET(req: NextRequest):
   try {
     const word = req.nextUrl.searchParams.get('word')
 
-    const translates = await fetch('https://dpl-translator.p.rapidapi.com/translate', {
+    const translates = await fetch(process.env.TRANSLATE_API_URL as string, {
       method: 'POST',
       headers: {
         'content-type': 'application/json',
-        'X-RapidAPI-Key': '826bcbacc9msh6276ca9e9a3b144p1748d5jsn9a47024cfb16',
-        'X-RapidAPI-Host': 'dpl-translator.p.rapidapi.com'
+        'X-RapidAPI-Key': process.env.TRANSLATE_API_KEY as string,
+        'X-RapidAPI-Host': process.env.TRANSLATE_API_HOST as string
       },
       body: JSON.stringify({
         text: word,
