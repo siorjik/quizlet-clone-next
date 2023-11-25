@@ -21,7 +21,8 @@ import Image from 'next/image'
 export default function FlashCards({ params }: { params: { id: string } }) {
   const [mode, setMode] = useState<'term' | 'definition'>('term')
   const [animation, setAnimation] = useState<string>('')
-  const [counting, setCounting] = useState<{ all: number, current: number }>({ all: 0, current: 0 })
+  const [counting, setCounting] = useState<{ amount: number, current: number }>({ amount: 0, current: 0 })
+  const [isShowContent, setShowContent] = useState(true)
 
   const left = useKeyPress('ArrowLeft')
   const right = useKeyPress('ArrowRight')
@@ -34,41 +35,59 @@ export default function FlashCards({ params }: { params: { id: string } }) {
 
   const sliderRef = useRef<Slider>(null)
 
+  const xAnimation = 'animate-rotate-x'
+  const yAnimation = 'animate-rotate-y'
+
   useEffect(() => {
     if (animation) {
+      if (isShowContent) {
+        setShowContent(false)
+
+        setTimeout(() => setShowContent(true), 350)
+      }
+
+      if (animation === yAnimation && mode !== 'term') setMode('term')
+      
       setTimeout(() => {
         setAnimation('')
-        setMode(mode === 'term' ? 'definition' : 'term')
+        
+        if (animation === xAnimation) setMode(mode === 'term' ? 'definition' : 'term')
       }, 300)
     }
   }, [animation])
 
   useEffect(() => {
-    if (data) setCounting({ all: data.list.length, current: 1 })
+    if (data) setCounting({ amount: data.list.length, current: 1 })
   }, [data])
 
   useEffect(() => {
-    if (up || down) setAnimation('animate-rotate-x animate-duration-500')
+    if (up || down) setAnimation(xAnimation)
   }, [up, down])
 
   useEffect(() => {
-    if (mode !== 'term') setMode('term')
     if (left) previous()
     if (right) next()
   }, [left, right])
 
   const { list, title } = data as SetType || []
 
-  const { all, current } = counting
+  const { amount, current } = counting
 
   const next = () => {
-    if (current < all) setCounting({ ...counting, current: current + 1 })
+    if (current < amount) {
+      setCounting({ ...counting, current: current + 1 })
+      setAnimation(yAnimation)
+    }
+
 
     sliderRef.current?.slickNext()
   }
 
   const previous = () => {
-    if (current > 1) setCounting({ ...counting, current: current - 1 })
+    if (current > 1) {
+      setCounting({ ...counting, current: current - 1 })
+      setAnimation(yAnimation)
+    }
 
     sliderRef.current?.slickPrev()
   }
@@ -91,19 +110,19 @@ export default function FlashCards({ params }: { params: { id: string } }) {
   const settings = {
     infinite: false,
     swipeToSlide: true,
-    speed: 500,
+    speed: 200,
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
   }
 
-  const arrowStyle = 'p-2 border-solid border-black rounded-full border-2 cursor-pointer'
+  const arrowStyle = 'p-2 border-solid border-slate-300 rounded-full border-2 cursor-pointer'
 
   if (isLoading) return <Spinner />
   else if (error) return notFound()
 
   return (
-    <>
+    <div className='max-w-4xl'>
       <BreadCrumbs data={breadCrumbsData} />
       <h2 className='page-title'>{title}</h2>
       <div className='flex justify-center'>
@@ -116,17 +135,17 @@ export default function FlashCards({ params }: { params: { id: string } }) {
             <div
               className={`h-60 p-5 !flex items-center justify-center bg-slate-100 cursor-pointer rounded-lg ${animation}`}
               key={index}
-              onClick={() => setAnimation('animate-rotate-x animate-duration-500')}
-            ><span className='text-2xl'>{item[mode]}</span>
+              onClick={() => setAnimation(xAnimation)}
+            ><span className='text-2xl'>{isShowContent ? item[mode] : ''}</span>
             </div>
           ))}
         </Slider>
       </div>
       <div className='w-52 md:w-80 my-10 mx-auto flex justify-between items-center'>
         <span className={arrowStyle}><Image src={leftIcon} alt='left' onClick={previous} /></span>
-        <div>{`${current} / ${all}`}</div>
+        <div>{`${current} / ${amount}`}</div>
         <span className={arrowStyle}><Image className='cursor-pointer' src={rightIcon} alt='right' onClick={next} /></span>
       </div>
-    </>
+    </div>
   )
 }

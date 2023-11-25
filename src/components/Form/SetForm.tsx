@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment, ReactElement, useEffect, useRef, useState } from 'react'
+import { Fragment, ReactElement, memo, useEffect, useRef, useState } from 'react'
 import { useForm, useFieldArray, Merge, FieldError, FieldErrorsImpl } from 'react-hook-form'
 
 import Input from '../Input'
@@ -18,7 +18,7 @@ const defaultValues = { list: [{ term: '', definition: '' }], title: '' }
 type ActionType = 'edit' | 'create' | null
 type DataType = { name: string, words: string[] }
 
-export default function SetForm(
+export default memo(function SetForm(
   { data, action = null, func }:
     { data?: SetType, action?: ActionType, func?: (data: SetType) => Promise<void> }
 ) {
@@ -149,4 +149,4 @@ export default function SetForm(
       </>}
     </form>
   )
-}
+})

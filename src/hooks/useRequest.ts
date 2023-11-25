@@ -1,12 +1,11 @@
-import useSWR, { KeyedMutator } from 'swr'
+import useSWR, { KeyedMutator, MutatorOptions } from 'swr'
 
 import apiService from '@/services/apiService'
 
-type ObjType = { [k: string]: string | number | boolean }
 type RequestType = {
   error: Error,
   isLoading: boolean,
-  mutate: KeyedMutator<ObjType>
+  mutate: KeyedMutator<MutatorOptions>
 }
 
 export default function useRequest<T>({ key, url }: { key: string | string[] | null, url: string }): { data: T } & RequestType {

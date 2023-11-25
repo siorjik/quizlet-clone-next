@@ -1,6 +1,7 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { useSWRConfig } from 'swr'
 
 import BreadCrumbs from '@/components/Breadcrumbs'
 
@@ -12,8 +13,8 @@ import useSetContext from '@/contexts/SetContext'
 
 export default function Create() {
   const { list, data, setContext } = useSetContext()
-
   const { push } = useRouter()
+  const { mutate } = useSWRConfig()
 
   const create = async (body: SetType): Promise<void> => {
     try {
@@ -21,7 +22,8 @@ export default function Create() {
         url: getSetApiPath(), method: 'POST', body: { ...body, userId: '652fe4bb1e70cb4f997e1174' }
       })
 
-      setContext({ data, list: [...list, newSet] })
+      setContext({ data, list: [newSet,...list] })
+      mutate('sets', [newSet, ...list])
   
       push(setsAppPath)
     } catch (error) {

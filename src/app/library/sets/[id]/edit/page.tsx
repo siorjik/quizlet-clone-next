@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import { notFound, useRouter } from 'next/navigation'
+import { MutatorOptions } from 'swr'
+import { useCallback } from 'react'
 
 import SetForm from '@/components/Form/SetForm'
 import Spinner from '@/components/Spinner'
@@ -13,27 +15,28 @@ import useSmartRequest from '@/hooks/useSmartRequest'
 import useSetContext from '@/contexts/SetContext'
 
 export default function Edit({ params }: { params: { id: string } }) {
-  const { data, isLoading, error, setContext } = useSmartRequest<SetType>({
-    key: `set/${params.id}/edit`, url: `${getSetApiPath()}?id=${params.id}`, requiredProp: 'data', entity: 'set'
+  const { data, isLoading, error, setContext, mutate } = useSmartRequest<SetType>({
+    key: `set/${params.id}`, url: `${getSetApiPath()}?id=${params.id}`, requiredProp: 'data', entity: 'set'
   })
 
   const { list } = useSetContext()
-
   const { push } = useRouter()
 
-  const update = async (body: SetType): Promise<void> => {
+  const update = useCallback(async (body: SetType): Promise<void> => {
     try {
       await apiService<SetType>({ url: getSetApiPath(), method: 'PATCH', body })
   
       const filtered = list.filter(item => item._id !== body._id)
 
       setContext({ list: [body, ...filtered], data: body })
+      mutate(`set/${params.id}`, body as MutatorOptions)
+      mutate('sets', [body, ...filtered] as MutatorOptions)
   
       push(getSetAppPath(body._id as string))
     } catch (error) {
       console.log(error)
     }
-  }
+  }, [params.id])
 
   if (isLoading) return <Spinner />
   else if (error) return notFound()

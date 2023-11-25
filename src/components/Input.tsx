@@ -2,16 +2,16 @@ import { ReactNode } from 'react'
 
 import { FormInputPropTypes } from '@/types/FormTypes'
 
-export default function Input (props: FormInputPropTypes) {
+export default function Input(props: FormInputPropTypes) {
   const { type = 'text', blockStyle = '', inputStyle, errors, placeholder, name = 'name', register, inputRef, label } = props
 
   return (
     <div className={`${blockStyle} relative`}>
-      <label className='absolute left-5 top-[-11px] text-sm'>{label}</label>
+      {label && <label className='absolute left-5 top-[-8px] text-xs'>{label}</label>}
       <input
         className={inputStyle}
         placeholder={placeholder}
-        { ...register }
+        {...register}
         type={type}
         ref={(el) => {
           register.ref(el)
