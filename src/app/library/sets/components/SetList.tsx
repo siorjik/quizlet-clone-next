@@ -1,17 +1,18 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
+import { memo } from 'react'
 
-import TrashIcon from '@/components/icons/TrashIcon'
+import TrashIcon from '@/components/Icon/TrashIcon'
 import { SetType } from '@/types/SetTypes'
 import { getSetAppPath } from '@/utils/paths'
 
-export default function SetList({ data, remove }: { data: SetType[], remove: (id: string) => Promise<void> }) {
+export default memo(function SetList({ data, remove }: { data: SetType[], remove: (id: string) => Promise<void> }) {
   const { push } = useRouter()
 
   const deleteSet = async (e: React.MouseEvent<HTMLSpanElement>, id: string): Promise<void> => {
     e.stopPropagation()
-    
+
     await remove(id)
   }
 
@@ -27,8 +28,10 @@ export default function SetList({ data, remove }: { data: SetType[], remove: (id
             onClick={() => handleClick(item._id as string)}
           >
             <div className='flex justify-between'>
-              <div className='flex items-center'>
-                <span className='text-xs'>{item.list.length} items</span> &nbsp;|&nbsp; <span>{item.title}</span>
+              <div className='flex items-center w-[85%] whitespace-nowrap'>
+                <span className='text-xs'>{item.list.length} items</span>
+                &nbsp;|&nbsp;
+                <span className='overflow-hidden text-ellipsis'>{item.title}</span>
               </div>
               <span onClick={async (e) => await deleteSet(e, item._id as string)}><TrashIcon /></span>
             </div>
@@ -37,4 +40,4 @@ export default function SetList({ data, remove }: { data: SetType[], remove: (id
       }
     </>
   )
-}
+})

@@ -24,7 +24,7 @@ export default function Autocomplete(
   useEffect(() => {
     if (focused) inputRef.current?.focus()
     else {
-      if (hovered) { // this is case when we choose item from list with mouse instead of onClick on <ListItem />
+      if (hovered) { // this is case when we choose item from the list with mouse instead of onClick on <ListItem />
         setValue(hovered)
 
         setHovered(undefined)
@@ -37,7 +37,7 @@ export default function Autocomplete(
   }, [focused])
 
   useEffect(() => {
-    if (!!data.length && !list.includes(q)) {
+    if (!!data.length) {
       setList(data)
       setCursor(0)
       setFocused(inputRef.current?.name as string)
@@ -50,13 +50,13 @@ export default function Autocomplete(
 
   useEffect(() => {
     if (downPress) {
-      setCursor(prevState => prevState < list.length - 1 ? prevState + 1 : prevState)
+      setCursor(cursor < list.length - 1 ? cursor + 1 : cursor)
     }
   }, [downPress])
 
   useEffect(() => {
     if (upPress) {
-      setCursor(prevState => prevState > 0 ? prevState - 1 : prevState)
+      setCursor(cursor > 0 ? cursor - 1 : cursor)
     }
   }, [upPress])
 
@@ -93,7 +93,7 @@ export default function Autocomplete(
   return (
     <>
       <div className={`${blockStyle}`}>
-        {label && <label className='absolute left-5 top-[-11px] text-sm'>{label}</label>}
+        {label && <label className='absolute left-5 top-[-8px] text-xs'>{label}</label>}
         <input
           className={inputStyle}
           placeholder={placeholder}

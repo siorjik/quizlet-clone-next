@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useEffect } from 'react'
+import { KeyedMutator, MutatorOptions, useSWRConfig } from 'swr'
 
 import useSetContext, { SetContextType } from '@/contexts/SetContext'
 import useRequest from './useRequest'
@@ -22,9 +23,12 @@ const getContext = (entity: string) => {
 }
 
 export default function useData<T>(params: ParamsTypes): {
-  list?: T, data?: T, isLoading: boolean, error: Error, setContext: Dispatch<SetStateAction<ContextTypes>>
+  list?: T[], data?: T, isLoading: boolean, error: Error, mutate: KeyedMutator<MutatorOptions>,
+  setContext: Dispatch<SetStateAction<ContextTypes>>
 } {
   const { entity, key, url, requiredProp } = params
+
+  const { mutate } = useSWRConfig()
 
   const { data, list, setContext } = getContext(entity)()
 
@@ -38,5 +42,5 @@ export default function useData<T>(params: ParamsTypes): {
     if (resp) setContext({ data, list, [requiredProp]: resp })
   }, [resp])
 
-  return { [requiredProp]: isDataExist ? data : isListExist ? list : resp, isLoading, error, setContext }
+  return { [requiredProp]: isDataExist ? data : isListExist ? list : resp, isLoading, error, mutate, setContext }
 }
