@@ -20,6 +20,10 @@ export default function Sidebar({ pathname }: { pathname: string }) {
     setMobile(window.innerWidth < 768)
 
     window.addEventListener('resize', () => setMobile(window.innerWidth < 768))
+
+    return () => {
+      window.removeEventListener('resize', () => setMobile(window.innerWidth < 768))
+    }
   }, [])
 
   useEffect(() => {
@@ -62,10 +66,14 @@ export default function Sidebar({ pathname }: { pathname: string }) {
           </div>
             :
             <>
-              {!isStretch && <button
-                className='absolute left-[20px] top-[57px] bg-slate-200 rounded-full' onClick={() => setStretch(!isStretch)}
-              ><Image src={isStretch ? leftArrowIcon : rightArrowIcon} alt='left-arrow' priority />
-              </button>}
+              {
+                !isStretch && <button
+                  className='absolute left-[20px] top-[57px] bg-slate-200 rounded-full z-[2]'
+                  onClick={() => setStretch(!isStretch)}
+                ><Image src={isStretch ? leftArrowIcon : rightArrowIcon} alt='left-arrow' priority />
+                </button>
+              }
+
               <div
                 className={`absolute w-[200px] h-full ${!isStretch ? 'left-[-200px]' : 'left-[0]'} bg-orange-100 transition-all`}
               >

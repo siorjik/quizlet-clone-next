@@ -37,7 +37,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
     let css: string = ''
 
     if (pathname === path || (pathname.startsWith(path) && path !== '/')) {
-      if (isMobile) css = '!text-slate-500 font-bold'
+      if (isMobile) css = '!text-slate-400 font-bold'
       else css = '!border-gray-600 pb-[1.4rem]'
     }
 
@@ -45,7 +45,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
       <Link
         className={`
           px-2 text-gray-600 border-b-2 border-transparent font-semibold hover:border-gray-600
-          ${isSmall ? '!pb-2' : 'pb-[1.4rem]'} ${css} transition-[border-color,padding]
+          ${isSmall || isMobile ? '!pb-2' : 'pb-[1.4rem]'} ${css} transition-[border-color,padding]
         `}
         href={path}
       >{title}</Link>
@@ -73,7 +73,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
           >
             <div className='mob-menu-content flex flex-col self-start w-72 bg-slate-200 py-5 my-20 rounded-md'>
               {menu.map((item, index) => <Fragment key={index}>{getMenuItem(item, true)}</Fragment>)}
-              <div className='user flex justify-evenly mt-5 border-t-2 border-slate-300 pt-4'>
+              <div className='user flex justify-evenly mt-3 border-t-2 border-slate-300 pt-4'>
                 <Link href={profileAppPath}><Image src={userIcon} alt='user' /></Link>
                 <span className='cursor-pointer'><Image src={logoutIcon} alt='user' /></span>
               </div>
