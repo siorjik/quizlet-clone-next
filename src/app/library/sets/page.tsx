@@ -3,7 +3,6 @@
 import { useCallback } from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import { MutatorOptions } from 'swr'
 
 import BreadCrumbs from '@/components/Breadcrumbs'
 import SetList from './components/SetList'
@@ -16,7 +15,7 @@ import apiService from '@/services/apiService'
 
 export default function Sets() {
 
-  const { list = [], data = {}, isLoading, error, setContext, mutate } = useSmartRequest<SetType>({
+  const { list = [], data = {}, isLoading, error, mutateData } = useSmartRequest<SetType>({
     key: 'sets', url: `${getSetApiPath()}?userId=${'652fe4bb1e70cb4f997e1174'}`, requiredProp: 'list', entity: 'set'
   })
 
@@ -25,8 +24,7 @@ export default function Sets() {
 
     const res = list.filter(item => item._id !== id)
 
-    setContext({ data, list: res })
-    mutate('sets', res as MutatorOptions)
+    mutateData('sets', { data, list: res }, res)
   }, [list])
 
   if (isLoading) return <Spinner />

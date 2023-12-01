@@ -1,7 +1,6 @@
 import getApiPath from '@/helpers/getApiPath'
 
 /***** app *****/
-export const homeAppPath = '/home'
 export const profileAppPath = '/profile'
 
 // library

@@ -15,7 +15,7 @@ import useSmartRequest from '@/hooks/useSmartRequest'
 import useSetContext from '@/contexts/SetContext'
 
 export default function Edit({ params }: { params: { id: string } }) {
-  const { data, isLoading, error, setContext, mutate } = useSmartRequest<SetType>({
+  const { data, isLoading, error, mutate, mutateData } = useSmartRequest<SetType>({
     key: `set/${params.id}`, url: `${getSetApiPath()}?id=${params.id}`, requiredProp: 'data', entity: 'set'
   })
 
@@ -28,9 +28,8 @@ export default function Edit({ params }: { params: { id: string } }) {
   
       const filtered = list.filter(item => item._id !== body._id)
 
-      setContext({ list: [body, ...filtered], data: body })
+      mutateData(`sets`, { list: [body, ...filtered], data: body }, [body, ...filtered])
       mutate(`set/${params.id}`, body as MutatorOptions)
-      mutate('sets', [body, ...filtered] as MutatorOptions)
   
       push(getSetAppPath(body._id as string))
     } catch (error) {

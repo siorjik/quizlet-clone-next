@@ -23,34 +23,38 @@ export default function Lyout({ children }: { children: ReactNode }) {
     const div = mainRef.current!
 
     div.addEventListener('scroll', () => {
-      setSmallHeader(div.scrollTop > 235 && div.scrollHeight > 1000)
+      setSmallHeader(div.scrollTop > 500)
     })
 
     return () => {
-      div.removeEventListener('scroll', () => {})
+      div.removeEventListener('scroll', () => { })
     }
   }, [])
 
   const isShowSidebar = sidebarPathList.find(item => item === pathname)
 
   return (
-    <div className={`wrap grid grid-rows-[auto_1fr_auto] grid-cols-[auto_1fr_1fr] h-screen`}>
+    <div className={`wrap grid grid-cols-[auto_1fr] h-screen`}>
       <header
         className={`
-          ${isSmallHeader ? 'h-10 p-2 text-sm bg-cyan-400/[0.5] absolute w-full z-10' : 'h-[70px] p-5 text-lg'}
-          col-start-1 col-end-4 bg-cyan-400 transition-all
+          ${isSmallHeader ? 'h-10 p-2 text-sm bg-cyan-400/[0.5] absolute w-full z-10' : 'h-[70px] py-5 px-8 text-lg'}
+          fixed w-full bg-cyan-400 transition-all
         `}
       >
         <Navigation isSmall={isSmallHeader} />
       </header>
       {
         isShowSidebar &&
-        <aside className='col-start-1 col-end-2 row-start-2 row-end-4 bg-orange-100'><Sidebar pathname={pathname} /></aside>
+        <aside className='col-start-1 col-end-2 mt-[70px] bg-orange-100'><Sidebar pathname={pathname} /></aside>
       }
-      <main className='col-start-2 col-end-4 p-5 bg-slate-50 overflow-auto transition-all scroll-smooth' ref={mainRef}>
-        {children}
+      <main className={`
+          grid ${isSmallHeader ? 'mt-[40px]' : 'mt-[70px]'} grid-rows-[1fr_70px]
+          col-start-2 col-end-3 bg-slate-50 overflow-auto transition-all scroll-smooth
+        `}
+        ref={mainRef}>
+        <div className='p-5'>{children}</div>
+        <footer className='py-5 px-8 bg-red-300'>Footer</footer>
       </main>
-      <footer className='py-5 px-8 h-20 bg-red-300 col-start-2 col-end-4 transition-all'>Footer</footer>
       {
         isSmallHeader &&
         <button
