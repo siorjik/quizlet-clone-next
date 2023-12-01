@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Fragment } from 'react'
+import { useState, Fragment, useEffect } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
@@ -9,11 +9,18 @@ import menuIcon from '../../../public/mob-menu.svg'
 import logoutIcon from '../../../public/logout.svg'
 import userIcon from '../../../public/user.svg'
 import { libraryAppPath, profileAppPath } from '@/utils/paths'
+import { broadcast } from '@/services/eventBusService'
+import { EventNames } from '@/utils/constants'
 
 export default function Navigation({ isSmall }: { isSmall: boolean }) {
   const [isShowMobMenu, setShowMobMenu] = useState(false)
 
   const pathname = usePathname()
+
+  useEffect(() => {
+    if (isShowMobMenu) broadcast(EventNames.isShowMobMenu, true)
+    else broadcast(EventNames.isShowMobMenu, false)
+  }, [isShowMobMenu])
 
   const menu = [
     {

@@ -9,22 +9,23 @@ import leftArrowIcon from '@/../public/arrow-left-circle.svg'
 import rightArrowIcon from '@/../public/arrow-right-circle.svg'
 import { libraryAppPath, setsAppPath, videosAppPath } from '@/utils/paths'
 import { libraryData } from './sidebarData'
+import useViewContext from '@/contexts/ViewContext'
+import { DataType, subscribe, unsubscribe } from '@/services/eventBusService'
+import { EventNames } from '@/utils/constants'
 
 type SidebarType = { title: string, path: string, icon: StaticImport }[]
 
 export default function Sidebar({ pathname }: { pathname: string }) {
   const [isStretch, setStretch] = useState(false)
-  const [isMobile, setMobile] = useState<boolean | undefined>(undefined)
+  const [isShowMobMenu, setShowMobMenu] = useState(false)
+
+  const { isMobile } = useViewContext()
 
   useEffect(() => {
-    setMobile(window.innerWidth < 768)
+    subscribe(EventNames.isShowMobMenu, (data: DataType) => setShowMobMenu(data as boolean))
 
-    window.addEventListener('resize', () => setMobile(window.innerWidth < 768))
-
-    return () => {
-      window.removeEventListener('resize', () => setMobile(window.innerWidth < 768))
-    }
-  }, [])
+    return () => unsubscribe(EventNames.isShowMobMenu, (data: DataType) => setShowMobMenu(data as boolean))
+  }, [isShowMobMenu])
 
   useEffect(() => {
     if (isStretch) setStretch(false)
@@ -67,7 +68,7 @@ export default function Sidebar({ pathname }: { pathname: string }) {
             :
             <>
               {
-                !isStretch && <button
+                !isStretch && !isShowMobMenu && <button
                   className='absolute left-[20px] top-[57px] bg-slate-200 rounded-full z-[2]'
                   onClick={() => setStretch(!isStretch)}
                 ><Image src={isStretch ? leftArrowIcon : rightArrowIcon} alt='left-arrow' priority />
