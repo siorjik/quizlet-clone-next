@@ -47,10 +47,10 @@ export default function FlashCards({ params }: { params: { id: string } }) {
       }
 
       if (animation === yAnimation && mode !== 'term') setMode('term')
-      
+
       setTimeout(() => {
         setAnimation('')
-        
+
         if (animation === xAnimation) setMode(mode === 'term' ? 'definition' : 'term')
       }, 300)
     }
@@ -73,7 +73,7 @@ export default function FlashCards({ params }: { params: { id: string } }) {
 
   const { amount, current } = counting
 
-  const next = () => {
+  const next = (): void => {
     if (current < amount) {
       setCounting({ ...counting, current: current + 1 })
       setAnimation(yAnimation)
@@ -83,7 +83,7 @@ export default function FlashCards({ params }: { params: { id: string } }) {
     sliderRef.current?.slickNext()
   }
 
-  const previous = () => {
+  const previous = (): void => {
     if (current > 1) {
       setCounting({ ...counting, current: current - 1 })
       setAnimation(yAnimation)
@@ -114,6 +114,10 @@ export default function FlashCards({ params }: { params: { id: string } }) {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: false,
+    className: `
+      w-[280px] sm:w-[550px] md:w-[680px] lg:w-[900px]
+      ${animation ? '' : 'shadow-[20px_20px_25px_5px_rgba(0,0,0,0.1)] rounded-lg'}
+    `
   }
 
   const arrowStyle = 'p-2 border-solid border-slate-300 rounded-full border-2 cursor-pointer'
@@ -122,21 +126,22 @@ export default function FlashCards({ params }: { params: { id: string } }) {
   else if (error) return notFound()
 
   return (
-    <div className='max-w-4xl'>
+    <>
       <BreadCrumbs data={breadCrumbsData} />
       <h2 className='page-title'>{title}</h2>
       <div className='flex justify-center'>
         <Slider
           {...settings}
           ref={sliderRef}
-          className={`w-[95%] ${animation ? '' : 'shadow-[20px_20px_25px_5px_rgba(0,0,0,0.1)] rounded-lg'}`}
         >
           {list.map((item, index) => (
             <div
-              className={`h-60 p-5 !flex items-center justify-center bg-slate-100 cursor-pointer rounded-lg ${animation}`}
+              className={`
+                h-60 lg:h-[400px] p-5 !flex items-center justify-center bg-slate-100 cursor-pointer rounded-lg ${animation}
+              `}
               key={index}
               onClick={() => setAnimation(xAnimation)}
-            ><span className='text-2xl'>{isShowContent ? item[mode] : ''}</span>
+            ><span className='text-2xl text-center'>{isShowContent ? item[mode] : ''}</span>
             </div>
           ))}
         </Slider>
@@ -146,6 +151,6 @@ export default function FlashCards({ params }: { params: { id: string } }) {
         <div>{`${current} / ${amount}`}</div>
         <span className={arrowStyle}><Image className='cursor-pointer' src={rightIcon} alt='right' onClick={next} /></span>
       </div>
-    </div>
+    </>
   )
 }

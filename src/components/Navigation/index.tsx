@@ -8,7 +8,7 @@ import { usePathname } from 'next/navigation'
 import menuIcon from '../../../public/mob-menu.svg'
 import logoutIcon from '../../../public/logout.svg'
 import userIcon from '../../../public/user.svg'
-import { homeAppPath, libraryAppPath, profileAppPath } from '@/utils/paths'
+import { libraryAppPath, profileAppPath } from '@/utils/paths'
 
 export default function Navigation({ isSmall }: { isSmall: boolean }) {
   const [isShowMobMenu, setShowMobMenu] = useState(false)
@@ -18,7 +18,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
   const menu = [
     {
       title: 'Home',
-      path: homeAppPath,
+      path: '/',
     },
     {
       title: 'My Library',
@@ -44,7 +44,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
     return (
       <Link
         className={`
-          px-2 text-gray-600 border-b-2 border-transparent hover:border-gray-600
+          px-2 text-gray-600 border-b-2 border-transparent font-semibold hover:border-gray-600
           ${isSmall ? '!pb-2' : 'pb-[1.4rem]'} ${css} transition-[border-color,padding]
         `}
         href={path}
