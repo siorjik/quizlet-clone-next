@@ -9,17 +9,16 @@ import leftArrowIcon from '@/../public/arrow-left-circle.svg'
 import rightArrowIcon from '@/../public/arrow-right-circle.svg'
 import { libraryAppPath, setsAppPath, videosAppPath } from '@/utils/paths'
 import { libraryData } from './sidebarData'
-import useViewContext from '@/contexts/ViewContext'
 import { DataType, subscribe, unsubscribe } from '@/services/eventBusService'
 import { EventNames } from '@/utils/constants'
+import useWindowData from '@/hooks/useWindowData'
 
 type SidebarType = { title: string, path: string, icon: StaticImport }[]
 
 export default function Sidebar({ pathname }: { pathname: string }) {
   const [isStretch, setStretch] = useState(false)
   const [isShowMobMenu, setShowMobMenu] = useState(false)
-
-  const { isMobile } = useViewContext()
+  const { isMobile } = useWindowData()
 
   useEffect(() => {
     subscribe(EventNames.isShowMobMenu, (data: DataType) => setShowMobMenu(data as boolean))

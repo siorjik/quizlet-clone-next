@@ -51,7 +51,7 @@ export default function Lyout({ children }: { children: ReactNode }) {
         ><Sidebar pathname={pathname} /></aside>
       }
       <main className={`
-          grid ${isScrollEnough ? 'mt-[40px]' : 'mt-[70px]'} grid-rows-[1fr_70px]
+          grid ${isScrollEnough ? 'mt-[5px]' : 'mt-[70px]'} grid-rows-[1fr_70px]
           col-start-2 col-end-3 bg-slate-50 overflow-auto transition-all scroll-smooth
         `}
         ref={mainRef}>
