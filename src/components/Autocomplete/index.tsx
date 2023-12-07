@@ -20,6 +20,7 @@ export default function Autocomplete(
   const { type = 'text', blockStyle = '', inputStyle, errors, placeholder, name = 'name', register, label } = inputProps
 
   const inputRef = useRef<HTMLInputElement | null>(null)
+  const listRef = useRef<HTMLUListElement | null>(null)
 
   useEffect(() => {
     if (focused) inputRef.current?.focus()
@@ -51,12 +52,16 @@ export default function Autocomplete(
   useEffect(() => {
     if (downPress) {
       setCursor(cursor < list.length - 1 ? cursor + 1 : cursor)
+
+      if (cursor > 1) listRef.current?.scrollBy(0, getListItemHeight(listRef.current?.children[cursor + 1] as HTMLLIElement))
     }
   }, [downPress])
 
   useEffect(() => {
     if (upPress) {
       setCursor(cursor > 0 ? cursor - 1 : cursor)
+
+      listRef.current?.scrollBy(0, -(getListItemHeight(listRef.current?.children[cursor - 1] as HTMLLIElement)))
     }
   }, [upPress])
 
@@ -90,6 +95,8 @@ export default function Autocomplete(
     </li>
   )
 
+  const getListItemHeight = (listItem: HTMLLIElement) => (listItem && listItem.clientHeight) || 0
+
   return (
     <>
       <div className={`${blockStyle}`}>
@@ -112,7 +119,7 @@ export default function Autocomplete(
           errors?.[name] && <div className='px-3 text-red-600 text-sm absolute'>{errors[name]?.message as ReactNode}</div>
         }
 
-        {!!list.length && <ul className='absolute p-1 top-12 z-10 bg-red-100 rounded-lg'>
+        {!!list.length && <ul className='absolute max-h-40 overflow-auto p-1 top-12 z-10 bg-red-100 rounded-lg' ref={listRef}>
           {
             list.map((item, index) => (
               <ListItem
