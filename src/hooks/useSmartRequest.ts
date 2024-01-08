@@ -1,7 +1,7 @@
-import { Dispatch, SetStateAction, useEffect } from 'react'
+import { useEffect } from 'react'
 import { KeyedMutator, MutatorOptions, useSWRConfig } from 'swr'
 
-import useSetContext, { SetContextType } from '@/contexts/SetContext'
+import useSetContext, { SetContextUpdateData } from '@/contexts/SetContext'
 import useRequest from './useRequest'
 import { SetType } from '@/types/SetTypes'
 
@@ -11,8 +11,13 @@ type ParamsTypes = {
   url: string,
   requiredProp: string
 }
-type ContextTypes = SetContextType
+type ContextTypes = SetContextUpdateData
 type MutationDataTypes = SetType
+type ResponseType<T> = {
+  list?: T[], data?: T, isLoading: boolean, error: Error, mutate: KeyedMutator<MutatorOptions>,
+  setContext: (data: { [k: string]: MutationDataTypes[] | MutationDataTypes | {} | [] }) => void,
+  mutateData: (key: string, contextData: ContextTypes, mutationData: MutationDataTypes | MutationDataTypes[]) => void
+}
 
 const getContext = (entity: string) => {
   switch (entity) {
@@ -23,11 +28,7 @@ const getContext = (entity: string) => {
   }
 }
 
-export default function useData<T>(params: ParamsTypes): {
-  list?: T[], data?: T, isLoading: boolean, error: Error, mutate: KeyedMutator<MutatorOptions>,
-  setContext: Dispatch<SetStateAction<ContextTypes>>,
-  mutateData: (key: string, contextData: ContextTypes, mutationData: MutationDataTypes | MutationDataTypes[]) => void
-} {
+export default function useSmartRequest<T>(params: ParamsTypes): ResponseType<T> {
   const { entity, key, url, requiredProp } = params
 
   const { mutate } = useSWRConfig()

@@ -1,19 +1,23 @@
 'use client'
 
-import { createContext, useContext, useState, Dispatch, SetStateAction } from 'react'
+import { createContext, useContext, useState } from 'react'
 
 import { SetType } from '@/types/SetTypes'
 
-export type SetContextType = { list: SetType[] | [], data: SetType | {} }
+export type SetContextStateType = { list: SetType[] | [], data: SetType | {} }
+export type SetContextType = SetType[] | SetType | {} | []
+export type SetContextUpdateData = { [k: string]: SetContextType } | SetContextStateType
 
-const SetContext = createContext<SetContextType & { setContext: Dispatch<SetStateAction<SetContextType>> }>
-  ({ list: [], data: {}, setContext: (): SetContextType => ({ list: [], data: {} }) })
+const SetContext = createContext<SetContextStateType & { setContext: (data: { [k: string]: SetContextType }) => void }>
+({ list: [], data: {}, setContext: (): void => { } })
 
 export const SetContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [context, setContext] = useState<SetContextType>({ data: {}, list: [] })
+  const [set, setSet] = useState<SetContextStateType>({ data: {}, list: [] })
+
+  const setContext = (data: SetContextUpdateData) => setSet({ ...set, ...data })
 
   return (
-    <SetContext.Provider value={{ ...context, setContext }}>
+    <SetContext.Provider value={{ ...set, setContext }}>
       {children}
     </SetContext.Provider>
   )

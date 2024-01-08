@@ -14,8 +14,7 @@ import useSmartRequest from '@/hooks/useSmartRequest'
 import apiService from '@/services/apiService'
 
 export default function Sets() {
-
-  const { list = [], data = {}, isLoading, error, mutateData } = useSmartRequest<SetType>({
+  const { list = [], isLoading, error, mutateData } = useSmartRequest<SetType>({
     key: 'sets', url: `${getSetApiPath()}?userId=${'652fe4bb1e70cb4f997e1174'}`, requiredProp: 'list', entity: 'set'
   })
 
@@ -24,7 +23,7 @@ export default function Sets() {
 
     const res = list.filter(item => item._id !== id)
 
-    mutateData('sets', { data, list: res }, res)
+    mutateData('sets', { list: res }, res)
   }, [list])
 
   if (isLoading) return <Spinner />

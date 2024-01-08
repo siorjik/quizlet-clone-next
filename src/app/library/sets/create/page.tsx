@@ -12,7 +12,7 @@ import { SetType } from '@/types/SetTypes'
 import useSetContext from '@/contexts/SetContext'
 
 export default function Create() {
-  const { list, data, setContext } = useSetContext()
+  const { list, setContext } = useSetContext()
   const { push } = useRouter()
   const { mutate } = useSWRConfig()
 
@@ -22,7 +22,7 @@ export default function Create() {
         url: getSetApiPath(), method: 'POST', body: { ...body, userId: '652fe4bb1e70cb4f997e1174' }
       })
 
-      setContext({ data, list: [newSet,...list] })
+      setContext({ list: [newSet, ...list] })
       mutate('sets', [newSet, ...list])
   
       push(setsAppPath)

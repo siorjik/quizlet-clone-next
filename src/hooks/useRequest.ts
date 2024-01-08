@@ -1,16 +1,17 @@
-import useSWR, { KeyedMutator, MutatorOptions } from 'swr'
+import useSWR, { KeyedMutator } from 'swr'
 
 import apiService from '@/services/apiService'
 
-type RequestType = {
+type ResponseType<T> = {
+  data: T | undefined,
   error: Error,
   isLoading: boolean,
-  mutate: KeyedMutator<MutatorOptions>
+  mutate: KeyedMutator<T>
 }
 
-export default function useRequest<T>({ key, url }: { key: string | string[] | null, url: string }): { data: T } & RequestType {
+export default function useRequest<T>({ key, url }: { key: string | string[] | null, url: string }): ResponseType<T> {
   const { data, error, isLoading, mutate } =
-    useSWR(key, async (): Promise<any> => await apiService<T>({ url }), { revalidateOnFocus: false })
+    useSWR(key, async (): Promise<T> => await apiService<T>({ url }), { revalidateOnFocus: false })
 
   return { data, error, isLoading, mutate }
 }

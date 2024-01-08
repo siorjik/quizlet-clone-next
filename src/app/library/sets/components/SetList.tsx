@@ -24,7 +24,7 @@ export default memo(function SetList({ data, remove }: { data: SetType[], remove
         data.length ? data.map((item: SetType) => (
           <div
             key={item._id}
-            className='p-5 mb-3 bg-zinc-100 rounded-lg hover:bg-zinc-200 hover:mx-[-5px] cursor-pointer transition-all'
+            className='p-5 mb-2 bg-zinc-100 rounded-lg hover:bg-zinc-200 hover:mx-[-5px] cursor-pointer transition-all'
             onClick={() => handleClick(item._id as string)}
           >
             <div className='flex justify-between'>
