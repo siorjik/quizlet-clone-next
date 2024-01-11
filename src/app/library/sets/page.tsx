@@ -15,7 +15,7 @@ import apiService from '@/services/apiService'
 
 export default function Sets() {
   const { list = [], isLoading, error, mutateData } = useSmartRequest<SetType>({
-    key: 'sets', url: `${getSetApiPath()}?userId=${'652fe4bb1e70cb4f997e1174'}`, requiredProp: 'list', entity: 'set'
+    key: 'sets', url: getSetApiPath(), requiredProp: 'list', entity: 'set'
   })
 
   const remove = useCallback(async (id: string): Promise<void> => {

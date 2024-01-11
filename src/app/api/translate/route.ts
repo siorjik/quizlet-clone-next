@@ -1,4 +1,4 @@
-import apiErrorservice from '@/services/apiErrorservice'
+import apiErrorService from '@/services/apiErrorService'
 import { NextRequest, NextResponse } from 'next/server'
 
 const getMappedTranslates = (data: string[]): string[] => {
@@ -54,6 +54,6 @@ export async function GET(req: NextRequest):
   } catch (error) {
     const err = error as Error
 
-    return apiErrorservice(err, 400)
+    return apiErrorService(err, 400)
   }
 }

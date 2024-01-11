@@ -4,7 +4,7 @@ export default function TrashIcon({ color }: { color?: string }) {
       <svg
         xmlns="http://www.w3.org/2000/svg"
         fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke={`${color ? color : 'currentColor'}`}
-        className="w-6 h-6 hover:stroke-red-200"
+        className="w-6 h-6 hover:stroke-red-500 transition-all"
       >
         <path
           strokeLinecap="round"

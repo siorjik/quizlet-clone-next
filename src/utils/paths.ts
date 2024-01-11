@@ -1,6 +1,7 @@
 import getApiPath from '@/helpers/getApiPath'
 
 /***** app *****/
+export const loginAppPath = '/login'
 export const profileAppPath = '/profile'
 
 // library
@@ -19,5 +20,8 @@ export const videosAppPath = `${libraryAppPath}/videos`
 export const getApiDictionaryPath = (word: string) => `/api/dictionary?word=${word}`
 export const getApiTranslatePath = (word: string) => `/api/translate?word=${word}`
 
+// auth
+export const loginApiPath = getApiPath('auth/login', true)
+
 // sets
-export const getSetApiPath = (isRemoteApi: boolean = false) => `${getApiPath('sets', isRemoteApi)}`
+export const getSetApiPath = (isRemoteApi: boolean = false) => getApiPath('sets', isRemoteApi)

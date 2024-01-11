@@ -1,6 +1,4 @@
-type ObjectType = { [k: string]: string | number | boolean }
-type ArrObjectType = { [k: string]: string | number | boolean | ObjectType[] }
-type BodyType = ObjectType | ArrObjectType
+type ObjectType = { [k: string]: string | number | boolean | ObjectType[] }
 
 export default async<T>(
   { url, method = 'GET', cache = 'no-store', body }:
@@ -8,7 +6,7 @@ export default async<T>(
       url: string,
       method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH',
       cache?: RequestCache | undefined,
-      body?: BodyType | undefined
+      body?: ObjectType | undefined
     }
 ): Promise<T> => {
   try {

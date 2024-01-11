@@ -1,11 +1,11 @@
 import { Dispatch, ReactNode, SetStateAction, useEffect, useRef, useState } from 'react'
 
-import { FormInputPropTypes } from '@/types/FormTypes'
+import { FormInputPropType } from '@/types/FormTypes'
 import useKeyPress from '@/hooks/useKeyPress'
 
 export default function Autocomplete(
   { inputProps, data = [], q, setValue, clearData }:
-    { inputProps: FormInputPropTypes, data: string[], q: string, setValue: (value: string) => void, clearData: () => void }
+    { inputProps: FormInputPropType, data: string[], q: string, setValue: (value: string) => void, clearData: () => void }
 ) {
   const [list, setList] = useState<string[]>([])
   const [cursor, setCursor] = useState<number>(0)
@@ -100,7 +100,7 @@ export default function Autocomplete(
   return (
     <>
       <div className={`${blockStyle}`}>
-        {label && <label className='absolute left-5 top-[-8px] text-xs'>{label}</label>}
+        {label && <label className='absolute px-2 left-5 top-[-8px] text-xs bg-white rounded-xl'>{label}</label>}
         <input
           className={inputStyle}
           placeholder={placeholder}

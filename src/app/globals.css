@@ -12,6 +12,10 @@ input {
   }
 
   .page-title {
-    @apply mb-8 text-center text-3xl
+    @apply mb-10 text-center text-3xl
+  }
+
+  .input {
+    @apply w-full py-2 px-3 border-2 rounded-md
   }
 }

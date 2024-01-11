@@ -1,22 +1,30 @@
 import { ReactNode } from 'react'
 
-import { FormInputPropTypes } from '@/types/FormTypes'
+import { FormInputPropType } from '@/types/FormTypes'
 
-export default function Input(props: FormInputPropTypes) {
-  const { type = 'text', blockStyle = '', inputStyle, errors, placeholder, name = 'name', register, inputRef, label } = props
+export default function Input(props: FormInputPropType) {
+  const {
+    type = 'text', blockStyle = '', inputStyle, errors, placeholder, name = 'name', register, inputRef, label, isRequired = false
+  } = props
 
   return (
     <div className={`${blockStyle} relative`}>
-      {label && <label className='absolute left-5 top-[-8px] text-xs'>{label}</label>}
+      {
+        label && <label className='absolute px-2 left-5 top-[-8px] text-xs bg-white rounded-xl'>
+          {label}
+          {isRequired && <span className='ml-1 text-red-500'>*</span>}
+        </label>
+      }
       <input
         className={inputStyle}
         placeholder={placeholder}
         {...register}
         type={type}
+        required={!!isRequired}
         ref={(el) => {
           register.ref(el)
 
-          inputRef!.current = el
+          if (inputRef) inputRef.current = el
         }}
       />
       {
