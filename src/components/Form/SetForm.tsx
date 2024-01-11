@@ -85,44 +85,53 @@ export default memo(function SetForm(
   const pairBlock = (number: number): ReactElement => {
     return (
       <div className='flex mt-5 p-5 flex-col w-full justify-between relative bg-lime-200 rounded-xl md:flex-row'>
-        <Autocomplete
-          inputProps={{
-            name: 'term',
-            placeholder: 'Term...',
-            inputStyle: 'set-input',
-            blockStyle: 'relative w-full md:w-[47%]',
-            errors: errors?.list?.[number] as Merge<FieldError, FieldErrorsImpl>,
-            register: {
-              ...register(`list.${number}.term` as const,
-                { required: 'Required!', disabled: !action, onChange: ({ target }) => onChange(target) })
-            }
-          }}
-          data={dictionary.name === `list.${number}.term` ? dictionary.words : []}
-          q={getFieldState(`list.${number}.term`).isDirty ? list[number].term : ''}
-          setValue={(value: string) => setTranslateQuery(`list.${number}.term`, value)}
-          clearData={() => setDictionary({ name: '', words: [] })}
-        />
-        
-        <Autocomplete
-          inputProps={{
-            name: 'definition',
-            placeholder: isLoading ? 'Translates loading...' : 'Definition...',
-            inputStyle: 'set-input',
-            blockStyle: 'relative w-full mt-5 md:w-[47%] md:mt-0',
-            errors: errors?.list?.[number] as Merge<FieldError, FieldErrorsImpl>,
-            register: {
-              ...register(`list.${number}.definition` as const,
-                { required: 'Required!', disabled: !action })
-            }
-          }}
-          data={translate.name === `list.${number}.definition` ? translate.words : []}
-          q={getFieldState(`list.${number}.definition`).isDirty ? list[number].definition : ''}
-          setValue={(value: string) => setValue(`list.${number}.definition`, value)}
-          clearData={() => setTranslate({ name: '', words: [] })}
-        />
-        {action && list.length > 1 && <button type='button' className='mx-auto mt-5 md:m-0' onClick={() => remove(number)}>
-          <Image src={trashIcon} alt='trash' />
-        </button>}
+        <div className='w-full md:w-[47%] flex flex-col'>
+          <Autocomplete
+            inputProps={{
+              name: 'term',
+              label: !action ? 'Term' : '',
+              placeholder: 'Term...',
+              inputStyle: 'set-input',
+              blockStyle: 'relative w-full',
+              errors: errors?.list?.[number] as Merge<FieldError, FieldErrorsImpl>,
+              register: {
+                ...register(`list.${number}.term` as const,
+                  { required: 'Required!', disabled: !action, onChange: ({ target }) => onChange(target) })
+              }
+            }}
+            data={dictionary.name === `list.${number}.term` ? dictionary.words : []}
+            q={getFieldState(`list.${number}.term`).isDirty ? list[number].term : ''}
+            setValue={(value: string) => setTranslateQuery(`list.${number}.term`, value)}
+            clearData={() => setDictionary({ name: '', words: [] })}
+          />
+          <span className='mt-1 ml-3 text-xs'>From: English</span>
+        </div>
+
+        <div className='w-full md:w-[47%] flex flex-col'>
+          <Autocomplete
+            inputProps={{
+              name: 'definition',
+              label: !action ? 'Definition' : '',
+              placeholder: isLoading ? 'Translates loading...' : 'Definition...',
+              inputStyle: 'set-input',
+              blockStyle: 'relative w-full mt-5 md:mt-0',
+              errors: errors?.list?.[number] as Merge<FieldError, FieldErrorsImpl>,
+              register: {
+                ...register(`list.${number}.definition` as const,
+                  { required: 'Required!', disabled: !action })
+              }
+            }}
+            data={translate.name === `list.${number}.definition` ? translate.words : []}
+            q={getFieldState(`list.${number}.definition`).isDirty ? list[number].definition : ''}
+            setValue={(value: string) => setValue(`list.${number}.definition`, value)}
+            clearData={() => setTranslate({ name: '', words: [] })}
+          />
+          <span className='mt-1 ml-3 text-xs'>To: Russian</span>
+        </div>
+        {action && list.length > 1 &&
+          <button type='button' className='mx-auto mt-5 md:m-0 md:mb-5' onClick={() => remove(number)}>
+            <Image src={trashIcon} alt='trash' />
+          </button>}
       </div>
     )
   }
@@ -131,6 +140,7 @@ export default memo(function SetForm(
     <form className='flex flex-col'>
       <Input
         name='title'
+        label={!action ? 'Title' : ''}
         placeholder='Add a title...'
         inputStyle='p-4 text-lg rounded-xl bg-amber-100 w-full md:w-1/2'
         blockStyle='mb-3'

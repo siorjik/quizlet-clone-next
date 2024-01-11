@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-import apiErrorservice from '@/services/apiErrorservice'
+import apiErrorService from '@/services/apiErrorService'
 
 type DictionaryType = { word: string, score: number }[]
 
@@ -22,6 +22,6 @@ export async function GET(req: NextRequest):
   } catch (error) {
     const err = error as Error
 
-    return apiErrorservice(err, 400)
+    return apiErrorService(err, 400)
   }
 }

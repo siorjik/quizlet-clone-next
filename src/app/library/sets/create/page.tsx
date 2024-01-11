@@ -18,9 +18,7 @@ export default function Create() {
 
   const create = async (body: SetType): Promise<void> => {
     try {
-      const newSet = await apiService<SetType>({
-        url: getSetApiPath(), method: 'POST', body: { ...body, userId: '652fe4bb1e70cb4f997e1174' }
-      })
+      const newSet = await apiService<SetType>({ url: getSetApiPath(), method: 'POST', body })
 
       setContext({ list: [newSet, ...list] })
       mutate('sets', [newSet, ...list])
