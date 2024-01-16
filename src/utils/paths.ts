@@ -22,6 +22,8 @@ export const getApiTranslatePath = (word: string) => `/api/translate?word=${word
 
 // auth
 export const loginApiPath = getApiPath('auth/login', true)
+export const getLogoutApiPath = (isRemoteApi: boolean = false) => getApiPath('auth/logout', isRemoteApi)
+export const getRefreshApiPath = (refreshToken: string) => `auth/refresh?refresh=${refreshToken}`
 
 // sets
 export const getSetApiPath = (isRemoteApi: boolean = false) => getApiPath('sets', isRemoteApi)

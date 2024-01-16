@@ -4,4 +4,7 @@ export type UserType = {
   name: string,
   createdAt: string,
   updatedAt: string,
+  accessToken: string,
+  refreshToken: string,
+  accessExpire: string,
 }
