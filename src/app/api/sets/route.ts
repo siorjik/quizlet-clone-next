@@ -13,7 +13,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<SetType | Api
   try {
     const body = await req.json()
 
-    const resp: SetType = await apiService({ url: getSetApiPath(true), method: 'POST', body: { ...body, userId  } })
+    const resp: SetType = await apiService({ url: getSetApiPath(true), method: 'POST', body: { ...body, userId }, req })
 
     return NextResponse.json(resp)
   } catch (error) {
@@ -31,21 +31,22 @@ export async function GET(req: NextRequest): Promise<NextResponse<SetType | SetT
 
     const url = id ? `${getSetApiPath(true)}/${id}` : `${getSetApiPath(true)}?userId=${_id}`
 
-    const res: SetType | SetType[] = await apiService({ url })
+    const res: SetType | SetType[] = await apiService({ url, req })
 
     return NextResponse.json(res)
   } catch (error) {
     const err = error as ApiErrType
 
     return NextResponse.json({ ...err }, { status: err.statusCode })
+    
   }
 }
 
-export async function PATCH(req: Request): Promise<NextResponse<SetType | ApiErrType>> {
+export async function PATCH(req: NextRequest): Promise<NextResponse<SetType | ApiErrType>> {
   try {
     const body = await req.json()
 
-    const res: SetType = await apiService({ url: getSetApiPath(true), method: 'PATCH', body })
+    const res: SetType = await apiService({ url: getSetApiPath(true), method: 'PATCH', body, req })
 
     return NextResponse.json(res)
   } catch (error) {
@@ -59,7 +60,7 @@ export async function DELETE(req: NextRequest): Promise<NextResponse<ApiDeleteRe
   try {
     const id = req.nextUrl.searchParams.get('id')
   
-    const res: ApiDeleteResponse = await apiService({ url: `${getSetApiPath(true)}/${id}`, method: 'DELETE' })
+    const res: ApiDeleteResponse = await apiService({ url: `${getSetApiPath(true)}/${id}`, method: 'DELETE', req })
   
     return NextResponse.json(res)
   } catch (error) {

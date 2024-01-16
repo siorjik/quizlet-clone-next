@@ -104,7 +104,7 @@ export default memo(function SetForm(
             setValue={(value: string) => setTranslateQuery(`list.${number}.term`, value)}
             clearData={() => setDictionary({ name: '', words: [] })}
           />
-          <span className='mt-1 ml-3 text-xs'>From: English</span>
+          <span className='mt-1 mx-auto text-xs'>From: English</span>
         </div>
 
         <div className='w-full md:w-[47%] flex flex-col'>
@@ -126,7 +126,7 @@ export default memo(function SetForm(
             setValue={(value: string) => setValue(`list.${number}.definition`, value)}
             clearData={() => setTranslate({ name: '', words: [] })}
           />
-          <span className='mt-1 ml-3 text-xs'>To: Russian</span>
+          <span className='mt-1 mx-auto text-xs'>To: Russian</span>
         </div>
         {action && list.length > 1 &&
           <button type='button' className='mx-auto mt-5 md:m-0 md:mb-5' onClick={() => remove(number)}>

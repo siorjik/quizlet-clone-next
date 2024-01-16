@@ -9,9 +9,11 @@ import { signOut } from 'next-auth/react'
 import menuIcon from '../../../public/mob-menu.svg'
 import logoutIcon from '../../../public/logout.svg'
 import userIcon from '../../../public/user.svg'
-import { libraryAppPath, profileAppPath } from '@/utils/paths'
+import { getLogoutApiPath, libraryAppPath, profileAppPath } from '@/utils/paths'
 import { broadcast } from '@/services/eventBusService'
 import { EventNames } from '@/utils/constants'
+import apiService from '@/services/apiService'
+import { ApiErrType } from '@/types/ErrorTypes'
 
 export default function Navigation({ isSmall }: { isSmall: boolean }) {
   const [isShowMobMenu, setShowMobMenu] = useState(false)
@@ -34,10 +36,16 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
     }
   ]
 
+  const logout = async (): Promise<void> => {
+    const res = await apiService<boolean | ApiErrType>({ url: getLogoutApiPath() })
+
+    if (typeof res === 'boolean' && res) signOut()
+  }
+
   const getUserBlock = (isMobile: boolean = false) => (
     <div className={`user flex justify-between self-center ${isMobile ? 'space-x-5' : ''}`}>
       <Link href={profileAppPath}><Image src={userIcon} alt='user' /></Link>
-      <span className='cursor-pointer' onClick={() => signOut()}><Image src={logoutIcon} alt='logout' /></span>
+      <span className='cursor-pointer' onClick={logout}><Image src={logoutIcon} alt='logout' /></span>
     </div>
   )
 
@@ -83,7 +91,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
               {menu.map((item, index) => <Fragment key={index}>{getMenuItem(item, true)}</Fragment>)}
               <div className='user flex justify-evenly mt-3 border-t-2 border-slate-300 pt-4'>
                 <Link href={profileAppPath}><Image src={userIcon} alt='user' /></Link>
-                <span className='cursor-pointer' onClick={() => signOut()}><Image src={logoutIcon} alt='user' /></span>
+                <span className='cursor-pointer' onClick={logout}><Image src={logoutIcon} alt='user' /></span>
               </div>
             </div>
           </div>
