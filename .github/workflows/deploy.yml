@@ -75,5 +75,5 @@ jobs:
             cd ~/projects/quizlet-clone-next
             sudo docker-compose stop
             sudo docker-compose pull
-            sudo docker-compose --env-file .env.production up -d
+            sudo docker-compose --env-file .env.production.local up -d
             sudo docker image prune -f
