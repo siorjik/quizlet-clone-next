@@ -9,7 +9,7 @@ import { signOut } from 'next-auth/react'
 import menuIcon from '../../../public/mob-menu.svg'
 import logoutIcon from '../../../public/logout.svg'
 import userIcon from '../../../public/user.svg'
-import { getLogoutApiPath, libraryAppPath, profileAppPath } from '@/utils/paths'
+import { getLogoutApiPath, libraryAppPath, loginAppPath, profileAppPath } from '@/utils/paths'
 import { broadcast } from '@/services/eventBusService'
 import { EventNames } from '@/utils/constants'
 import apiService from '@/services/apiService'
@@ -39,7 +39,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
   const logout = async (): Promise<void> => {
     const res = await apiService<boolean | ApiErrType>({ url: getLogoutApiPath() })
 
-    if (typeof res === 'boolean' && res) signOut()
+    if (typeof res === 'boolean' && res) signOut({ callbackUrl: loginAppPath })
   }
 
   const getUserBlock = (isMobile: boolean = false) => (
