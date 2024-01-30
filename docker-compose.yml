@@ -8,8 +8,7 @@ version: '3'
 
 services:
   web:
-    build: ./
-    image: web
+    image: siorjik/next-image:latest
     container_name: web
     ports:
       - '3000:3000'
