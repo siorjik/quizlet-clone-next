@@ -1,0 +1,33 @@
+version: '3'
+
+# networks:
+#   quizlet-clone:
+#     name: quizlet-clone
+#     driver: bridge
+#     external: true
+
+services:
+  web:
+    image: siorjik/next-image:latest
+    container_name: web
+    ports:
+      - '3000:3000'
+    environment:
+      - APP_ENV=${NODE_ENV}
+      - API_HOST=${API_HOST}
+      - TRANSLATE_API_URL=${TRANSLATE_API_URL}
+      - TRANSLATE_API_KEY=${TRANSLATE_API_KEY}
+      - TRANSLATE_API_HOST=${TRANSLATE_API_HOST}
+      - DICTIONARY_API_URL=${DICTIONARY_API_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+    # env_file:
+    #   - .env.production.local
+    # networks:
+    #   - quizlet-clone
+    restart: always
+    # volumes:
+    #   - ./:/app
+    #   - /app/node_modules
+    #   - /app/.next
+    # extra_hosts:
+    #   - 'host.docker.internal:host-gateway'
