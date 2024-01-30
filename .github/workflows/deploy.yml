@@ -22,7 +22,6 @@ jobs:
         uses: SpicyPizza/create-envfile@v2.0
         with:
           envkey_APP_ENV: ${{ vars.APP_ENV }}
-          # envkey_NEXT_PUBLIC_APP_HOST: ${{ vars.NEXT_PUBLIC_APP_HOST }}
           envkey_API_HOST: ${{ vars.API_HOST }}
           envkey_TRANSLATE_API_URL: ${{ vars.TRANSLATE_API_URL }}
           envkey_TRANSLATE_API_KEY: ${{ vars.TRANSLATE_API_KEY }}
@@ -35,7 +34,7 @@ jobs:
         run: yarn build
         
       - name: Build the docker-compose images
-        run: docker-compose build
+        run: docker build .
 
   docker-hub-deploy:
     needs: build-checking
@@ -60,3 +59,21 @@ jobs:
           context: .
           push: true
           tags: ${{ vars.WEB_IMAGE }}:latest
+
+  hosting-deploy:
+    needs: docker-hub-deploy
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: Deploy to hosting via SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOSTING }}
+          username: ${{ secrets.HOSTING_USER }}
+          password: ${{ secrets.HOSTING_PASS }}
+          script: |
+            cd ~/projects/quizlet-clone-next
+            sudo docker-compose stop
+            sudo docker-compose pull
+            sudo docker-compose --env-file .env.production up -d
+            sudo docker image prune -f
