@@ -35,4 +35,4 @@ jobs:
         run: yarn build
         
       - name: Build the docker-compose images
-        run: docker-compose build
+        run: docker build .
