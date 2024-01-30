@@ -12,23 +12,23 @@ services:
     container_name: web
     ports:
       - '3000:3000'
-    # environment:
-    #   - APP_ENV=${NODE_ENV}
-    #   - NEXT_PUBLIC_APP_HOST=${NEXT_PUBLIC_APP_HOST}
-    #   - API_HOST=${API_HOST}
-    #   - TRANSLATE_API_URL=${TRANSLATE_API_URL}
-    #   - TRANSLATE_API_KEY=${TRANSLATE_API_KEY}
-    #   - TRANSLATE_API_HOST=${TRANSLATE_API_HOST}
-    #   - DICTIONARY_API_URL=${DICTIONARY_API_URL}
-    #   - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+    environment:
+      - APP_ENV=${NODE_ENV}
+      # - NEXT_PUBLIC_APP_HOST=${NEXT_PUBLIC_APP_HOST}
+      - API_HOST=${API_HOST}
+      - TRANSLATE_API_URL=${TRANSLATE_API_URL}
+      - TRANSLATE_API_KEY=${TRANSLATE_API_KEY}
+      - TRANSLATE_API_HOST=${TRANSLATE_API_HOST}
+      - DICTIONARY_API_URL=${DICTIONARY_API_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
     # env_file:
     #   - .env.production.local
     # networks:
     #   - quizlet-clone
     restart: always
-    volumes:
-      - ./:/app
-      - /app/node_modules
-      - /app/.next
+    # volumes:
+    #   - ./:/app
+    #   - /app/node_modules
+    #   - /app/.next
     # extra_hosts:
     #   - 'host.docker.internal:host-gateway'
