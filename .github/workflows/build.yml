@@ -19,7 +19,7 @@ jobs:
         uses: SpicyPizza/create-envfile@v2.0
         with:
           envkey_APP_ENV: ${{ vars.APP_ENV }}
-          envkey_NEXT_PUBLIC_APP_HOST: ${{ vars.NEXT_PUBLIC_APP_HOST }}
+          # envkey_NEXT_PUBLIC_APP_HOST: ${{ vars.NEXT_PUBLIC_APP_HOST }}
           envkey_API_HOST: ${{ vars.API_HOST }}
           envkey_TRANSLATE_API_URL: ${{ vars.TRANSLATE_API_URL }}
           envkey_TRANSLATE_API_KEY: ${{ vars.TRANSLATE_API_KEY }}
