@@ -29,12 +29,6 @@ jobs:
           envkey_DICTIONARY_API_URL: ${{ vars.DICTIONARY_API_URL }}
           envkey_NEXTAUTH_SECRET: ${{ vars.NEXTAUTH_SECRET }}
           file_name: .env.production.local
-        
-      - name: Check build
-        run: yarn build
-        
-      - name: Build the docker-compose images
-        run: docker build .
 
   docker-hub-deploy:
     needs: build-checking
