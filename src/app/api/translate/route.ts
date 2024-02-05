@@ -1,31 +1,23 @@
 import apiErrorService from '@/services/apiErrorService'
 import { NextRequest, NextResponse } from 'next/server'
 
+const getUniqueString = (arr: string[]) => {
+  const resArr = arr.map(item => item.split(', ')).flat()
+
+  return Array.from(new Set(resArr)).join(', ')
+}
+
 const getMappedTranslates = (data: string[]): string[] => {
   let res: string[] = []
+  let index = 0
 
-  data.forEach((item, index) => {
-    if (data.length === 2) res = [...data, data.join(', ')]
-    else {
-      if (index === 2) {
-        if (index < data.length - 1) res = [...res, res[index - 2] + ', '.concat(res[index - 1]), item]
-        else res = [
-          ...res,
-          res[index - 2] + ', '.concat(res[index - 1]),
-          item,
-          res[index - 1] + ', '.concat(res[index - 1]) + ', '.concat(item)
-        ]
-      } else if (index > 2) {
-        if (index < data.length - 1) res = [...res, res[index - 1] + ', '.concat(res[index]), item]
-        else {
-          res = [
-            ...res, res[index - 1] + ', '.concat(res[index]), item, res[index - 1] + ', '.concat(res[index]) + ', '.concat(item)
-          ]
-        }
-      }
-      else res.push(item)
-    }
-  })
+  while (index < data.length) {
+    if (index < 2) res = [...res, data[index]]
+    else if (index === data.length - 1 && data.length > 3) res = [...res, data[index], getUniqueString([...res, data[index]])]
+    else res = [...res, getUniqueString(res), data[index], getUniqueString([...res, data[index]])]
+
+    index += 1
+  }
 
   return res
 }
