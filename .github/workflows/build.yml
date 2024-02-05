@@ -13,19 +13,7 @@ jobs:
     environment: dev
     steps:
       - name: Get code
-        uses: actions/checkout@v3
-
-      - name: Make .env
-        uses: SpicyPizza/create-envfile@v2.0
-        with:
-          envkey_APP_ENV: ${{ vars.APP_ENV }}
-          envkey_API_HOST: ${{ vars.API_HOST }}
-          envkey_TRANSLATE_API_URL: ${{ vars.TRANSLATE_API_URL }}
-          envkey_TRANSLATE_API_KEY: ${{ vars.TRANSLATE_API_KEY }}
-          envkey_TRANSLATE_API_HOST: ${{ vars.TRANSLATE_API_HOST }}
-          envkey_DICTIONARY_API_URL: ${{ vars.DICTIONARY_API_URL }}
-          envkey_NEXTAUTH_SECRET: ${{ vars.NEXTAUTH_SECRET }}
-          file_name: .env.development.local
+        uses: actions/checkout@v4
 
       - name: Yarn install
         run: yarn install
@@ -33,5 +21,5 @@ jobs:
       - name: Check build
         run: yarn build
         
-      - name: Build the docker-compose images
+      - name: Build the docker image
         run: docker build .
