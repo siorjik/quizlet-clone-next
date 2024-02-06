@@ -36,7 +36,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   }
 
   return (
-    <div className={`wrap grid grid-cols-[auto_1fr] h-screen`}>
+    <div className={`wrap grid grid-cols-[auto_1fr] h-dvh`}>
       <header
         className={`
           ${isScrollEnough ? 'h-10 p-2 text-sm bg-cyan-400/[0.5] absolute w-full z-10' : 'h-[70px] py-5 px-5 text-lg'}
@@ -51,7 +51,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         ><Sidebar pathname={pathname} /></aside>
       }
       <main className={`
-          grid ${isScrollEnough ? 'mt-[5px]' : 'mt-[70px]'} grid-rows-[1fr_70px]
+          min-h-[calc(100vh-70px)] grid ${isScrollEnough ? 'mt-[5px]' : 'mt-[70px]'} grid-rows-[1fr_70px]
           col-start-2 col-end-3 bg-slate-50 overflow-auto transition-all scroll-smooth
         `}
         ref={mainRef}>
