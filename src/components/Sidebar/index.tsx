@@ -76,9 +76,10 @@ export default function Sidebar({ pathname }: { pathname: string }) {
                 </button>
               }
 
-              <div
-                className={`absolute w-[200px] h-full ${!isStretch ? 'left-[-200px]' : 'left-[0]'} bg-orange-100 transition-all`}
-              >
+              <div className={`
+                absolute w-[200px] min-h-[calc(100vh-70px)]
+                ${!isStretch ? 'left-[-200px]' : 'left-[0]'} bg-orange-100 transition-all
+              `}>
                 <button className='mb-5 m-3' onClick={() => setStretch(!isStretch)}>
                   <Image src={isStretch ? leftArrowIcon : rightArrowIcon} alt='left-arrow' priority />
                 </button>
