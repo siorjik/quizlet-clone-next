@@ -1,20 +1,18 @@
 import apiErrorService from '@/services/apiErrorService'
 import { NextRequest, NextResponse } from 'next/server'
 
-const getUniqueString = (arr: string[]) => {
+const getUniqueString = (arr: string[]): string => {
   const resArr = arr.map(item => item.split(', ')).flat()
 
   return Array.from(new Set(resArr)).join(', ')
 }
 
 const getMappedTranslates = (data: string[]): string[] => {
-  let res: string[] = []
-  let index = 0
+  let res: string[] = [data[0]]
+  let index = 1
 
   while (index < data.length) {
-    if (index < 2) res = [...res, data[index]]
-    else if (index === data.length - 1 && data.length > 3) res = [...res, data[index], getUniqueString([...res, data[index]])]
-    else res = [...res, getUniqueString(res), data[index], getUniqueString([...res, data[index]])]
+    res = [...res, data[index], getUniqueString([...res, data[index]])]
 
     index += 1
   }
