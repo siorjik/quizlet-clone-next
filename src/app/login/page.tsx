@@ -1,20 +1,30 @@
 'use client'
 
+import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
 
 import Form from '@/components/Form'
 import ToastMessage from '@/components/ToastMessage'
+import Spinner from '@/components/Spinner'
 
 export default function Login() {
+  const [isLoading, setLoading] = useState(false)
+
   const { push } = useRouter()
 
   const submit = async (data: { [key: string]: string }): Promise<void> => {
+    setLoading(true)
+
     const res = await signIn('credentials', { redirect: false, ...data })
 
     if (!res?.error) push('/')
-    else toast(res.error, { position: 'bottom-left', type: 'error' })
+    else {
+      setLoading(false)
+
+      toast(res.error, { position: 'bottom-left', type: 'error' })
+    }
   }
 
   const fieldsData = [
@@ -53,6 +63,7 @@ export default function Login() {
         <Form submit={submit} fieldsData={fieldsData} css='w-4/5 md:w-1/2 max-w-lg flex flex-col items-center' />
       </div>
       <ToastMessage />
+      {isLoading && <Spinner />}
     </>
   )
 }
