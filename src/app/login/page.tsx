@@ -50,7 +50,7 @@ export default function Login() {
     <>
       <div className='h-[100dvh] flex flex-col justify-center items-center'>
         <h2 className='page-title'>Login</h2>
-        <Form submit={submit} fieldsData={fieldsData} css='w-1/2 max-w-lg flex flex-col items-center' />
+        <Form submit={submit} fieldsData={fieldsData} css='w-4/5 md:w-1/2 max-w-lg flex flex-col items-center' />
       </div>
       <ToastMessage />
     </>
