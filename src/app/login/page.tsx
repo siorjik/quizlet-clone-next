@@ -48,7 +48,7 @@ export default function Login() {
 
   return (
     <>
-      <div className='h-screen flex flex-col justify-center items-center'>
+      <div className='h-dvh flex flex-col justify-center items-center'>
         <h2 className='page-title'>Login</h2>
         <Form submit={submit} fieldsData={fieldsData} css='w-1/2 max-w-lg flex flex-col items-center' />
       </div>
