@@ -7,6 +7,8 @@ import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 
 import leftArrowIcon from '@/../public/arrow-left-circle.svg'
 import rightArrowIcon from '@/../public/arrow-right-circle.svg'
+import logo from '@/../public/logo.png'
+
 import { libraryAppPath, setsAppPath, videosAppPath } from '@/utils/paths'
 import { libraryData } from './sidebarData'
 import { DataType, subscribe, unsubscribe } from '@/services/eventBusService'
@@ -77,9 +79,10 @@ export default function Sidebar({ pathname }: { pathname: string }) {
               <div
                 className={`absolute w-[200px] h-full ${!isStretch ? 'left-[-200px]' : 'left-[0]'} bg-orange-100 transition-all`}
               >
-                <button className='mb-8 m-3' onClick={() => setStretch(!isStretch)}>
+                <button className='mb-5 m-3' onClick={() => setStretch(!isStretch)}>
                   <Image src={isStretch ? leftArrowIcon : rightArrowIcon} alt='left-arrow' priority />
                 </button>
+                <Image className='mx-auto mb-5' height={70} width={70} src={logo} alt='logo' />
                 {getSideBarContent()}
               </div>
             </>

@@ -12,7 +12,7 @@ import { setsAppPath, videosAppPath } from '@/utils/paths'
 
 const sidebarPathList: string[] = [setsAppPath, videosAppPath]
 
-export default function Lyout({ children }: { children: ReactNode }) {
+export default function Layout({ children }: { children: ReactNode }) {
   const [isScrollEnough, setScrollEnough] = useState(false)
 
   const pathname = usePathname()
@@ -39,7 +39,7 @@ export default function Lyout({ children }: { children: ReactNode }) {
     <div className={`wrap grid grid-cols-[auto_1fr] h-screen`}>
       <header
         className={`
-          ${isScrollEnough ? 'h-10 p-2 text-sm bg-cyan-400/[0.5] absolute w-full z-10' : 'h-[70px] py-5 px-8 text-lg'}
+          ${isScrollEnough ? 'h-10 p-2 text-sm bg-cyan-400/[0.5] absolute w-full z-10' : 'h-[70px] py-5 px-5 text-lg'}
           fixed w-full bg-cyan-400 transition-all z-[1]
         `}
       >

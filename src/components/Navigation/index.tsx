@@ -9,6 +9,8 @@ import { signOut } from 'next-auth/react'
 import menuIcon from '../../../public/mob-menu.svg'
 import logoutIcon from '../../../public/logout.svg'
 import userIcon from '../../../public/user.svg'
+import logo from '@/../public/logo.png'
+
 import { getLogoutApiPath, libraryAppPath, loginAppPath, profileAppPath } from '@/utils/paths'
 import { broadcast } from '@/services/eventBusService'
 import { EventNames } from '@/utils/constants'
@@ -71,7 +73,13 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
   return (
     <>
       <div className='header-content hidden md:grid grid-cols-[100px_1fr_70px]'>
-        <Link href='/'>Logo</Link>
+        <Link href='/'>
+          <Image
+            className={`
+              absolute ${isSmall ? 'h-[30px] w-[30px] bottom-[5px]' : 'h-[50px] w-[50px] bottom-[10px]'} transition-all
+            `}
+            src={logo} alt='logo' />
+        </Link>
         <div className='menu space-x-5'>
           {menu.map((item, index) => <Fragment key={index}>{getMenuItem(item)}</Fragment>)}
         </div>
@@ -88,6 +96,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
             onClick={() => setShowMobMenu(!isShowMobMenu)}
           >
             <div className='mob-menu-content flex flex-col self-start w-72 bg-slate-200 py-5 my-20 rounded-md'>
+              <Image className='mx-auto mb-5' height={70} width={70} src={logo} alt='logo' />
               {menu.map((item, index) => <Fragment key={index}>{getMenuItem(item, true)}</Fragment>)}
               <div className='user flex justify-evenly mt-3 border-t-2 border-slate-300 pt-4'>
                 <Link href={profileAppPath}><Image src={userIcon} alt='user' /></Link>
