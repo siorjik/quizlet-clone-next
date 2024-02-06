@@ -51,7 +51,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         ><Sidebar pathname={pathname} /></aside>
       }
       <main className={`
-          min-h-[calc(100vh-70px)] grid ${isScrollEnough ? 'mt-[5px]' : 'mt-[70px]'} grid-rows-[1fr_70px]
+          grid ${isScrollEnough ? 'h-screen mt-[5px]' : 'h-[calc(100vh-70px)] mt-[70px]'} grid-rows-[1fr_70px]
           col-start-2 col-end-3 bg-slate-50 overflow-auto transition-all scroll-smooth
         `}
         ref={mainRef}>
