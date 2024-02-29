@@ -23,13 +23,14 @@ export default (req: NextRequest): AuthOptions => {
             await apiService<UserType | ApiErrType>({ url: loginApiPath, body: credentials, method: 'POST' })
 
           if ('_id' in result) return result as User & UserType
-          else throw new Error(result.message)
+          else throw new Error(result.message as string)
         }
       })
     ],
 
     session: {
       strategy: 'jwt',
+      maxAge: 60 * 60 * 24 * 7
     },
 
     callbacks: {
@@ -40,7 +41,7 @@ export default (req: NextRequest): AuthOptions => {
           const res = await apiService<{ accessExpire: string, accessToken: string, refreshToken: string } | ApiErrType>
             ({ url: getApiPath(getRefreshApiPath(tokenCopy.refreshToken), true), req })
 
-          if ('statusCode' in res && res.statusCode === 401) throw new Error(res.message)
+          if ('statusCode' in res && res.statusCode === 401) throw new Error(res.message as string)
           else tokenCopy = { ...tokenCopy, ...res }
         }
 

@@ -2,6 +2,7 @@ import getApiPath from '@/helpers/getApiPath'
 
 /***** app *****/
 export const loginAppPath = '/login'
+export const createAccountAppPath = '/create-account'
 export const profileAppPath = '/profile'
 
 // library
@@ -27,3 +28,7 @@ export const getRefreshApiPath = (refreshToken: string) => `auth/refresh?refresh
 
 // sets
 export const getSetApiPath = (isRemoteApi: boolean = false) => getApiPath('sets', isRemoteApi)
+
+// users
+export const getUserApiPath = (isRemoteApi: boolean = false) => getApiPath('users', isRemoteApi)
+export const getCreatePasswordApiPath = (isRemoteApi: boolean = false) => getApiPath('users/create-password', isRemoteApi)

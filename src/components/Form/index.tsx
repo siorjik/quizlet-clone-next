@@ -1,25 +1,39 @@
 'use client'
 
+import { Fragment } from 'react'
 import { useForm } from 'react-hook-form'
 
 import Button from '@/components/Button'
 import Input from '../Input'
-import { Fragment } from 'react'
 import { InputType } from '@/types/InputTypes'
 
 type FormPropsType = {
   submit: (data: { [key: string]: string }) => Promise<void>,
   fieldsData: InputType[],
-  css: string
+  css: string,
+  btnData?: {
+    hoverColor?: string,
+    text: string,
+  },
+  isReset?: boolean,
 }
 
 export default function Form(props: FormPropsType) {
-  const { submit, fieldsData, css } = props
+  const { submit, fieldsData, css, btnData: { text, hoverColor } = {}, isReset = false } = props
 
-  const { register, handleSubmit, formState: { errors } } = useForm()
+  const { register, handleSubmit, reset, formState: { errors } } = useForm()
+
+  const onSubmit = async (data: { [key: string]: string }) => {
+    try {
+      await submit(data)
+      if (isReset) reset()
+    } catch (error) {
+      console.error(error)
+    }
+  }
 
   return (
-    <form className={css} onSubmit={handleSubmit(submit)}>
+    <form className={css} onSubmit={handleSubmit(onSubmit)}>
       {fieldsData.map((item, index) => (
         <Fragment key={index}>
           <Input
@@ -28,7 +42,7 @@ export default function Form(props: FormPropsType) {
             register={{...register(item.name, { ...item.validation })}}
           />
         </Fragment>))}
-      <Button css='w-fit' type='submit'>Submit</Button>
+      <Button css='w-fit' type='submit' hoverColor={hoverColor}>{text || 'Submit'}</Button>
     </form>
   )
 }

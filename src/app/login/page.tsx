@@ -4,10 +4,12 @@ import { useState } from 'react'
 import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { toast } from 'react-toastify'
+import Link from 'next/link'
 
 import Form from '@/components/Form'
 import ToastMessage from '@/components/ToastMessage'
 import Spinner from '@/components/Spinner'
+import { createAccountAppPath } from '@/utils/paths'
 
 export default function Login() {
   const [isLoading, setLoading] = useState(false)
@@ -59,8 +61,16 @@ export default function Login() {
   return (
     <>
       <div className='h-[100dvh] flex flex-col justify-center items-center'>
-        <h2 className='page-title'>Login</h2>
-        <Form submit={submit} fieldsData={fieldsData} css='w-4/5 md:w-1/2 max-w-lg flex flex-col items-center' />
+        <h2 className='page-title'>Sign In</h2>
+        <Form
+          submit={submit}
+          fieldsData={fieldsData}
+          css='w-4/5 md:w-1/2 max-w-sm flex flex-col items-center'
+          btnData={{ text: 'Login' }}
+        />
+        <p className='mt-10'>
+          Go to <Link className='text-amber-600 border-b-2 border-amber-700' href={createAccountAppPath}>Sign On</Link>
+        </p>
       </div>
       <ToastMessage />
       {isLoading && <Spinner />}

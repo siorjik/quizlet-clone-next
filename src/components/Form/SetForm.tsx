@@ -82,7 +82,7 @@ export default memo(function SetForm(
     setLoading(false)
   }
 
-  const pairBlock = (number: number): ReactElement => {
+  const pairBlock = (index: number): ReactElement => {
     return (
       <div className='flex mt-5 p-5 flex-col w-full justify-between relative bg-lime-200 rounded-xl md:flex-row'>
         <div className='w-full md:w-[47%] flex flex-col'>
@@ -93,15 +93,15 @@ export default memo(function SetForm(
               placeholder: 'Term...',
               inputStyle: 'set-input',
               blockStyle: 'relative w-full',
-              errors: errors?.list?.[number] as Merge<FieldError, FieldErrorsImpl>,
+              errors: errors?.list?.[index] as Merge<FieldError, FieldErrorsImpl>,
               register: {
-                ...register(`list.${number}.term` as const,
+                ...register(`list.${index}.term` as const,
                   { required: 'Required!', disabled: !action, onChange: ({ target }) => onChange(target) })
               }
             }}
-            data={dictionary.name === `list.${number}.term` ? dictionary.words : []}
-            q={getFieldState(`list.${number}.term`).isDirty ? list[number].term : ''}
-            setValue={(value: string) => setTranslateQuery(`list.${number}.term`, value)}
+            data={dictionary.name === `list.${index}.term` ? dictionary.words : []}
+            q={getFieldState(`list.${index}.term`).isDirty ? list[index].term : ''}
+            setValue={(value: string) => setTranslateQuery(`list.${index}.term`, value)}
             clearData={() => setDictionary({ name: '', words: [] })}
           />
           <span className='mt-1 mx-auto text-xs'>From: English</span>
@@ -115,21 +115,21 @@ export default memo(function SetForm(
               placeholder: isLoading ? 'Translates loading...' : 'Definition...',
               inputStyle: 'set-input',
               blockStyle: 'relative w-full mt-5 md:mt-0',
-              errors: errors?.list?.[number] as Merge<FieldError, FieldErrorsImpl>,
+              errors: errors?.list?.[index] as Merge<FieldError, FieldErrorsImpl>,
               register: {
-                ...register(`list.${number}.definition` as const,
+                ...register(`list.${index}.definition` as const,
                   { required: 'Required!', disabled: !action })
               }
             }}
-            data={translate.name === `list.${number}.definition` ? translate.words : []}
-            q={getFieldState(`list.${number}.definition`).isDirty ? list[number].definition : ''}
-            setValue={(value: string) => setValue(`list.${number}.definition`, value)}
+            data={translate.name === `list.${index}.definition` ? translate.words : []}
+            q={getFieldState(`list.${index}.definition`).isDirty ? list[index].definition : ''}
+            setValue={(value: string) => setValue(`list.${index}.definition`, value)}
             clearData={() => setTranslate({ name: '', words: [] })}
           />
           <span className='mt-1 mx-auto text-xs'>To: Russian</span>
         </div>
         {action && list.length > 1 &&
-          <button type='button' className='mx-auto mt-5 md:m-0 md:mb-5' onClick={() => remove(number)}>
+          <button type='button' className='mx-auto mt-5 md:m-0 md:mb-5' onClick={() => remove(index)}>
             <Image src={trashIcon} alt='trash' />
           </button>}
       </div>
