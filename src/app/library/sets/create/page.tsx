@@ -22,7 +22,7 @@ export default function Create() {
 
       setContext({ list: [newSet, ...list] })
       mutate('sets', [newSet, ...list])
-  
+
       push(setsAppPath)
     } catch (error) {
       console.log(error)
@@ -41,9 +41,11 @@ export default function Create() {
   ]
 
   return (
-    <>
-      <BreadCrumbs data={breadCrumbsData} />
-      <SetForm func={create} action='create' />
-    </>
+    <div className='flex flex-col items-center'>
+      <div className='w-full max-w-5xl'>
+        <BreadCrumbs data={breadCrumbsData} />
+        <SetForm func={create} action='create' />
+      </div>
+    </div>
   )
 }

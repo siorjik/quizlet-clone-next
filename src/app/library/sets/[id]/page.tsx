@@ -33,19 +33,21 @@ export default function Set({ params }: { params: { id: string } }) {
   else if (error) return notFound()
 
   return (
-    <>
-      <BreadCrumbs data={breadCrumbsData} />
-      <div className='mb-8'>
-        <Link
-          className={linkStyle}
-          href={getEditSetAppPath(params.id)}
-        >Edit</Link>
-        <Link
-          className={linkStyle}
-          href={getSetFlashCardsAppPath(params.id)}
-        >Flashcards</Link>
+    <div className='flex flex-col items-center'>
+      <div className='w-full max-w-5xl'>
+        <BreadCrumbs data={breadCrumbsData} />
+        <div className='mb-8'>
+          <Link
+            className={linkStyle}
+            href={getEditSetAppPath(params.id)}
+          >Edit</Link>
+          <Link
+            className={linkStyle}
+            href={getSetFlashCardsAppPath(params.id)}
+          >Flashcards</Link>
+        </div>
+        <SetForm data={data} />
       </div>
-      <SetForm data={data} />
-    </>
+    </div>
   )
 }

@@ -30,11 +30,14 @@ export default function Sets() {
   else if (error) return notFound()
 
   return (
-    <div className='max-w-3xl'>
-      <BreadCrumbs data={[{ title: 'my library', path: libraryAppPath }]} />
-      <Link className='mb-5 inline-block border-2 rounded-md px-5 py-2 hover:bg-slate-200 transition-all' href={createSetAppPath}
-      >Create</Link>
-      <SetList data={list} remove={async (id: string) => await remove(id)} />
+    <div className='flex flex-col items-center'>
+      <div className='w-full max-w-5xl'>
+        <BreadCrumbs data={[{ title: 'my library', path: libraryAppPath }]} />
+        <Link className='mb-5 inline-block border-2 rounded-md px-5 py-2 hover:bg-slate-200 transition-all'
+          href={createSetAppPath}
+        >Create</Link>
+        <SetList data={list} remove={async (id: string) => await remove(id)} />
+      </div>
     </div>
   )
 }
