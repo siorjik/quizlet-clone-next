@@ -8,6 +8,7 @@ import Layout from '@/components/Layout'
 import Modal from '@/components/Modal'
 import Spinner from '@/components/Spinner'
 import Form from '@/components/Form'
+
 import apiService from '@/services/apiService'
 import { ApiErrType } from '@/types/ErrorTypes'
 import { UserType } from '@/types/UserTypes'
@@ -16,6 +17,7 @@ import getApiErrMessage from '@/helpers/getApiErrMessage'
 
 export default function Home() {
   const [isShow, setShow] = useState(false)
+  const [isLoading, setLoading] = useState(false)
 
   const { data } = useSession()
 
@@ -24,6 +26,8 @@ export default function Home() {
   const submit = async (data: { [key: string]: string }, action: 'signIn' | 'signOn'): Promise<void> => {
     let errMess
     const isSignOn = action === 'signOn'
+
+    setLoading(true)
 
     if (isSignOn) {
       try {
@@ -45,6 +49,8 @@ export default function Home() {
 
       if ('error' in res!) errMess = res.error
     }
+
+    setLoading(false)
 
     if (errMess) toast(errMess, { position: 'bottom-left', type: 'error' })
     else setShow(false)
@@ -122,13 +128,11 @@ export default function Home() {
             {
               isAuth ? <h2 className='text-red-300'>Home</h2> : <>
                 <span>Improve your English! Just </span>
-                <span
-                  className='text-amber-600 border-b-2 border-amber-700 cursor-pointer'
-                  onClick={() => setShow(true)}
-                >join</span>
+                <span className='link' onClick={() => setShow(true)}>join</span>
               </>
             }
             <Modal isShow={isShow} close={() => setShow(false)} title='Welcome!' content={modalContent} />
+            {isLoading && <Spinner />}
           </Layout>
       }
     </>

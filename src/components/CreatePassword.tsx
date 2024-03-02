@@ -8,25 +8,32 @@ import Spinner from '@/components/Spinner'
 import ToastMessage from '@/components/ToastMessage'
 import Form from '@/components/Form'
 
-import apiService from '@/services/apiService'
-import { getUserApiPath, loginAppPath } from '@/utils/paths'
-import { UserType } from '@/types/UserTypes'
-import { ApiErrType } from '@/types/ErrorTypes'
 import getApiErrMessage from '@/helpers/getApiErrMessage'
+import { ApiErrType } from '@/types/ErrorTypes'
+import apiService from '@/services/apiService'
+import { getCreatePasswordApiPath, loginAppPath } from '@/utils/paths'
 
-export default function CreateAccount() {
+export default function CreatePassword({ token }: { token: string }) {
   const [isLoading, setLoading] = useState(false)
 
   const submit = async (data: { [key: string]: string }): Promise<void> => {
+    const { password, passConfirm } = data
+
+    if (password !== passConfirm) {
+      toast('The Password and Confirm Password must be the same!', { position: 'bottom-left', type: 'error' })
+
+      return
+    }
+
     setLoading(true)
 
     try {
-      await apiService<UserType | ApiErrType>({ url: getUserApiPath(), body: data, method: 'POST' })
-      
+      await apiService({ url: getCreatePasswordApiPath(), body: { password, token }, method: 'POST' })
+
       setLoading(false)
 
       toast(
-        'User was created. Check email to create a password and finish registration.',
+        'Password was created! Let`s login!',
         { position: 'bottom-center', type: 'success' }
       )
     } catch (error) {
@@ -42,24 +49,20 @@ export default function CreateAccount() {
 
   const fieldsData = [
     {
-      name: 'email',
-      type: 'email',
-      label: 'Email',
+      name: 'password',
+      type: 'password',
+      label: 'Password',
       inputStyle: 'input',
       blockStyle: 'w-full mb-8',
       isRequired: true,
       validation: {
         required: 'Required!',
-        pattern: {
-          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-          message: 'Invalid email!'
-        }
       }
     },
     {
-      name: 'name',
-      type: 'text',
-      label: 'Name',
+      name: 'passConfirm',
+      type: 'password',
+      label: 'Confirm Password',
       inputStyle: 'input',
       blockStyle: 'w-full mb-8',
       isRequired: true,
@@ -71,19 +74,16 @@ export default function CreateAccount() {
 
   return (
     <>
-      <div className='h-[100dvh] flex flex-col justify-center items-center'>
-        <h2 className='page-title'>Sign On</h2>
-        <Form
-          submit={submit}
-          fieldsData={fieldsData}
-          css='w-4/5 md:w-1/2 max-w-sm flex flex-col items-center'
-          btnData={{ text: 'Create Account' }}
-          isReset
-        />
-        <p className='mt-10'>
-          Go to <Link className='link' href={loginAppPath}>Sign In</Link>
-        </p>
-      </div>
+      <Form
+        submit={submit}
+        fieldsData={fieldsData}
+        css='w-4/5 md:w-1/2 max-w-sm flex flex-col items-center'
+        btnData={{ text: 'Create Password' }}
+        isReset
+      />
+      <p className='mt-10'>
+        Go to <Link className='link' href={loginAppPath}>Sign In</Link>
+      </p>
       <ToastMessage />
       {isLoading && <Spinner />}
     </>

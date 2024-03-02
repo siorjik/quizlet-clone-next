@@ -9,10 +9,16 @@ import Link from 'next/link'
 import Form from '@/components/Form'
 import ToastMessage from '@/components/ToastMessage'
 import Spinner from '@/components/Spinner'
-import { createAccountAppPath } from '@/utils/paths'
+import Modal from '@/components/Modal'
+
+import { createAccountAppPath, getRecoveryPasswordApiPath } from '@/utils/paths'
+import apiService from '@/services/apiService'
+import getApiErrMessage from '@/helpers/getApiErrMessage'
+import { ApiErrType } from '@/types/ErrorTypes'
 
 export default function Login() {
   const [isLoading, setLoading] = useState(false)
+  const [isShow, setShow] = useState(false)
 
   const { push } = useRouter()
 
@@ -26,6 +32,30 @@ export default function Login() {
       setLoading(false)
 
       toast(res.error, { position: 'bottom-left', type: 'error' })
+    }
+  }
+
+  const passwordRecovery = async (body: { [key: string]: string }): Promise<void> => {
+    setLoading(true)
+
+    try {
+      await apiService({ url: getRecoveryPasswordApiPath(), body, method: 'POST' })
+
+      setLoading(false)
+      setShow(false)
+
+      toast(
+        'Password recovery request was sent! Check your email!',
+        { position: 'bottom-center', type: 'success' }
+      )
+    } catch (error) {
+      const err = error as ApiErrType
+
+      setLoading(false)
+
+      toast(getApiErrMessage(err), { position: 'bottom-left', type: 'error' })
+
+      throw new Error(getApiErrMessage(err))
     }
   }
 
@@ -58,6 +88,17 @@ export default function Login() {
     }
   ]
 
+  const modalContent = (
+    <div className=''>
+      <Form
+        submit={passwordRecovery}
+        fieldsData={[fieldsData[0]]}
+        css='w-64 md:w-4/5 mx-auto flex flex-col items-center'
+        btnData={{ text: 'Recover Password', hoverColor: 'hover:bg-violet-300' }}
+      />
+    </div>
+  )
+
   return (
     <>
       <div className='h-[100dvh] flex flex-col justify-center items-center'>
@@ -68,12 +109,14 @@ export default function Login() {
           css='w-4/5 md:w-1/2 max-w-sm flex flex-col items-center'
           btnData={{ text: 'Login' }}
         />
-        <p className='mt-10'>
-          Go to <Link className='text-amber-600 border-b-2 border-amber-700' href={createAccountAppPath}>Sign On</Link>
+        <p className='mt-10' onClick={() => setShow(true)}>
+          Forgot your password? <span className='link'>Password Recovery</span>
         </p>
+        <p className='mt-10'>Go to <Link className='link' href={createAccountAppPath}>Sign On</Link></p>
       </div>
       <ToastMessage />
       {isLoading && <Spinner />}
+      <Modal isShow={isShow} close={() => setShow(false)} title='Password Recovery' content={modalContent} />
     </>
   )
 }

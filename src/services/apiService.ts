@@ -31,6 +31,7 @@ export default async<T>(
     })
 
     const res = await resp.json()
+    
     if (res.error || res.statusCode === 401) throw res
 
     return res

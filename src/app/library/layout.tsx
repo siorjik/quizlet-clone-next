@@ -7,6 +7,6 @@ export const metadata: Metadata = {
   description: 'Library page',
 }
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function LibraryLayout({ children }: { children: React.ReactNode }) {
   return <Layout>{children}</Layout>
 }
