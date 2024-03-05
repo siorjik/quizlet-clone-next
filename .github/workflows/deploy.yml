@@ -46,5 +46,8 @@ jobs:
             cd ~/projects/quizlet-clone-next
             sudo docker-compose stop
             sudo docker-compose pull
-            sudo docker-compose --env-file .env.production.local up -d
+            sudo env APP_ENV=${{ vars.APP_ENV }} API_HOST=${{ secrets.API_HOST }} TRANSLATE_API_URL=${{ secrets.TRANSLATE_API_URL }} \
+              TRANSLATE_API_KEY=${{ secrets.TRANSLATE_API_KEY }} TRANSLATE_API_HOST=${{ secrets.TRANSLATE_API_HOST }} \
+              DICTIONARY_API_URL=${{ secrets.DICTIONARY_API_URL }} NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} NEXTAUTH_URL=${{ vars.NEXTAUTH_URL }} \
+              NODE_ENV=${{ vars.NODE_ENV }} docker-compose up -d
             sudo docker image prune -f

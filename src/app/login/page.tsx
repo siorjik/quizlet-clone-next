@@ -112,7 +112,9 @@ export default function Login() {
         <p className='mt-10' onClick={() => setShow(true)}>
           Forgot your password? <span className='link'>Password Recovery</span>
         </p>
-        <p className='mt-10'>Go to <Link className='link' href={createAccountAppPath}>Sign On</Link></p>
+        <p className='mt-10'>
+          Do not have an account yet? Go to <Link className='link' href={createAccountAppPath}>Sign On</Link>
+        </p>
       </div>
       <ToastMessage />
       {isLoading && <Spinner />}

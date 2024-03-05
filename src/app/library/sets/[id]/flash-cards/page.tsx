@@ -94,10 +94,6 @@ export default function FlashCards({ params }: { params: { id: string } }) {
 
   const breadCrumbsData: { title: string, path: string }[] = [
     {
-      title: 'my library',
-      path: libraryAppPath
-    },
-    {
       title: 'sets',
       path: setsAppPath
     },
