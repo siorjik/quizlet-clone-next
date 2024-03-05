@@ -7,7 +7,7 @@ import BreadCrumbs from '@/components/Breadcrumbs'
 import SetForm from '@/components/Form/SetForm'
 import Spinner from '@/components/Spinner'
 
-import { getEditSetAppPath, libraryAppPath, getSetApiPath, setsAppPath, getSetFlashCardsAppPath } from '@/utils/paths'
+import { getEditSetAppPath, getSetApiPath, setsAppPath, getSetFlashCardsAppPath } from '@/utils/paths'
 import { SetType } from '@/types/SetTypes'
 import useSmartRequest from '@/hooks/useSmartRequest'
 
@@ -16,16 +16,7 @@ export default function Set({ params }: { params: { id: string } }) {
     key: `set/${params.id}`, url: `${getSetApiPath()}?id=${params.id}`, requiredProp: 'data', entity: 'set'
   })
 
-  const breadCrumbsData: { title: string, path: string }[] = [
-    {
-      title: 'my library',
-      path: libraryAppPath
-    },
-    {
-      title: 'sets',
-      path: setsAppPath
-    }
-  ]
+  const breadCrumbsData: { title: string, path: string }[] = [{ title: 'sets', path: setsAppPath }]
 
   const linkStyle = 'mr-5 inline-block border-2 rounded-md px-5 py-2 hover:bg-slate-200 transition-all'
 
