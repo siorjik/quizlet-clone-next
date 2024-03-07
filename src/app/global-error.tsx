@@ -13,8 +13,8 @@ export default function GlobalError({
   console.log(error)
   return (
     <html>
-      <body className='flex flex-col justify-center items-center'>
-        <h2>Something went wrong!</h2>
+      <body className='h-[100dvh] flex flex-col justify-center items-center'>
+        <h2 className='mb-10'>Something went wrong!</h2>
         <div>
           <Button click={() => reset()}>Try again</Button>
           <Link href='/'>or go to home page</Link>
