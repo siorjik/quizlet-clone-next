@@ -1,32 +1,30 @@
-'use client'
-
-import { useCallback } from 'react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { headers } from 'next/headers'
 
 import SetList from './components/SetList'
-import Spinner from '@/components/Spinner'
 
 import { createSetAppPath, getSetApiPath } from '@/utils/paths'
 import { SetType } from '@/types/SetTypes'
-import useSmartRequest from '@/hooks/useSmartRequest'
 import apiService from '@/services/apiService'
+import { ApiErrType } from '@/types/ErrorTypes'
 
-export default function Sets() {
-  const { list = [], isLoading, error, mutateData } = useSmartRequest<SetType>({
-    key: 'sets', url: getSetApiPath(), requiredProp: 'list', entity: 'set'
-  })
+export const dynamic = 'force-dynamic'
 
-  const remove = useCallback(async (id: string): Promise<void> => {
-    await apiService({ url: `${getSetApiPath()}?id=${id}`, method: 'DELETE' })
+async function getSets(): Promise<SetType[] | ApiErrType> {
+  try {
+    return await apiService<SetType[]>({ url: getSetApiPath(), headers: headers() })
+  } catch (err) {
+    const error = err as ApiErrType
 
-    const res = list.filter(item => item._id !== id)
+    return error
+  }
+}
 
-    mutateData('sets', { list: res }, res)
-  }, [list])
+export default async function Sets() {
+  const sets: SetType[] | ApiErrType = await getSets()
 
-  if (isLoading) return <Spinner />
-  else if (error) return notFound()
+  if ('error' in sets) notFound()
 
   return (
     <div className='flex flex-col items-center'>
@@ -34,7 +32,7 @@ export default function Sets() {
         <Link className='mb-5 inline-block border-2 rounded-md px-5 py-2 hover:bg-slate-200 transition-all'
           href={createSetAppPath}
         >Create</Link>
-        <SetList data={list} remove={async (id: string) => await remove(id)} />
+        <SetList data={sets} />
       </div>
     </div>
   )

@@ -1,19 +1,21 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { memo } from 'react'
 
 import TrashIcon from '@/components/Icon/TrashIcon'
 import { SetType } from '@/types/SetTypes'
-import { getSetAppPath } from '@/utils/paths'
+import { getSetApiPath, getSetAppPath } from '@/utils/paths'
+import apiService from '@/services/apiService'
 
-export default memo(function SetList({ data, remove }: { data: SetType[], remove: (id: string) => Promise<void> }) {
-  const { push } = useRouter()
+export default function SetList({ data }: { data: SetType[]}) {
+  const { push, refresh } = useRouter()
 
   const deleteSet = async (e: React.MouseEvent<HTMLSpanElement>, id: string): Promise<void> => {
     e.stopPropagation()
 
-    await remove(id)
+    await apiService({ url: `${getSetApiPath()}?id=${id}`, method: 'DELETE' })
+
+    refresh()
   }
 
   const handleClick = (id: string): void => push(getSetAppPath(id))
@@ -40,4 +42,4 @@ export default memo(function SetList({ data, remove }: { data: SetType[], remove
       }
     </>
   )
-})
+}
