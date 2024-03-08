@@ -12,10 +12,10 @@ import { ApiErrType } from '@/types/ErrorTypes'
 export const dynamic = 'force-dynamic'
 
 async function getSets(): Promise<SetType[] | ApiErrType> {
-  const appHost = process.env.NEXT_PUBLIC_APP_HOST
+  // const appHost = process.env.NEXT_PUBLIC_APP_HOST
 
   try {
-    return await apiService<SetType[]>({ url: `${appHost}/${getSetApiPath()}`, headers: headers() })
+    return await apiService<SetType[]>({ url: /*`${appHost}/${getSetApiPath()}`*/getSetApiPath(), headers: headers() })
   } catch (err) {
     const error = err as ApiErrType
 
