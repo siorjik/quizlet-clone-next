@@ -11,7 +11,7 @@ import rightIcon from '@/../public/chevron-right.svg'
 
 import BreadCrumbs from '@/components/Breadcrumbs'
 
-import { getSetApiPath, getSetAppPath, libraryAppPath, setsAppPath } from '@/utils/paths'
+import { getSetApiPath, getSetAppPath, setsAppPath } from '@/utils/paths'
 import useSmartRequest from '@/hooks/useSmartRequest'
 import { SetType } from '@/types/SetTypes'
 import Spinner from '@/components/Spinner'
