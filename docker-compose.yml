@@ -8,10 +8,10 @@ version: '3'
 
 services:
   web:
-    # platform: linux/amd64
-    # image: siorjik/next-image:latest
-    build: .
-    image: web
+    platform: linux/amd64
+    image: siorjik/next-image:latest
+    # build: .
+    # image: web
     container_name: web
     ports:
       - '3000:3000'
