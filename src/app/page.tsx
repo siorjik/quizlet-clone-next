@@ -14,6 +14,7 @@ import { ApiErrType } from '@/types/ErrorTypes'
 import { UserType } from '@/types/UserTypes'
 import { getUserApiPath } from '@/utils/paths'
 import getApiErrMessage from '@/helpers/getApiErrMessage'
+import AuthProviderBlock from '@/components/AuthProvidersBlock'
 
 export default function Home() {
   const [isShow, setShow] = useState(false)
@@ -31,7 +32,7 @@ export default function Home() {
 
     if (isSignOn) {
       try {
-          await apiService<UserType>({ url: getUserApiPath(), body: data, method: 'POST' })
+          await apiService<UserType>({ url: getUserApiPath(), body: { ...data }, method: 'POST' })
   
           toast(
             'User was created. Check email to create a password and finish registration.',
@@ -54,6 +55,15 @@ export default function Home() {
 
     if (errMess) toast(errMess, { position: 'bottom-left', type: 'error' })
     else setShow(false)
+  }
+
+  const submitViaProvider = async (name: string): Promise<void> => {
+    setLoading(true)
+
+    await signIn(name, { callbackUrl: '/' })
+
+    setLoading(false)
+    setShow(false)
   }
 
   const fieldsData = [
@@ -97,27 +107,30 @@ export default function Home() {
   ]
 
   const modalContent = (
-    <div className='flex flex-col md:flex-row'>
-      <div>
-        <h3 className='mb-5 text-center'>Sign In</h3>
-        <Form
-          submit={async (data: { [key: string]: string }) => await submit(data, 'signIn')}
-          fieldsData={[fieldsData[0], fieldsData[1]]}
-          css='w-64 flex flex-col items-center'
-          btnData={{ text: 'Login', hoverColor: 'hover:bg-violet-300' }}
-        />
+    <>
+      <div className='flex flex-col md:flex-row'>
+        <div>
+          <h3 className='mb-5 text-center'>Sign In</h3>
+          <Form
+            submit={async (data: { [key: string]: string }) => await submit(data, 'signIn')}
+            fieldsData={[fieldsData[0], fieldsData[1]]}
+            css='w-64 flex flex-col items-center'
+            btnData={{ text: 'Login', hoverColor: 'hover:bg-violet-300' }}
+          />
+        </div>
+        <div className='h-[1px] md:h-44 w-full md:w-[1px] my-5 md:my-auto md:mx-5 bg-violet-300' />
+        <div>
+          <h3 className='mb-5 text-center'>Sign On</h3>
+          <Form
+            submit={async (data: { [key: string]: string }) => await submit(data, 'signOn')}
+            fieldsData={[fieldsData[0], fieldsData[2]]}
+            css='w-64 flex flex-col items-center'
+            btnData={{ text: 'Create Account', hoverColor: 'hover:bg-violet-300' }}
+          />
+        </div>
       </div>
-      <div className='h-[1px] md:h-44 w-full md:w-[1px] my-5 md:my-auto md:mx-5 bg-violet-300' />
-      <div>
-        <h3 className='mb-5 text-center'>Sign On</h3>
-        <Form
-          submit={async (data: { [key: string]: string }) => await submit(data, 'signOn')}
-          fieldsData={[fieldsData[0], fieldsData[2]]}
-          css='w-64 flex flex-col items-center'
-          btnData={{ text: 'Create Account', hoverColor: 'hover:bg-violet-300' }}
-        />
-      </div>
-    </div>
+      <AuthProviderBlock submit={submitViaProvider} />
+    </>
   )
 
   return (

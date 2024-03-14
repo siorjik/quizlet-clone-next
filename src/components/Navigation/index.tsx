@@ -6,12 +6,12 @@ import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 import { signOut, useSession } from 'next-auth/react'
 
-import menuIcon from '../../../public/mob-menu.svg'
-import logoutIcon from '../../../public/logout.svg'
-import userIcon from '../../../public/user.svg'
-import addUserIcon from '@/../public/add-user.svg'
-import loginIcon from '@/../public/login.svg'
-import logo from '@/../public/logo.png'
+import menuIcon from '@/../public/images/mob-menu.svg'
+import logoutIcon from '@/../public/images/logout.svg'
+import userIcon from '@/../public/images/user.svg'
+import addUserIcon from '@/../public/images/add-user.svg'
+import loginIcon from '@/../public/images/login.svg'
+import logo from '@/../public/images/logo.png'
 
 import { createAccountAppPath, getLogoutApiPath, libraryAppPath, loginAppPath, profileAppPath } from '@/utils/paths'
 import { broadcast } from '@/services/eventBusService'
@@ -24,9 +24,9 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
 
   const pathname = usePathname()
   const { push } = useRouter()
-  const { data } = useSession()
+  const { data: session } = useSession()
 
-  const isAuth = !!data
+  const isAuth = !!session
 
   useEffect(() => {
     if (isShowMobMenu) broadcast(EventNames.isShowMobMenu, true)
@@ -52,12 +52,17 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
     if (typeof res === 'boolean' && res) signOut({ callbackUrl: '/' })
   }
 
-  const getUserBlock = (isMobile: boolean = false) => (
-    <div className={`user flex justify-between ${isMobile ? 'space-x-5' : ''}`}>
+const src = isAuth && session.user?.image ? session.user.image : isAuth && !session.user?.image ? userIcon : addUserIcon
+
+const getUserBlock = (isMobile: boolean = false) => (
+  <div className={`user flex justify-between ${isMobile ? 'space-x-5' : ''}`}>
       <Link href={isAuth ? profileAppPath : createAccountAppPath}>
         <Image
-          className={`${isSmall ? 'h-[25px] w-[25px]' : 'h-[30px] w-[30px]'} transition-all`}
-          src={isAuth ? userIcon : addUserIcon} alt='user' />
+          className={`${isSmall ? 'h-[25px] w-[25px]' : 'h-[30px] w-[30px]'} rounded-full transition-all`}
+          src={src}
+          width={30}
+          height={30}
+          alt='user' />
       </Link>
       <span className='cursor-pointer' onClick={isAuth ? logout : () => push(loginAppPath)}>
         <Image
@@ -66,10 +71,10 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
       </span>
     </div>
   )
-
+  
   const getMenuItem = ({ path, title }: { path: string, title: string }, isMobile?: boolean) => {
     let css: string = ''
-
+    
     if (pathname === path || (pathname.startsWith(path) && path !== '/')) {
       if (isMobile) css = 'text-gray-700 font-bold'
       else css = '!border-cyan-600 pb-[1.4rem]'
@@ -89,7 +94,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
   return (
     <>
       {
-        data !== undefined && (
+        session !== undefined && (
           <>
             <div className='hidden md:grid grid-cols-[100px_1fr_80px]'>
               <Link href='/'>
@@ -120,7 +125,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
                     {menu.map((item, index) => <Fragment key={index}>{getMenuItem(item, true)}</Fragment>)}
                     <div className='user flex justify-evenly mt-3 border-t-2 border-slate-300 pt-4'>
                       <Link href={isAuth ? profileAppPath : createAccountAppPath}>
-                        <Image src={isAuth ? userIcon : addUserIcon} alt='user' />
+                        <Image className='rounded-full' src={src} width={30} height={30} alt='user' />
                       </Link>
                       <span
                         className='cursor-pointer'

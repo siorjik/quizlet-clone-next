@@ -14,7 +14,8 @@ import Modal from '@/components/Modal'
 import { createAccountAppPath, getRecoveryPasswordApiPath } from '@/utils/paths'
 import apiService from '@/services/apiService'
 import getApiErrMessage from '@/helpers/getApiErrMessage'
-import { ApiErrType } from '@/types/ErrorTypes'
+import { ApiErrType } from '@/types/ErrorTypes' 
+import AuthProviderBlock from '@/components/AuthProvidersBlock'
 
 export default function Login() {
   const [isLoading, setLoading] = useState(false)
@@ -33,6 +34,14 @@ export default function Login() {
 
       toast(res.error, { position: 'bottom-left', type: 'error' })
     }
+  }
+
+  const submitViaProvider = async (name: string): Promise<void> => {
+    setLoading(true)
+
+    await signIn(name, { callbackUrl: '/' })
+
+    setLoading(false)
   }
 
   const passwordRecovery = async (body: { [key: string]: string }): Promise<void> => {
@@ -101,17 +110,18 @@ export default function Login() {
 
   return (
     <>
-      <div className='h-[100dvh] flex flex-col justify-center items-center'>
+      <div className='w-4/5 md:w-1/2 max-w-sm h-[100dvh] mx-auto flex flex-col justify-center items-center'>
         <h2 className='page-title'>Sign In</h2>
         <Form
           submit={submit}
           fieldsData={fieldsData}
-          css='w-4/5 md:w-1/2 max-w-sm flex flex-col items-center'
+          css='w-full flex flex-col items-center'
           btnData={{ text: 'Login' }}
         />
         <p className='mt-10' onClick={() => setShow(true)}>
           Forgot your password? <span className='link'>Password Recovery</span>
         </p>
+        <AuthProviderBlock submit={submitViaProvider} />
         <p className='mt-10'>
           Do not have an account yet? Go to <Link className='link' href={createAccountAppPath}>Sign On</Link>
         </p>

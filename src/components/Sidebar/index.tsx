@@ -5,9 +5,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 
-import leftArrowIcon from '@/../public/arrow-left-circle.svg'
-import rightArrowIcon from '@/../public/arrow-right-circle.svg'
-import logo from '@/../public/logo.png'
+import leftArrowIcon from '@/../public/images/arrow-left-circle.svg'
+import rightArrowIcon from '@/../public/images/arrow-right-circle.svg'
+import logo from '@/../public/images/logo.png'
 
 import { libraryAppPath, setsAppPath, videosAppPath } from '@/utils/paths'
 import { libraryData } from './sidebarData'
