@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import Link from 'next/link'
+import { signIn } from 'next-auth/react'
 
 import Spinner from '@/components/Spinner'
 import ToastMessage from '@/components/ToastMessage'
@@ -13,6 +14,7 @@ import { getUserApiPath, loginAppPath } from '@/utils/paths'
 import { UserType } from '@/types/UserTypes'
 import { ApiErrType } from '@/types/ErrorTypes'
 import getApiErrMessage from '@/helpers/getApiErrMessage'
+import AuthProviderBlock from '@/components/AuthProvidersBlock'
 
 export default function CreateAccount() {
   const [isLoading, setLoading] = useState(false)
@@ -38,6 +40,14 @@ export default function CreateAccount() {
 
       throw new Error(getApiErrMessage(err))
     }
+  }
+
+  const submitViaProvider = async (name: string): Promise<void> => {
+    setLoading(true)
+
+    await signIn(name, { callbackUrl: '/' })
+
+    setLoading(false)
   }
 
   const fieldsData = [
@@ -71,15 +81,16 @@ export default function CreateAccount() {
 
   return (
     <>
-      <div className='h-[100dvh] flex flex-col justify-center items-center'>
+      <div className='w-4/5 md:w-1/2 max-w-sm h-[100dvh] mx-auto flex flex-col justify-center items-center'>
         <h2 className='page-title'>Sign On</h2>
         <Form
           submit={submit}
           fieldsData={fieldsData}
-          css='w-4/5 md:w-1/2 max-w-sm flex flex-col items-center'
+          css='w-full flex flex-col items-center'
           btnData={{ text: 'Create Account' }}
           isReset
         />
+        <AuthProviderBlock submit={submitViaProvider} />
         <p className='mt-10'>
           Go to <Link className='link' href={loginAppPath}>Sign In</Link>
         </p>

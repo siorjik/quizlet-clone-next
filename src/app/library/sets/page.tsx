@@ -1,32 +1,33 @@
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { headers } from 'next/headers'
 
 import SetList from './components/SetList'
 
-import { createSetAppPath, getSetApiPath } from '@/utils/paths'
+import { createSetAppPath, getSetApiPath, loginAppPath } from '@/utils/paths'
 import { SetType } from '@/types/SetTypes'
 import apiService from '@/services/apiService'
 import { ApiErrType } from '@/types/ErrorTypes'
 
 export const dynamic = 'force-dynamic'
 
-async function getSets(): Promise<SetType[] | ApiErrType> {
-  // const appHost = process.env.NEXT_PUBLIC_APP_HOST
-
+async function getSets(): Promise<SetType[] | { error: ApiErrType }> {
   try {
-    return await apiService<SetType[]>({ url: /*`${appHost}/${getSetApiPath()}`*/getSetApiPath(), headers: headers() })
+    return await apiService<SetType[]>({ url: getSetApiPath(), headers: headers() })
   } catch (err) {
     const error = err as ApiErrType
 
-    return error
+    return { error }
   }
 }
 
 export default async function Sets() {
-  const sets: SetType[] | ApiErrType = await getSets()
+  const res: SetType[] | { error: ApiErrType } = await getSets()
 
-  if ('error' in sets) notFound()
+  if ('error' in res) {
+    if (res.error.statusCode !== 401) notFound()
+    else redirect(loginAppPath)
+  }
 
   return (
     <div className='flex flex-col items-center'>
@@ -34,7 +35,7 @@ export default async function Sets() {
         <Link className='mb-5 inline-block border-2 rounded-md px-5 py-2 hover:bg-slate-200 transition-all'
           href={createSetAppPath}
         >Create</Link>
-        <SetList data={sets} />
+        <SetList data={res} />
       </div>
     </div>
   )

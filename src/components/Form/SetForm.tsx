@@ -2,12 +2,13 @@
 
 import { Fragment, ReactElement, memo, useEffect, useRef, useState } from 'react'
 import { useForm, useFieldArray, Merge, FieldError, FieldErrorsImpl } from 'react-hook-form'
+import Image from 'next/image'
 
 import Input from '../Input'
 import Button from '../Button'
 
-import trashIcon from '@/../public/trash.svg'
-import Image from 'next/image'
+import trashIcon from '@/../public/images/trash.svg'
+
 import { SetType } from '@/types/SetTypes'
 import Autocomplete from '../Autocomplete'
 import apiService from '@/services/apiService'

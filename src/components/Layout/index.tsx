@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useRef, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image'
 
-import upIcon from '@/../public/chevron-up.svg'
+import upIcon from '@/../public/images/chevron-up.svg'
 
 import Navigation from '../Navigation'
 import Sidebar from '../Sidebar'
@@ -58,7 +58,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         `}
         ref={mainRef}>
         <div className='p-5'>{children}</div>
-        <footer className='py-5 px-8 bg-red-300'>Footer</footer>
+        <footer className='py-5 px-8 bg-red-300'>&copy; 2024</footer>
       </main>
       {
         isScrollEnough &&

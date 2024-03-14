@@ -6,8 +6,8 @@ import Slider from 'react-slick'
 
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
-import leftIcon from '@/../public/chevron-left.svg'
-import rightIcon from '@/../public/chevron-right.svg'
+import leftIcon from '@/../public/images/chevron-left.svg'
+import rightIcon from '@/../public/images/chevron-right.svg'
 
 import BreadCrumbs from '@/components/Breadcrumbs'
 
