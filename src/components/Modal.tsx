@@ -18,10 +18,10 @@ export default function Modal({ isShow, close, title, content }: ModalPropsType)
 
   useEffect(() => {
     if (isShow) {
-      setAnimation('animate-jump-in')
+      setAnimation('animate-fade-down')
       setShowModal(true)
     } else {
-      setAnimation('animate-jump-out')
+      setAnimation('animate-fade-up animate-reverse')
       setTimeout(() => setShowModal(false), 1000)
     }
   }, [isShow])
@@ -29,8 +29,8 @@ export default function Modal({ isShow, close, title, content }: ModalPropsType)
   const modalContent = (
     <div
       className={`
-        min-w-80 md:min-w-[500px] max-w-3xl max-h-[calc(100dvh-150px)]
-        px-10 py-5 overflow-auto flex flex-col bg-violet-200 rounded-md
+        min-w-80 md:min-w-[500px] max-w-3xl max-h-[calc(100dvh-150px)] ${animation}
+        px-10 py-5 overflow-auto flex flex-col bg-violet-200 rounded-md animate-ease-in
       `}
       onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
     >
@@ -44,7 +44,7 @@ export default function Modal({ isShow, close, title, content }: ModalPropsType)
 
   const layout = (
     <div
-      className={`fixed top-0 h-[100dvh] w-full z-40 flex justify-center items-center bg-violet-200/[0.5] ${animation}`}
+      className='fixed top-0 h-[100dvh] w-full z-40 flex justify-center items-center bg-violet-200/[0.5]'
       onClick={() => close()}
     >
       {modalContent}
