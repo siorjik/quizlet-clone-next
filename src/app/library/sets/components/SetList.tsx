@@ -26,7 +26,10 @@ export default function SetList({ data }: { data: SetType[]}) {
         data.length ? data.map((item: SetType) => (
           <div
             key={item._id}
-            className='p-5 mb-2 bg-zinc-100 rounded-lg hover:bg-zinc-200 hover:mx-[-5px] cursor-pointer transition-all'
+            className={`
+              p-5 mb-2 bg-zinc-100 rounded-lg hover:bg-zinc-200 hover:mx-[-5px]
+              cursor-pointer animate-fade-down animate-ease-in-out transition-all
+            `}
             onClick={() => handleClick(item._id as string)}
           >
             <div className='flex justify-between'>

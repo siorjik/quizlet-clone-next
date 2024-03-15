@@ -3,6 +3,7 @@
 import { createPortal } from 'react-dom'
 
 import Button from './Button'
+import { useEffect, useState } from 'react'
 
 type ModalPropsType = {
   isShow: boolean,
@@ -12,6 +13,19 @@ type ModalPropsType = {
 }
 
 export default function Modal({ isShow, close, title, content }: ModalPropsType) {
+  const [animation, setAnimation] = useState('')
+  const [isShowModal, setShowModal] = useState(false)
+
+  useEffect(() => {
+    if (isShow) {
+      setAnimation('animate-jump-in')
+      setShowModal(true)
+    } else {
+      setAnimation('animate-jump-out')
+      setTimeout(() => setShowModal(false), 1000)
+    }
+  }, [isShow])
+
   const modalContent = (
     <div
       className={`
@@ -30,7 +44,7 @@ export default function Modal({ isShow, close, title, content }: ModalPropsType)
 
   const layout = (
     <div
-      className='fixed top-0 h-[100dvh] w-full z-40 flex justify-center items-center bg-violet-200/[0.5]'
+      className={`fixed top-0 h-[100dvh] w-full z-40 flex justify-center items-center bg-violet-200/[0.5] ${animation}`}
       onClick={() => close()}
     >
       {modalContent}
@@ -39,7 +53,7 @@ export default function Modal({ isShow, close, title, content }: ModalPropsType)
 
   return (
     <>
-      {isShow ? createPortal(layout, document?.body as Element) : null}
+      {isShowModal ? createPortal(layout, document?.body as Element) : null}
     </>
   )
 }
