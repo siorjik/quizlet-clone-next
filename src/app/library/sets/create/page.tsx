@@ -33,7 +33,7 @@ export default function Create() {
 
   return (
     <div className='flex flex-col items-center'>
-      <div className='w-full max-w-5xl'>
+      <div className='w-full max-w-7xl'>
         <BreadCrumbs data={breadCrumbsData} />
         <SetForm func={create} action='create' />
       </div>
