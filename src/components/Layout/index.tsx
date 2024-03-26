@@ -55,7 +55,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         ref={mainRef}>
         <div className='p-5'>{children}</div>
         <footer className='py-5 px-5 bg-gradient-to-t from-red-400 to-red-200'>
-          <div className='max-w-5xl mx-auto'>&copy; 2024</div>
+          <div className='max-w-7xl mx-auto'>&copy; 2024</div>
         </footer>
       </main>
       {

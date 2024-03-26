@@ -25,7 +25,7 @@ export default function Set({ params }: { params: { id: string } }) {
 
   return (
     <div className='flex flex-col items-center'>
-      <div className='w-full max-w-5xl'>
+      <div className='w-full max-w-7xl'>
         <BreadCrumbs data={breadCrumbsData} />
         <div className='mb-8'>
           <Link

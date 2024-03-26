@@ -42,7 +42,7 @@ export default function Edit({ params }: { params: { id: string } }) {
 
   return (
     <div className='flex flex-col items-center'>
-      <div className='w-full max-w-5xl'>
+      <div className='w-full max-w-7xl'>
         <Link
           className='mb-8 inline-block border-2 rounded-md px-5 py-2 hover:bg-slate-200 transition-all'
           href={getSetAppPath(params.id)}

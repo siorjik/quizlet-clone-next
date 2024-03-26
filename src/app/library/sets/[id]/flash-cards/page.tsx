@@ -123,7 +123,7 @@ export default function FlashCards({ params }: { params: { id: string } }) {
 
   return (
     <div className='flex flex-col items-center'>
-      <div className='w-full max-w-5xl'>
+      <div className='w-full max-w-7xl'>
         <BreadCrumbs data={breadCrumbsData} />
         <h2 className='page-title'>{title}</h2>
         <div className='flex justify-center'>
