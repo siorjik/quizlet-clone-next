@@ -1,19 +1,21 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { memo } from 'react'
 
 import TrashIcon from '@/components/Icon/TrashIcon'
 import { SetType } from '@/types/SetTypes'
-import { getSetAppPath } from '@/utils/paths'
+import { getSetApiPath, getSetAppPath } from '@/utils/paths'
+import apiService from '@/services/apiService'
 
-export default memo(function SetList({ data, remove }: { data: SetType[], remove: (id: string) => Promise<void> }) {
-  const { push } = useRouter()
+export default function SetList({ data }: { data: SetType[]}) {
+  const { push, refresh } = useRouter()
 
   const deleteSet = async (e: React.MouseEvent<HTMLSpanElement>, id: string): Promise<void> => {
     e.stopPropagation()
 
-    await remove(id)
+    await apiService({ url: `${getSetApiPath()}?id=${id}`, method: 'DELETE' })
+
+    refresh()
   }
 
   const handleClick = (id: string): void => push(getSetAppPath(id))
@@ -24,7 +26,10 @@ export default memo(function SetList({ data, remove }: { data: SetType[], remove
         data.length ? data.map((item: SetType) => (
           <div
             key={item._id}
-            className='p-5 mb-2 bg-zinc-100 rounded-lg hover:bg-zinc-200 hover:mx-[-5px] cursor-pointer transition-all'
+            className={`
+              p-5 mb-2 bg-zinc-100 rounded-lg hover:bg-zinc-200 hover:mx-[-5px]
+              cursor-pointer animate-fade-down animate-ease-in-out transition-all
+            `}
             onClick={() => handleClick(item._id as string)}
           >
             <div className='flex justify-between'>
@@ -40,4 +45,4 @@ export default memo(function SetList({ data, remove }: { data: SetType[], remove
       }
     </>
   )
-})
+}

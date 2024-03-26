@@ -8,18 +8,23 @@ version: '3'
 
 services:
   web:
+    platform: linux/amd64
     image: siorjik/next-image:latest
+    # build: .
+    # image: web
     container_name: web
     ports:
       - '3000:3000'
     environment:
-      - APP_ENV=${NODE_ENV}
+      - APP_ENV=${APP_ENV}
       - API_HOST=${API_HOST}
       - TRANSLATE_API_URL=${TRANSLATE_API_URL}
       - TRANSLATE_API_KEY=${TRANSLATE_API_KEY}
       - TRANSLATE_API_HOST=${TRANSLATE_API_HOST}
       - DICTIONARY_API_URL=${DICTIONARY_API_URL}
       - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - NEXT_PUBLIC_APP_HOST=${NEXT_PUBLIC_APP_HOST}
     # env_file:
     #   - .env.production.local
     # networks:
