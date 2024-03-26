@@ -1,9 +1,9 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 import Button from './Button'
-import { useEffect, useState } from 'react'
 
 type ModalPropsType = {
   isShow: boolean,

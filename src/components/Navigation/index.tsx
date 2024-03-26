@@ -117,7 +117,7 @@ const getUserBlock = (isMobile: boolean = false) => (
               {
                 isShowMobMenu &&
                 <div
-                  className='fixed w-screen h-screen top-0 right-0 flex justify-center z-10 bg-slate-500/[0.3]'
+                  className='fixed w-screen h-screen top-0 right-0 flex justify-center bg-slate-500/[0.3]'
                   onClick={() => setShowMobMenu(!isShowMobMenu)}
                 >
                   <div className='mob-menu-content flex flex-col self-start w-72 bg-slate-200 py-5 my-20 rounded-md'>
@@ -130,7 +130,7 @@ const getUserBlock = (isMobile: boolean = false) => (
                       <span
                         className='cursor-pointer'
                         onClick={isAuth ? logout : () => push(loginAppPath)}
-                      ><Image src={isAuth ? logoutIcon : loginIcon} alt='user' /></span>
+                      ><Image width={30} height={30} src={isAuth ? logoutIcon : loginIcon} alt='user' /></span>
                     </div>
                   </div>
                 </div>

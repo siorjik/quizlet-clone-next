@@ -70,14 +70,14 @@ export default function Sidebar({ pathname }: { pathname: string }) {
             <>
               {
                 !isStretch && !isShowMobMenu && <button
-                  className='absolute left-[20px] top-[57px] bg-slate-200 rounded-full z-[2]'
+                  className='absolute left-[20px] top-[57px] bg-slate-200 rounded-full z-10'
                   onClick={() => setStretch(!isStretch)}
                 ><Image src={isStretch ? leftArrowIcon : rightArrowIcon} alt='left-arrow' priority />
                 </button>
               }
 
               <div className={`
-                absolute w-[200px] h-[calc(100dvh-70px)]
+                absolute w-[200px] h-[calc(100dvh-70px)] z-[1]
                 ${!isStretch ? 'left-[-200px]' : 'left-[0]'} bg-orange-100 transition-all
               `}>
                 <button className='mb-5 m-3' onClick={() => setStretch(!isStretch)}>

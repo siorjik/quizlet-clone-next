@@ -15,7 +15,7 @@ import { setsAppPath, videosAppPath } from '@/utils/paths'
 const sidebarPathList: string[] = [setsAppPath, videosAppPath]
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const [isScrollEnough, setScrollEnough] = useState(false)
+  const [isSmallHeader, setSmallHeader] = useState(false)
 
   const pathname = usePathname()
 
@@ -24,44 +24,42 @@ export default function Layout({ children }: { children: ReactNode }) {
   useEffect(() => {
     const div = mainRef.current!
 
-    div.addEventListener('scroll', () => setSmallHeader(div))
+    div.addEventListener('scroll', () => setSmallHeader(div.scrollTop > 500))
 
     return () => {
-      div.removeEventListener('scroll', () => setSmallHeader(div))
+      div.removeEventListener('scroll', () => setSmallHeader(div.scrollTop > 500))
     }
   }, [])
 
   const isShowSidebar = sidebarPathList.find(item => item === pathname)
 
-  const setSmallHeader = (div: HTMLDivElement) => {
-    setScrollEnough(div.scrollTop > 500)
-  }
-
   return (
     <div className={`rap grid grid-cols-[auto_1fr] h-dvh`}>
       <header
         className={`
-          ${isScrollEnough ? 'h-10 p-2 text-sm bg-cyan-300/[0.5] absolute w-full z-10' : 'h-[70px] py-5 px-5 text-lg'}
-          fixed w-full bg-cyan-300 transition-all z-[1]
+          ${isSmallHeader ? 'h-10 p-2 text-sm !bg-cyan-300/[0.5] absolute w-full' : 'h-[70px] py-5 px-5 text-lg'}
+          fixed w-full bg-cyan-300 z-10 transition-all
         `}
       >
-        <Navigation isSmall={isScrollEnough} />
+        <Navigation isSmall={isSmallHeader} />
       </header>
       {
         isShowSidebar &&
-        <aside className={`col-start-1 col-end-2 mt-[70px] bg-orange-100`}
+        <aside className='col-start-1 col-end-2 mt-[70px] bg-orange-100'
         ><Sidebar pathname={pathname} /></aside>
       }
       <main className={`
-          grid ${isScrollEnough ? 'h-[100dvh]' : 'h-[calc(100dvh-70px)] mt-[70px]'} grid-rows-[1fr_70px]
+          grid ${isSmallHeader ? 'h-[100dvh]' : 'h-[calc(100dvh-70px)] mt-[70px]'} grid-rows-[1fr_minmax(65px,auto)]
           col-start-2 col-end-3 bg-slate-50 overflow-auto transition-all scroll-smooth
         `}
         ref={mainRef}>
         <div className='p-5'>{children}</div>
-        <footer className='py-5 px-8 bg-red-300'>&copy; 2024</footer>
+        <footer className='py-5 px-5 bg-gradient-to-t from-red-400 to-red-200'>
+          <div className='max-w-5xl mx-auto'>&copy; 2024</div>
+        </footer>
       </main>
       {
-        isScrollEnough &&
+        isSmallHeader &&
         <button
           className='absolute bottom-36 right-10 p-3 rounded-xl bg-orange-300/[0.5]'
           onClick={() => mainRef.current!.scrollTop = 0}
