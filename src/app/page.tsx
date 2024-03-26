@@ -139,7 +139,7 @@ export default function Home() {
         data === undefined ? <Spinner /> :
           <Layout>
             {
-              isAuth ? <h2 className='text-red-300'>Home</h2> : <>
+              isAuth ? <h2 className='max-w-5xl mx-auto text-red-300'>Home</h2> : <>
                 <span>Improve your English! Just </span>
                 <span className='link' onClick={() => setShow(true)}>join</span>
               </>
