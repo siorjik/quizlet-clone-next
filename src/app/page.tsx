@@ -139,10 +139,10 @@ export default function Home() {
         data === undefined ? <Spinner /> :
           <Layout>
             {
-              isAuth ? <h2 className='max-w-5xl mx-auto text-red-300'>Home</h2> : <>
+              isAuth ? <h2 className='max-w-5xl mx-auto text-red-300'>Home</h2> : <div className='max-w-5xl mx-auto'>
                 <span>Improve your English! Just </span>
                 <span className='link' onClick={() => setShow(true)}>join</span>
-              </>
+              </div>
             }
             <Modal isShow={isShow} close={() => setShow(false)} title='Welcome!' content={modalContent} />
             {isLoading && <Spinner />}
