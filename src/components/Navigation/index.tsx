@@ -13,7 +13,7 @@ import addUserIcon from '@/../public/images/add-user.svg'
 import loginIcon from '@/../public/images/login.svg'
 import logo from '@/../public/images/logo.png'
 
-import { createAccountAppPath, getLogoutApiPath, libraryAppPath, loginAppPath, profileAppPath } from '@/utils/paths'
+import { createAccountAppPath, getLogoutApiPath, homeAppPath, libraryAppPath, loginAppPath, profileAppPath } from '@/utils/paths'
 import { broadcast } from '@/services/eventBusService'
 import { EventNames } from '@/utils/constants'
 import apiService from '@/services/apiService'
@@ -36,7 +36,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
   const menu = [
     {
       title: 'Home',
-      path: '/',
+      path: homeAppPath,
     },
     {
       title: 'My Library',
