@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import { setsAppPath, videosAppPath } from '../../utils/paths'
+import { setsAppPath, videosAppPath } from '../../../utils/paths'
 
 export default function Library () {
   return (

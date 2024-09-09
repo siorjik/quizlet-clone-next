@@ -1,28 +1,24 @@
 'use client'
 
 import { useState } from 'react'
-import { signIn, useSession } from 'next-auth/react'
 import { toast } from 'react-toastify'
+import { signIn } from 'next-auth/react'
 
-import Layout from '@/components/Layout'
 import Modal from '@/components/Modal'
+import Form from '@/components/Form/FormWithZod'
 import Spinner from '@/components/Spinner'
-import Form from '@/components/Form'
-
-import apiService from '@/services/apiService'
-import { ApiErrType } from '@/types/ErrorTypes'
-import { UserType } from '@/types/UserTypes'
-import { getUserApiPath } from '@/utils/paths'
-import getApiErrMessage from '@/helpers/getApiErrMessage'
 import AuthProviderBlock from '@/components/AuthProvidersBlock'
 
-export default function Home() {
+import apiService from '@/services/apiService'
+import { UserType } from '@/types/UserTypes'
+import { getUserApiPath } from '@/utils/paths'
+import { ApiErrType } from '@/types/ErrorTypes'
+import getApiErrMessage from '@/helpers/getApiErrMessage'
+import { loginFormTypeSchema, registerFormTypeSchema } from '@/types/forms/auth'
+
+export default function Auth() {
   const [isShow, setShow] = useState(false)
   const [isLoading, setLoading] = useState(false)
-
-  const { data } = useSession()
-
-  const isAuth = !!data
 
   const submit = async (data: { [key: string]: string }, action: 'signIn' | 'signOn'): Promise<void> => {
     let errMess
@@ -74,13 +70,6 @@ export default function Home() {
       inputStyle: 'input',
       blockStyle: 'w-full mb-8',
       isRequired: true,
-      validation: {
-        required: 'Required!',
-        pattern: {
-          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-          message: 'Invalid email!'
-        }
-      }
     },
     {
       name: 'password',
@@ -89,9 +78,6 @@ export default function Home() {
       inputStyle: 'input',
       blockStyle: 'w-full mb-8',
       isRequired: true,
-      validation: {
-        required: 'Required!',
-      }
     },
     {
       name: 'name',
@@ -100,9 +86,6 @@ export default function Home() {
       inputStyle: 'input',
       blockStyle: 'w-full mb-8',
       isRequired: true,
-      validation: {
-        required: 'Required!',
-      }
     },
   ]
 
@@ -116,6 +99,7 @@ export default function Home() {
             fieldsData={[fieldsData[0], fieldsData[1]]}
             css='w-64 flex flex-col items-center'
             btnData={{ text: 'Login', hoverColor: 'hover:bg-violet-300' }}
+            schema={loginFormTypeSchema}
           />
         </div>
         <div className='h-[1px] md:h-44 w-full md:w-[1px] my-5 md:my-auto md:mx-5 bg-violet-300' />
@@ -126,6 +110,7 @@ export default function Home() {
             fieldsData={[fieldsData[0], fieldsData[2]]}
             css='w-64 flex flex-col items-center'
             btnData={{ text: 'Create Account', hoverColor: 'hover:bg-violet-300' }}
+            schema={registerFormTypeSchema}
           />
         </div>
       </div>
@@ -135,19 +120,12 @@ export default function Home() {
 
   return (
     <>
-      {
-        data === undefined ? <Spinner /> :
-          <Layout>
-            {
-              isAuth ? <h2 className='text-red-300'>Home</h2> : <div className=''>
-                <span>Improve your English! Just </span>
-                <span className='link' onClick={() => setShow(true)}>join</span>
-              </div>
-            }
-            <Modal isShow={isShow} close={() => setShow(false)} title='Welcome!' content={modalContent} />
-            {isLoading && <Spinner />}
-          </Layout>
-      }
+      <div className=''>
+        <span>Improve your English! Just </span>
+        <span className='link' onClick={() => setShow(true)}>join</span>
+      </div>
+      <Modal isShow={isShow} close={() => setShow(false)} title='Welcome!' content={modalContent} />
+      {isLoading && <Spinner />}
     </>
   )
 }
