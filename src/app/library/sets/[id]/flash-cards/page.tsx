@@ -6,12 +6,12 @@ import Slider from 'react-slick'
 
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
-import leftIcon from '@/../public/chevron-left.svg'
-import rightIcon from '@/../public/chevron-right.svg'
+import leftIcon from '@/../public/images/chevron-left.svg'
+import rightIcon from '@/../public/images/chevron-right.svg'
 
 import BreadCrumbs from '@/components/Breadcrumbs'
 
-import { getSetApiPath, getSetAppPath, libraryAppPath, setsAppPath } from '@/utils/paths'
+import { getSetApiPath, getSetAppPath, setsAppPath } from '@/utils/paths'
 import useSmartRequest from '@/hooks/useSmartRequest'
 import { SetType } from '@/types/SetTypes'
 import Spinner from '@/components/Spinner'
@@ -94,10 +94,6 @@ export default function FlashCards({ params }: { params: { id: string } }) {
 
   const breadCrumbsData: { title: string, path: string }[] = [
     {
-      title: 'my library',
-      path: libraryAppPath
-    },
-    {
       title: 'sets',
       path: setsAppPath
     },
@@ -126,31 +122,33 @@ export default function FlashCards({ params }: { params: { id: string } }) {
   else if (error) return notFound()
 
   return (
-    <>
-      <BreadCrumbs data={breadCrumbsData} />
-      <h2 className='page-title'>{title}</h2>
-      <div className='flex justify-center'>
-        <Slider
-          {...settings}
-          ref={sliderRef}
-        >
-          {list.map((item, index) => (
-            <div
-              className={`
+    <div className='flex flex-col items-center'>
+      <div className='w-full'>
+        <BreadCrumbs data={breadCrumbsData} />
+        <h2 className='page-title'>{title}</h2>
+        <div className='flex justify-center'>
+          <Slider
+            {...settings}
+            ref={sliderRef}
+          >
+            {list.map((item, index) => (
+              <div
+                className={`
                 h-60 lg:h-[400px] p-5 !flex items-center justify-center bg-slate-100 cursor-pointer rounded-lg ${animation}
               `}
-              key={index}
-              onClick={() => setAnimation(xAnimation)}
-            ><span className='text-2xl text-center'>{isShowContent ? item[mode] : ''}</span>
-            </div>
-          ))}
-        </Slider>
+                key={index}
+                onClick={() => setAnimation(xAnimation)}
+              ><span className='text-2xl text-center'>{isShowContent ? item[mode] : ''}</span>
+              </div>
+            ))}
+          </Slider>
+        </div>
+        <div className='w-52 md:w-80 my-10 mx-auto flex justify-between items-center'>
+          <span className={arrowStyle}><Image src={leftIcon} alt='left' onClick={previous} /></span>
+          <div>{`${current} / ${amount}`}</div>
+          <span className={arrowStyle}><Image className='cursor-pointer' src={rightIcon} alt='right' onClick={next} /></span>
+        </div>
       </div>
-      <div className='w-52 md:w-80 my-10 mx-auto flex justify-between items-center'>
-        <span className={arrowStyle}><Image src={leftIcon} alt='left' onClick={previous} /></span>
-        <div>{`${current} / ${amount}`}</div>
-        <span className={arrowStyle}><Image className='cursor-pointer' src={rightIcon} alt='right' onClick={next} /></span>
-      </div>
-    </>
+    </div>
   )
 }

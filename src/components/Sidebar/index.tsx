@@ -5,9 +5,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { StaticImport } from 'next/dist/shared/lib/get-img-props'
 
-import leftArrowIcon from '@/../public/arrow-left-circle.svg'
-import rightArrowIcon from '@/../public/arrow-right-circle.svg'
-import logo from '@/../public/logo.png'
+import leftArrowIcon from '@/../public/images/arrow-left-circle.svg'
+import rightArrowIcon from '@/../public/images/arrow-right-circle.svg'
+import logo from '@/../public/images/logo.png'
 
 import { libraryAppPath, setsAppPath, videosAppPath } from '@/utils/paths'
 import { libraryData } from './sidebarData'
@@ -70,15 +70,16 @@ export default function Sidebar({ pathname }: { pathname: string }) {
             <>
               {
                 !isStretch && !isShowMobMenu && <button
-                  className='absolute left-[20px] top-[57px] bg-slate-200 rounded-full z-[2]'
+                  className='absolute left-[20px] top-[57px] bg-slate-200 rounded-full z-10'
                   onClick={() => setStretch(!isStretch)}
                 ><Image src={isStretch ? leftArrowIcon : rightArrowIcon} alt='left-arrow' priority />
                 </button>
               }
 
-              <div
-                className={`absolute w-[200px] h-full ${!isStretch ? 'left-[-200px]' : 'left-[0]'} bg-orange-100 transition-all`}
-              >
+              <div className={`
+                absolute w-[200px] h-[calc(100dvh-70px)] z-[1]
+                ${!isStretch ? 'left-[-200px]' : 'left-[0]'} bg-orange-100 transition-all
+              `}>
                 <button className='mb-5 m-3' onClick={() => setStretch(!isStretch)}>
                   <Image src={isStretch ? leftArrowIcon : rightArrowIcon} alt='left-arrow' priority />
                 </button>

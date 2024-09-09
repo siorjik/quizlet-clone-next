@@ -5,17 +5,19 @@ import getSession from '@/helpers/getSession'
 type ObjectType = { [k: string]: string | number | boolean | ObjectType[] }
 
 export default async<T>(
-  { url, method = 'GET', cache = 'no-store', body, req = null }:
+  { url, method = 'GET', cache = 'no-store', body, req = null, headers: heads = null }:
     {
       url: string,
       method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH',
       cache?: RequestCache | undefined,
       body?: ObjectType | undefined,
-      req?: null | NextRequest
+      req?: null | NextRequest,
+      headers?: null | Headers
     }
 ): Promise<T> => {
   try {
-    let headers = {}
+    const headersObj = Object.fromEntries(new Map(heads))
+    let headers = heads ? headersObj : {}
 
     if (req) {
       const { accessToken } = await getSession(req)
@@ -31,6 +33,7 @@ export default async<T>(
     })
 
     const res = await resp.json()
+    
     if (res.error || res.statusCode === 401) throw res
 
     return res

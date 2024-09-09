@@ -5,7 +5,7 @@ import { useSWRConfig } from 'swr'
 
 import BreadCrumbs from '@/components/Breadcrumbs'
 
-import { libraryAppPath, getSetApiPath, setsAppPath } from '@/utils/paths'
+import { getSetApiPath, setsAppPath } from '@/utils/paths'
 import SetForm from '@/components/Form/SetForm'
 import apiService from '@/services/apiService'
 import { SetType } from '@/types/SetTypes'
@@ -22,28 +22,21 @@ export default function Create() {
 
       setContext({ list: [newSet, ...list] })
       mutate('sets', [newSet, ...list])
-  
+
       push(setsAppPath)
     } catch (error) {
       console.log(error)
     }
   }
 
-  const breadCrumbsData: { title: string, path: string }[] = [
-    {
-      title: 'my library',
-      path: libraryAppPath
-    },
-    {
-      title: 'sets',
-      path: setsAppPath
-    }
-  ]
+  const breadCrumbsData: { title: string, path: string }[] = [{ title: 'sets', path: setsAppPath }]
 
   return (
-    <>
-      <BreadCrumbs data={breadCrumbsData} />
-      <SetForm func={create} action='create' />
-    </>
+    <div className='flex flex-col items-center'>
+      <div className='w-full'>
+        <BreadCrumbs data={breadCrumbsData} />
+        <SetForm func={create} action='create' />
+      </div>
+    </div>
   )
 }

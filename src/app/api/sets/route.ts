@@ -25,7 +25,7 @@ export async function POST(req: NextRequest): Promise<NextResponse<SetType | Api
 
 export async function GET(req: NextRequest): Promise<NextResponse<SetType | SetType[] | ApiErrType>> {
   const { _id } = await getSession(req)
-  
+
   try {
     const id = req.nextUrl.searchParams.get('id')
 

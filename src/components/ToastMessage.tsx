@@ -4,5 +4,5 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 export default function ToastMessage() {
-  return <ToastContainer autoClose={3000} />
+  return <ToastContainer autoClose={7000} />
 }
