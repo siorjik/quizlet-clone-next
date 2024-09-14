@@ -3,54 +3,55 @@
 import { useState } from 'react'
 import { toast } from 'react-toastify'
 import { signIn } from 'next-auth/react'
+import { useAction } from 'next-safe-action/hooks'
+import z from 'zod'
 
 import Modal from '@/components/Modal'
 import Form from '@/components/Form/FormWithZod'
 import Spinner from '@/components/Spinner'
 import AuthProviderBlock from '@/components/AuthProvidersBlock'
 
-import apiService from '@/services/apiService'
-import { UserType } from '@/types/UserTypes'
-import { getUserApiPath } from '@/utils/paths'
-import { ApiErrType } from '@/types/ErrorTypes'
-import getApiErrMessage from '@/helpers/getApiErrMessage'
 import { loginFormTypeSchema, registerFormTypeSchema } from '@/types/forms/auth'
+import { createUser } from '@/actions/auth/mutations'
 
 export default function Auth() {
   const [isShow, setShow] = useState(false)
   const [isLoading, setLoading] = useState(false)
 
-  const submit = async (data: { [key: string]: string }, action: 'signIn' | 'signOn'): Promise<void> => {
-    let errMess
+  const { execute } = useAction(createUser, {
+    onSuccess: ({ data }) => {
+      toast(
+        'User was created. Check email to create a password and finish registration.',
+        { position: 'bottom-center', type: 'success' }
+      )
+
+      setShow(false)
+    },
+    onError: ({ error }) => {
+      toast(error.serverError, { position: 'bottom-left', type: 'error' })
+    }
+  })
+
+  const submit = async (
+    data: { email: string, password?: string, name?: string }, action: 'signIn' | 'signOn'
+  ): Promise<void> => {
     const isSignOn = action === 'signOn'
 
     setLoading(true)
 
-    if (isSignOn) {
-      try {
-          await apiService<UserType>({ url: getUserApiPath(), body: { ...data }, method: 'POST' })
-  
-          toast(
-            'User was created. Check email to create a password and finish registration.',
-            { position: 'bottom-center', type: 'success' }
-          )
-  
-        setShow(false)
-      } catch (error) {
-        const err = error as ApiErrType
-
-        errMess = getApiErrMessage(err)
-      }
-    } else {
+    if (isSignOn) execute({ email: data.email, name: data.name! })
+    else {
       const res = await signIn('credentials', { redirect: false, ...data })
 
-      if ('error' in res!) errMess = res.error
+      if (res?.error) toast(res.error, { position: 'bottom-left', type: 'error' })
+      else {
+        setTimeout(() => window.location.reload(), 1000)
+
+        setShow(false)
+      }
     }
 
     setLoading(false)
-
-    if (errMess) toast(errMess, { position: 'bottom-left', type: 'error' })
-    else setShow(false)
   }
 
   const submitViaProvider = async (name: string): Promise<void> => {
@@ -95,7 +96,9 @@ export default function Auth() {
         <div>
           <h3 className='mb-5 text-center'>Sign In</h3>
           <Form
-            submit={async (data: { [key: string]: string }) => await submit(data, 'signIn')}
+            submit={
+              async (data: { [key: string]: string }) => await submit(data as z.infer<typeof loginFormTypeSchema>, 'signIn')
+            }
             fieldsData={[fieldsData[0], fieldsData[1]]}
             css='w-64 flex flex-col items-center'
             btnData={{ text: 'Login', hoverColor: 'hover:bg-violet-300' }}
@@ -106,7 +109,9 @@ export default function Auth() {
         <div>
           <h3 className='mb-5 text-center'>Sign On</h3>
           <Form
-            submit={async (data: { [key: string]: string }) => await submit(data, 'signOn')}
+            submit={
+              async (data: { [key: string]: string }) => await submit(data as z.infer<typeof registerFormTypeSchema>, 'signOn')
+            }
             fieldsData={[fieldsData[0], fieldsData[2]]}
             css='w-64 flex flex-col items-center'
             btnData={{ text: 'Create Account', hoverColor: 'hover:bg-violet-300' }}

@@ -28,7 +28,7 @@ export default function Input(props: FormInputPropType) {
         }}
       />
       {
-        errors?.[name] && <div className='px-3 text-red-600 text-sm absolute'>{errors[name]?.message as ReactNode}</div>
+        errors?.[name] && <div className='px-3 text-red-600 text-sm relative'>{errors[name]?.message as ReactNode}</div>
       }
     </div>
   )
