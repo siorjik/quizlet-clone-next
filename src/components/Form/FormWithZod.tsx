@@ -10,7 +10,7 @@ import Input from '../Input'
 import { InputType } from '@/types/InputTypes'
 
 type FormPropsType = {
-  submit: (data: { [key: string]: string }) => Promise<void>,
+  submit: (data: z.infer<ZodSchema>) => Promise<void>,
   fieldsData: InputType[],
   css: string,
   btnData?: {
