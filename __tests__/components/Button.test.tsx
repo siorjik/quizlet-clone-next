@@ -1,14 +1,14 @@
-import { render, screen } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import Button from '@/components/Button'
  
 describe('Button', () => {
   it('should render a button', () => {
-    render(<Button>Click me</Button>)
+    const { getByRole, getByText } = render(<Button>Click me</Button>)
  
-    const button = screen.getByRole('button')
-    const text = screen.getByText('Click me')
+    const button = getByRole('button')
+    const text = getByText('Click me')
  
     expect(button).toBeInTheDocument()
     expect(text).toBeInTheDocument()
@@ -17,9 +17,9 @@ describe('Button', () => {
   it('should click a button', async () => {
     const click = jest.fn()
 
-    render(<Button click={click}>Click me</Button>)
+    const { getByRole } = render(<Button click={click}>Click me</Button>)
 
-    await userEvent.click(screen.getByRole('button'))
+    await userEvent.click(getByRole('button'))
 
     expect(click).toHaveBeenCalled()
   })
