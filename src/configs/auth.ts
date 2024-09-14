@@ -51,6 +51,7 @@ export default (req: NextRequest): AuthOptions => {
           else tokenCopy = { ...tokenCopy, ...res }
         }
 
+        // access and refresh tokens update
         if (req.url.includes('update')) {
           const res = await apiService<{ accessExpire: string, accessToken: string, refreshToken: string } | ApiErrType>
             ({ url: getApiPath(getRefreshApiPath(tokenCopy.refreshToken), true), req })
