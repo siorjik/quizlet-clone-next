@@ -1,5 +1,7 @@
-import apiErrorService from '@/services/apiErrorService'
 import { NextRequest, NextResponse } from 'next/server'
+
+import apiErrorService from '@/services/apiErrorService'
+import translateService from '@/services/translateService'
 
 const getUniqueString = (arr: string[]): string => {
   const resArr = arr.map(item => item.split(', ')).flat()
@@ -8,11 +10,11 @@ const getUniqueString = (arr: string[]): string => {
 }
 
 const getMappedTranslates = (data: string[]): string[] => {
-  let res: string[] = [data[0]]
-  let index = 1
+  let res: string[] = []
+  let index = 0
 
   while (index < data.length) {
-    res = [...res, data[index], getUniqueString([...res, data[index]])]
+    res = [...res, getUniqueString([...res, data[index]])]
 
     index += 1
   }
@@ -25,22 +27,9 @@ export async function GET(req: NextRequest):
   try {
     const word = req.nextUrl.searchParams.get('word')
 
-    const translates = await fetch(process.env.TRANSLATE_API_URL as string, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        'X-RapidAPI-Key': process.env.TRANSLATE_API_KEY as string,
-        'X-RapidAPI-Host': process.env.TRANSLATE_API_HOST as string
-      },
-      body: JSON.stringify({
-        text: word,
-        source: 'EN',
-        target: 'RU',
-      })
-    })
-    const res: { text: string, alternative_texts: string[] } = await translates.json()
-    
-    return NextResponse.json(word && res.text ? getMappedTranslates([res.text, ...res.alternative_texts]) : [])
+    const res: { translate: string, translates: string[] } = await translateService(word as string)
+
+    return NextResponse.json(word && res.translate ? getMappedTranslates([...res.translates]) : [])
   } catch (error) {
     const err = error as Error
 
