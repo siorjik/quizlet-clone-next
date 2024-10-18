@@ -34,7 +34,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const isShowSidebar = sidebarPathList.find(item => item === pathname)
 
   return (
-    <div className={`rap grid grid-cols-[auto_1fr] h-dvh`}>
+    <div className={`grid grid-cols-[auto_1fr] h-dvh`}>
       <header
         className={`
           ${isSmallHeader ? 'h-10 p-2 text-sm !bg-cyan-300/[0.5] absolute w-full' : 'h-[70px] py-5 px-5 text-lg'}
@@ -48,9 +48,10 @@ export default function Layout({ children }: { children: ReactNode }) {
         <aside className='col-start-1 col-end-2 mt-[70px] bg-orange-100'
         ><Sidebar pathname={pathname} /></aside>
       }
-      <main className={`
-          px-5 grid ${isSmallHeader ? 'h-[100dvh]' : 'h-[calc(100dvh-70px)] mt-[70px]'} grid-rows-[1fr_minmax(65px,auto)]
-          col-start-2 col-end-3 bg-slate-50 overflow-auto transition-all scroll-smooth
+      <main
+        className={`
+          w-full px-5 grid ${isSmallHeader ? 'h-[100dvh]' : 'h-[calc(100dvh-70px)] mt-[70px]'}
+          grid-rows-[1fr_minmax(65px,auto)] col-start-2 col-end-3 bg-slate-50 overflow-auto transition-all scroll-smooth
         `}
         ref={mainRef}>
         <div className='py-5 w-full max-w-7xl mx-auto'>{children}</div>
