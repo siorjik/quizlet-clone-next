@@ -119,7 +119,7 @@ export default function Autocomplete(
           errors?.[name] && <div className='px-3 text-red-600 text-sm absolute'>{errors[name]?.message as ReactNode}</div>
         }
 
-        {!!list.length && <ul className='absolute max-h-40 overflow-auto p-1 top-12 z-10 bg-red-100 rounded-lg' ref={listRef}>
+        {!!list.length && <ul className='absolute max-h-40 p-1 top-12 z-10 bg-red-100 rounded-lg overflow-y-scroll' ref={listRef}>
           {
             list.map((item, index) => (
               <ListItem
