@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import apiErrorService from '@/services/apiErrorService'
-
-type DictionaryType = { word: string, score: number }[]
+import dictionaryService from '@/services/dictionaryService'
 
 export async function GET(req: NextRequest):
   Promise<NextResponse<string[] | { error: { message: string, status: number } }>> {
@@ -12,10 +11,9 @@ export async function GET(req: NextRequest):
     const word = req.nextUrl.searchParams.get('word')
 
     if (word) {
-      const resp = await fetch(`${process.env.DICTIONARY_API_URL}?sp=${word}??`)
-      const words: DictionaryType = await resp.json()
+      const { words } = await dictionaryService(word) as { words: string[] }
 
-      res = !!words.length ? words.splice(0, 3).map(item => item.word) : [word]
+      res = words.length ? words : [word]
     }
 
     return NextResponse.json(res)
