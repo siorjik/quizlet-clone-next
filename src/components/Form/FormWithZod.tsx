@@ -44,11 +44,7 @@ export default function Form(props: FormPropsType) {
     <form className={css} onSubmit={handleSubmit(onSubmit)}>
       {fieldsData.map((item, index) => (
         <Fragment key={index}>
-          <Input
-            { ...item }
-            errors={errors}
-            register={{...register(item.name)}}
-          />
+          <Input { ...item } errors={errors} register={{...register(item.name)}} />
         </Fragment>))}
       <Button css='w-fit' type='submit' hoverColor={hoverColor}>{text || 'Submit'}</Button>
     </form>
