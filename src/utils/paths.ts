@@ -36,3 +36,4 @@ export const getSetApiPath = (isRemoteApi: boolean = false) => getApiPath('sets'
 export const getUserApiPath = (isRemoteApi: boolean = false) => getApiPath('users', isRemoteApi)
 export const getCreatePasswordApiPath = (isRemoteApi: boolean = false) => getApiPath('users/create-password', isRemoteApi)
 export const getRecoveryPasswordApiPath = (isRemoteApi: boolean = false) => getApiPath('users/recover-password', isRemoteApi)
+export const getUpdatePasswordApiPath = (isRemoteApi: boolean = false) => getApiPath('users/update-password', isRemoteApi)
