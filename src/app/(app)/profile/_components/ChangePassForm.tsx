@@ -1,12 +1,12 @@
 'use client'
 
 import { z } from 'zod'
+import { toast } from 'react-toastify'
 
 import Form from '@/components/Form/FormWithZod'
 
 import { changePassFormTypeSchema } from '@/types/forms/auth'
 import apiService from '@/services/apiService'
-import { toast } from 'react-toastify'
 import { ApiErrType } from '@/types/ErrorTypes'
 
 export default function ChangePassForm() {

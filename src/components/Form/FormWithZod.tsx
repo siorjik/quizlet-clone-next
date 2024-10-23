@@ -1,6 +1,6 @@
 'use client'
 
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import z, { ZodSchema } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -29,7 +29,11 @@ export default function Form(props: FormPropsType) {
     submit, fieldsData, css, btnData: { text, hoverColor } = {}, isReset = false, schema, onSuccess, isDisabled = false, data = {}
   } = props
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm<z.infer<typeof schema>>({
+  useEffect(() => {
+    if (isDisabled && !isSubmitted) reset() 
+  }, [isDisabled])
+
+  const { register, handleSubmit, reset, formState: { errors, isSubmitted }} = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: data
   })
