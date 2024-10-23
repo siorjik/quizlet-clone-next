@@ -23,3 +23,31 @@ input {
     @apply text-amber-600 border-b-2 border-amber-700 cursor-pointer
   }
 }
+
+/* tabs */
+.rc-tabs-nav {
+  margin-bottom: 30px;
+}
+
+.rc-tabs-nav-operations {
+  display: none;
+}
+
+.rc-tabs-nav-list {
+  display: flex;
+}
+
+.rc-tabs-tab {
+  padding: 0 15px 10px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid gray;
+}
+
+.rc-tabs-tab-active {
+  font-weight: bold;
+  border-bottom: 2px solid black;
+}
+
+.rc-tabs-ink-bar {
+  display: none;
+}

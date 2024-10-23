@@ -38,9 +38,12 @@ export default (req: NextRequest): AuthOptions => {
     },
 
     callbacks: {
-      jwt: async ({ token, user, account }) => {
+      jwt: async ({ token, user, account, trigger, session }) => {
         let tokenCopy = token as UserType & JWT
         const isProvider = account?.provider === 'google' || account?.provider === 'github'
+
+        // session update from client
+        if (trigger === 'update') tokenCopy = { ...tokenCopy, ...session }
 
         if (isProvider) {
           const res: UserType = await apiService<UserType>({
@@ -68,7 +71,7 @@ export default (req: NextRequest): AuthOptions => {
 
         sessionCopy.accessExpire = token.accessExpire as string
 
-        return session
+        return { ...session, user: { name: token.name, email: token.email } }
       }
     },
 
