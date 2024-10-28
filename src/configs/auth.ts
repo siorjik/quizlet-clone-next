@@ -79,7 +79,7 @@ export default (req: NextRequest): AuthOptions => {
 
         return {
           ...session, user: { name: token.name, email: token.email, image: (token.image || '') as string },
-          fileStorageAuth: fileStorageAuthData.authToken
+          fileStorageAuth: fileStorageAuthData.authToken, isAuthProvider: token.isAuthProvider
         }
       }
     },
