@@ -7,7 +7,7 @@ export default function Button({ children, type = 'button', css = '', click = ()
 
   return (
     <button
-      className={`border-2 rounded-md px-5 py-2 ${hover} ${css} transition-all`}
+      className={`border-2 rounded-md px-4 py-1 ${hover} ${css} transition-all`}
       type={type as 'button' | 'submit'}
       onClick={click}
     >

@@ -4,6 +4,7 @@ import Tabs from 'rc-tabs'
 
 import InfoForm from './InfoForm'
 import ChangePassForm from './ChangePassForm'
+import ChangeImage from './ChangeImage'
 
 export default function UpdateProfile() {
   const tabs = [
@@ -18,6 +19,12 @@ export default function UpdateProfile() {
       label: 'Password',
       tab: 'Password',
       children: <ChangePassForm />
+    },
+    {
+      key: '3',
+      label: 'Image',
+      tab: 'Image',
+      children: <ChangeImage />
     }
   ]
 

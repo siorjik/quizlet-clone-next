@@ -11,8 +11,9 @@ export async function PATCH(req: NextRequest): Promise<NextResponse<{ success: b
   try {
     const body = await req.json()
 
-    const resp: { success: boolean } =
-      await apiService<{ success: boolean }>({ url: getUpdatePasswordApiPath(true), method: 'PATCH', body: { ...body, _id }, req })
+    const resp: { success: boolean } = await apiService<{ success: boolean }>({
+      url: getUpdatePasswordApiPath(true), method: 'PATCH', body: { ...body, _id }, req
+    })
 
     return NextResponse.json(resp)
   } catch (error) {

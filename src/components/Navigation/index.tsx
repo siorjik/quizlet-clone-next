@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Fragment, useEffect } from 'react'
+import { useState, Fragment, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
@@ -18,13 +18,17 @@ import { broadcast } from '@/services/eventBusService'
 import { EventNames } from '@/utils/constants'
 import apiService from '@/services/apiService'
 import { ApiErrType } from '@/types/ErrorTypes'
+import useFileStorage from '@/hooks/useFileStorage'
 
 export default function Navigation({ isSmall }: { isSmall: boolean }) {
   const [isShowMobMenu, setShowMobMenu] = useState(false)
+  const [imageUrl, setImageUrl] = useState('')
 
   const pathname = usePathname()
   const { push } = useRouter()
   const { data: session } = useSession()
+
+  const { getAuthUrl } = useFileStorage()
 
   const isAuth = !!session
 
@@ -32,6 +36,13 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
     if (isShowMobMenu) broadcast(EventNames.isShowMobMenu, true)
     else broadcast(EventNames.isShowMobMenu, false)
   }, [isShowMobMenu])
+
+  const getAuthUrlCallback = useCallback(() => getAuthUrl(session?.user?.image as string), [session?.user?.image])
+
+  useEffect(() => {
+    if (session?.user?.image) setImageUrl(getAuthUrlCallback())
+    else setImageUrl(isAuth ? userIcon : addUserIcon)
+  }, [getAuthUrlCallback, isAuth, session?.user?.image])
 
   const menu = [
     {
@@ -52,17 +63,17 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
     if (typeof res === 'boolean' && res) signOut({ callbackUrl: '/' })
   }
 
-const src = isAuth && session.user?.image ? session.user.image : isAuth && !session.user?.image ? userIcon : addUserIcon
+  const src = imageUrl
 
-const getUserBlock = (isMobile: boolean = false) => (
-  <div className={`user flex justify-between ${isMobile ? 'space-x-5' : ''}`}>
+  const getUserBlock = (isMobile: boolean = false) => (
+    <div className={`user flex justify-between ${isMobile ? 'space-x-5' : ''}`}>
       <Link href={isAuth ? profileAppPath : createAccountAppPath}>
-        <Image
+        {imageUrl && <Image
           className={`${isSmall ? 'h-[25px] w-[25px]' : 'h-[30px] w-[30px]'} rounded-full transition-all`}
           src={src}
           width={30}
           height={30}
-          alt='user' />
+          alt='user' />}
       </Link>
       <span className='cursor-pointer' onClick={isAuth ? logout : () => push(loginAppPath)}>
         <Image
@@ -71,10 +82,10 @@ const getUserBlock = (isMobile: boolean = false) => (
       </span>
     </div>
   )
-  
+
   const getMenuItem = ({ path, title }: { path: string, title: string }, isMobile?: boolean) => {
     let css: string = ''
-    
+
     if (pathname === path || (pathname.startsWith(path) && path !== '/')) {
       if (isMobile) css = 'text-gray-700 font-bold'
       else css = '!border-cyan-600 pb-[1.4rem]'

@@ -10,6 +10,9 @@ import { getRefreshApiPath, loginApiPath, loginProviderApiPath } from '@/utils/p
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { JWT } from 'next-auth/jwt'
 import getApiPath from '@/helpers/getApiPath'
+import StorageService from '@/services/storageService'
+
+const storageService = new StorageService()
 
 export default (req: NextRequest): AuthOptions => {
   return {
@@ -40,6 +43,7 @@ export default (req: NextRequest): AuthOptions => {
     callbacks: {
       jwt: async ({ token, user, account, trigger, session }) => {
         let tokenCopy = token as UserType & JWT
+
         const isProvider = account?.provider === 'google' || account?.provider === 'github'
 
         // session update from client
@@ -69,9 +73,14 @@ export default (req: NextRequest): AuthOptions => {
       session: async ({ session, token }) => {
         let sessionCopy = session as Session & { accessExpire: string }
 
+        const fileStorageAuthData = await storageService.authorize()
+
         sessionCopy.accessExpire = token.accessExpire as string
 
-        return { ...session, user: { name: token.name, email: token.email } }
+        return {
+          ...session, user: { name: token.name, email: token.email, image: (token.image || '') as string },
+          fileStorageAuth: fileStorageAuthData.authToken
+        }
       }
     },
 
