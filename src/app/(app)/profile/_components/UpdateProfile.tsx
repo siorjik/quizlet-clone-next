@@ -2,11 +2,17 @@
 
 import Tabs from 'rc-tabs'
 
+import type { Session } from 'next-auth'
+import { useSession } from 'next-auth/react'
+
 import InfoForm from './InfoForm'
 import ChangePassForm from './ChangePassForm'
 import ChangeImage from './ChangeImage'
 
 export default function UpdateProfile() {
+  const { data: session } = useSession()
+  const sessionData = session as Session & { isAuthProvider: boolean }
+
   const tabs = [
     {
       key: '1',
@@ -28,9 +34,11 @@ export default function UpdateProfile() {
     }
   ]
 
+  const tabsData = tabs.filter(tab => sessionData.isAuthProvider ? tab.key !== '3' : tabs)
+
   return (
     <>
-      <Tabs items={tabs} defaultActiveKey='1' destroyInactiveTabPane={true} />
+      <Tabs items={tabsData} defaultActiveKey='1' destroyInactiveTabPane={true} />
     </>
   )
 }
