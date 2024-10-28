@@ -6,12 +6,12 @@ type ResponseType<T> = {
   data: T | undefined,
   error: Error,
   isLoading: boolean,
-  mutate: KeyedMutator<T>
+  mutate: KeyedMutator<T | undefined>
 }
 
-export default function useRequest<T>({ key, url }: { key: string | string[] | null, url: string }): ResponseType<T> {
+export default function useRequest<T>({ key, url }: { key: string | string[] | null, url: string  | null }): ResponseType<T> {
   const { data, error, isLoading, mutate } =
-    useSWR(key, async (): Promise<T> => await apiService<T>({ url }), { revalidateOnFocus: false })
+    useSWR(key, async (): Promise<T | undefined> => url ? await apiService<T>({ url }) : undefined, { revalidateOnFocus: false })
 
   return { data, error, isLoading, mutate }
 }

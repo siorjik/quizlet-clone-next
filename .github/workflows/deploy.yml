@@ -52,5 +52,7 @@ jobs:
               GIT_AUTH_CLIENT_ID=${{ secrets.GIT_AUTH_CLIENT_ID }} GIT_AUTH_CLIENT_SECRET=${{ secrets.GIT_AUTH_CLIENT_SECRET }} \
               OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} LANGCHAIN_API_KEY=${{ secrets.LANGCHAIN_API_KEY }} LANGCHAIN_ENDPOINT=${{ secrets.LANGCHAIN_ENDPOINT }} \
               LANGCHAIN_TRACING_V2=${{ secrets.LANGCHAIN_TRACING_V2 }} LANGCHAIN_PROJECT=${{ secrets.LANGCHAIN_PROJECT }} TAVILY_API_KEY=${{ secrets.TAVILY_API_KEY }} \
+              STORAGE_ACCESS_KEY=${{ secrets.STORAGE_ACCESS_KEY }} STORAGE_ACCESS_KEY_ID=${{ secrets.STORAGE_ACCESS_KEY_ID }} \
+              STORAGE_ID=${{ secrets.STORAGE_ID }} STORAGE_NAME=${{ secrets.STORAGE_NAME }} \
               docker-compose up -d
             sudo docker image prune -f
