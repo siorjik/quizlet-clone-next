@@ -51,6 +51,7 @@ export default function ChangePassForm() {
         css='md:w-1/2 md:max-w-[500px]'
         btnData={{ text: 'Change password' }}
         schema={changePassFormTypeSchema}
+        data={{ currentPass: '', newPass: '' }}
         isReset
       />
     </>

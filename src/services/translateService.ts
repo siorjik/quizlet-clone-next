@@ -9,7 +9,7 @@ export default async (word: string, inputLanguage = 'english', outputLanguage = 
   const system = `You are a helpful assistant that translates from ${inputLanguage} to ${outputLanguage} language.`
 
   const input = `
-    Translate '${word}' with max 5 variants.
+    Translate '${word}' with unique variants.
     Return data in JSON format according following format: { translate: string, translates: string[] }.
   `
   const model = new ChatOpenAI({ temperature: 0, modelName: 'gpt-3.5-turbo-1106' })

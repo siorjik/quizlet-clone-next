@@ -29,7 +29,9 @@ export async function GET(req: NextRequest):
 
     const res: { translate: string, translates: string[] } = await translateService(word as string)
 
-    return NextResponse.json(word && res.translate ? getMappedTranslates([...res.translates]) : [])
+    const uniqueTranslates = Array.from(new Set(res.translates))
+
+    return NextResponse.json(word && res.translate ? getMappedTranslates([...uniqueTranslates]) : [])
   } catch (error) {
     const err = error as Error
 

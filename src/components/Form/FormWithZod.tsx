@@ -26,14 +26,17 @@ type FormPropsType = {
 
 export default function Form(props: FormPropsType) {
   const {
-    submit, fieldsData, css, btnData: { text, hoverColor } = {}, isReset = false, schema, onSuccess, isDisabled = false, data = {}
+    submit, fieldsData, css, btnData: { text, hoverColor } = {}, isReset = false, schema, onSuccess, isDisabled = false,
+    data = null
   } = props
 
   useEffect(() => {
     if (isDisabled && !isSubmitted) reset() 
   }, [isDisabled])
 
-  const { register, handleSubmit, reset, formState: { errors, isSubmitted }} = useForm<z.infer<typeof schema>>({
+  const {
+    register, handleSubmit, reset, formState: { errors, isSubmitted, dirtyFields }, getValues
+  } = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: data
   })
@@ -44,6 +47,8 @@ export default function Form(props: FormPropsType) {
 
       if (isReset) reset()
       if (onSuccess) onSuccess()
+
+      reset({ ...getValues(), dirtyFields: {} })
     } catch (error) {
       console.error(error)
     }
@@ -55,7 +60,10 @@ export default function Form(props: FormPropsType) {
         <Fragment key={index}>
           <Input { ...item } errors={errors} register={{...register(item.name), disabled: isDisabled}} />
         </Fragment>))}
-      {!isDisabled && <Button css='w-fit' type='submit' hoverColor={hoverColor}>{text || 'Submit'}</Button>}
+      {
+        !isDisabled && Object.keys(dirtyFields).length > 0
+        && <Button css='w-fit' type='submit' hoverColor={hoverColor}>{text || 'Submit'}</Button>
+      }
     </form>
   )
 }
