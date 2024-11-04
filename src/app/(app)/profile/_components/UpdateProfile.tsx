@@ -34,7 +34,7 @@ export default function UpdateProfile() {
     }
   ]
 
-  const tabsData = tabs.filter(tab => sessionData.isAuthProvider ? tab.key !== '3' : tabs)
+  const tabsData = tabs.filter(tab => sessionData.isAuthProvider ? tab.key !== '3' && tab.key !== '2' : tabs)
 
   return (
     <>
