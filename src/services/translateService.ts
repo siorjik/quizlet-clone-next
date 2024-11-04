@@ -5,6 +5,25 @@ import { createOpenAIFunctionsAgent, AgentExecutor } from 'langchain/agents'
 import { TavilySearchResults } from '@langchain/community/tools/tavily_search'
 import { z } from 'zod'
 
+const getUniqueString = (arr: string[]): string => {
+  const resArr = arr.map(item => item.split(', ')).flat()
+
+  return Array.from(new Set(resArr)).join(', ')
+}
+
+const getMappedTranslates = (data: string[]): string[] => {
+  let res: string[] = []
+  let index = 0
+
+  while (index < data.length) {
+    res = [...res, getUniqueString([...res, data[index]])]
+
+    index += 1
+  }
+
+  return res
+}
+
 export default async (word: string, inputLanguage = 'english', outputLanguage = 'russian') => {
   const system = `You are a helpful assistant that translates from ${inputLanguage} to ${outputLanguage} language.`
 
@@ -16,7 +35,6 @@ export default async (word: string, inputLanguage = 'english', outputLanguage = 
 
   const parser = StructuredOutputParser.fromZodSchema(
     z.object({
-      translate: z.string().describe('The main translated text'),
       translates: z.array(z.string()).describe('The list of minor translated texts'),
     })
   )
@@ -41,5 +59,9 @@ export default async (word: string, inputLanguage = 'english', outputLanguage = 
 
   const response = await agentExecutor.invoke({ input })
 
-  return fixParser.parse(response.output)
+  const res: { translates: string[] } = await fixParser.parse(response.output)
+
+  const uniqueTranslates = Array.from(new Set(res.translates))
+
+  return getMappedTranslates([...uniqueTranslates])
 }
