@@ -30,7 +30,8 @@ export default async (word: string, inputLanguage: string, outputLanguage: strin
   const system = `You are an expert translator.`
 
   const input = `
-    Translate '${word}' with unique variants from ${languageOptions.find(item => item.value === inputLanguage)?.label.toLowerCase()}
+    Translate '${word}' with unique variants
+    from ${languageOptions.find(item => item.value === inputLanguage)?.label.toLowerCase()}
     to ${languageOptions.find(item => item.value === outputLanguage)?.label.toLowerCase()}.
     Return data in JSON format according following format: { translate: string, translates: string[] }.
   `

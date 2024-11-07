@@ -8,7 +8,9 @@ import { z } from 'zod'
 import { languageOptions } from '@/utils/constants'
 
 export default async (word: string, language: string) => {
-  const system = `You are an expert in ${languageOptions.find(item => item.value === language)?.label.toLocaleLowerCase()} dictionary.`
+  const system = `
+    You are an expert in ${languageOptions.find(item => item.value === language)?.label.toLocaleLowerCase()} dictionary.
+  `
 
   const input = `
     Suggest 3 unique words in lower case which started from '${word}' or return '${word}' if it is not in the dictionary.

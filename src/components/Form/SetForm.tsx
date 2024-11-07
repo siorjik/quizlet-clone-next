@@ -23,7 +23,7 @@ type DataType = { name: string, words: string[] }
 
 export default memo(function SetForm(
   { data, action = null, func }:
-    { data?: SetType & { source: string, target: string }, action?: ActionType, func?: (data: SetType) => Promise<void> }
+    { data?: SetType, action?: ActionType, func?: (data: SetType) => Promise<void> }
 ) {
   const [dictionary, setDictionary] = useState<DataType>({ name: '', words: [] })
   const [translate, setTranslate] = useState<DataType>({ name: '', words: [] })
@@ -173,7 +173,7 @@ export default memo(function SetForm(
                 ...register('source', {
                   required: 'Required!',
                   onChange: ({ target }) => {
-                    if (target.value === getValues('target')) setError('source', { message: 'Need to be different than target' })
+                    if (target.value === target) setError('source', { message: 'Need to be different than target' })
                     else if (errors.source || errors.target) {
                       clearErrors('source')
                       clearErrors('target')
@@ -197,7 +197,7 @@ export default memo(function SetForm(
                 ...register('target', {
                   required: 'Required',
                   onChange: ({ target }) => {
-                    if (target.value === getValues('source')) setError('target', { message: 'Need to be different than source' })
+                    if (target.value === source) setError('target', { message: 'Need to be different than source' })
                     else if (errors.source || errors.target) {
                       clearErrors('source')
                       clearErrors('target')

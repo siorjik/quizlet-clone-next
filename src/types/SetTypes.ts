@@ -5,4 +5,6 @@ export  type SetType = {
   createdAt?: string,
   updatedAt?: string,
   userId?: string
+  source: string,
+  target: string
 }
