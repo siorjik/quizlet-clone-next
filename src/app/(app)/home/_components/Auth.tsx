@@ -103,6 +103,7 @@ export default function Auth() {
             css='w-64 flex flex-col items-center'
             btnData={{ text: 'Login', hoverColor: 'hover:bg-violet-300' }}
             schema={loginFormTypeSchema}
+            data={{ email: '', password: '' }}
           />
         </div>
         <div className='h-[1px] md:h-44 w-full md:w-[1px] my-5 md:my-auto md:mx-5 bg-violet-300' />
@@ -116,6 +117,7 @@ export default function Auth() {
             css='w-64 flex flex-col items-center'
             btnData={{ text: 'Create Account', hoverColor: 'hover:bg-violet-300' }}
             schema={registerFormTypeSchema}
+            data={{ name: '', email: '' }}
           />
         </div>
       </div>

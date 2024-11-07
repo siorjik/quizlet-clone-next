@@ -9,9 +9,10 @@ export async function GET(req: NextRequest):
 
   try {
     const word = req.nextUrl.searchParams.get('word')
+    const language = req.nextUrl.searchParams.get('language')
 
     if (word) {
-      const { words } = await dictionaryService(word) as { words: string[] }
+      const { words } = await dictionaryService(word, language!) as { words: string[] }
 
       res = words.length ? words : [word]
     }

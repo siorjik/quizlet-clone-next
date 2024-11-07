@@ -5,6 +5,8 @@ import { createOpenAIFunctionsAgent, AgentExecutor } from 'langchain/agents'
 import { TavilySearchResults } from '@langchain/community/tools/tavily_search'
 import { z } from 'zod'
 
+import { languageOptions } from '@/utils/constants'
+
 const getUniqueString = (arr: string[]): string => {
   const resArr = arr.map(item => item.split(', ')).flat()
 
@@ -24,14 +26,16 @@ const getMappedTranslates = (data: string[]): string[] => {
   return res
 }
 
-export default async (word: string, inputLanguage = 'english', outputLanguage = 'russian') => {
-  const system = `You are a helpful assistant that translates from ${inputLanguage} to ${outputLanguage} language.`
+export default async (word: string, inputLanguage: string, outputLanguage: string) => {
+  const system = `You are an expert translator.`
 
   const input = `
-    Translate '${word}' with unique variants.
+    Translate '${word}' with unique variants
+    from ${languageOptions.find(item => item.value === inputLanguage)?.label.toLowerCase()}
+    to ${languageOptions.find(item => item.value === outputLanguage)?.label.toLowerCase()}.
     Return data in JSON format according following format: { translate: string, translates: string[] }.
   `
-  const model = new ChatOpenAI({ temperature: 0, modelName: 'gpt-3.5-turbo-1106' })
+  const model = new ChatOpenAI({ temperature: 0, modelName: 'gpt-3.5-turbo-1106', maxTokens: 100 })
 
   const parser = StructuredOutputParser.fromZodSchema(
     z.object({

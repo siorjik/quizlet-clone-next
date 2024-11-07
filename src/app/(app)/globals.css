@@ -2,8 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-input {
+input, select, textarea {
   outline: none;
+}
+
+select {
+  cursor: pointer;
 }
 
 @layer components {
@@ -21,6 +25,10 @@ input {
 
   .link {
     @apply text-amber-600 border-b-2 border-amber-700 cursor-pointer
+  }
+
+  .select {
+    @apply rounded-xl p-3 w-full border-r-[10px] border-transparent
   }
 }
 
