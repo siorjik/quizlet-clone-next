@@ -5,14 +5,16 @@ import { createOpenAIFunctionsAgent, AgentExecutor } from 'langchain/agents'
 import { TavilySearchResults } from '@langchain/community/tools/tavily_search'
 import { z } from 'zod'
 
-export default async (word: string, language = 'english') => {
-  const system = `You are a helpful dictionary assistant in ${language} language.`
+import { languageOptions } from '@/utils/constants'
+
+export default async (word: string, language: string) => {
+  const system = `You are an expert in ${languageOptions.find(item => item.value === language)?.label.toLocaleLowerCase()} dictionary.`
 
   const input = `
-    Can you suggest 5 unique words in lower case which started from '${word}'.
+    Suggest 3 unique words in lower case which started from '${word}' or return '${word}' if it is not in the dictionary.
     Return data in JSON format according following format: { words: string[] }.
   `
-  const model = new ChatOpenAI({ temperature: 0, modelName: 'gpt-3.5-turbo-1106' })
+  const model = new ChatOpenAI({ temperature: 0, modelName: 'gpt-3.5-turbo-1106', maxTokens: 100 })
 
   const parser = StructuredOutputParser.fromZodSchema(
     z.object({

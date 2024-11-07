@@ -4,8 +4,8 @@ import { createPassActionTypeSchema, registerFormTypeSchema } from '@/types/form
 import { actionClient } from '../actionClient'
 import apiService from '@/services/apiService'
 import { UserType } from '@/types/UserTypes'
-import { getCreatePasswordApiPath, getUserApiPath, homeAppPath } from '@/utils/paths'
-import { revalidatePath } from 'next/cache'
+import { getCreatePasswordApiPath, getUserApiPath, /*homeAppPath*/ } from '@/utils/paths'
+// import { revalidatePath } from 'next/cache'
 import { ApiErrType } from '@/types/ErrorTypes'
 import getApiErrMessage from '@/helpers/getApiErrMessage'
 
@@ -23,7 +23,7 @@ export const createUser = actionClient
       throw new Error(getApiErrMessage(err))
     }
 
-    revalidatePath(homeAppPath)
+    // revalidatePath(homeAppPath)
 
     return { success: true, createdUser }
   })

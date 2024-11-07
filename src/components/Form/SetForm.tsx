@@ -6,6 +6,7 @@ import Image from 'next/image'
 
 import Input from '../Input'
 import Button from '../Button'
+import Select from '../Select'
 
 import trashIcon from '@/../public/images/trash.svg'
 
@@ -13,23 +14,24 @@ import { SetType } from '@/types/SetTypes'
 import Autocomplete from '../Autocomplete'
 import apiService from '@/services/apiService'
 import { getApiDictionaryPath, getApiTranslatePath } from '@/utils/paths'
+import { languageOptions } from '@/utils/constants'
 
-const defaultValues = { list: [{ term: '', definition: '' }], title: '' }
+const defaultValues = { list: [{ term: '', definition: '' }], title: '', source: '', target: '' }
 
 type ActionType = 'edit' | 'create' | null
 type DataType = { name: string, words: string[] }
 
 export default memo(function SetForm(
   { data, action = null, func }:
-    { data?: SetType, action?: ActionType, func?: (data: SetType) => Promise<void> }
+    { data?: SetType & { source: string, target: string }, action?: ActionType, func?: (data: SetType) => Promise<void> }
 ) {
   const [dictionary, setDictionary] = useState<DataType>({ name: '', words: [] })
   const [translate, setTranslate] = useState<DataType>({ name: '', words: [] })
   const [isLoading, setLoading] = useState(false)
 
-  const { watch, register, handleSubmit, control, formState: { errors }, setValue, getFieldState } = useForm({
-    defaultValues: data ? { ...data } : { ...defaultValues }
-  })
+  const {
+    watch, register, handleSubmit, control, formState: { errors }, setValue, getFieldState, getValues, setError, clearErrors
+  } = useForm({ defaultValues: data ? { ...data } : { ...defaultValues } })
   const { fields, remove, append } = useFieldArray({ name: 'list', control })
 
   const inputRef = useRef<HTMLInputElement | null>(null)
@@ -39,7 +41,7 @@ export default memo(function SetForm(
     inputRef.current?.focus()
   }, [])
 
-  const { list } = watch()
+  const { list, source, target } = watch()
 
   const isCreating = action === 'create'
 
@@ -52,18 +54,18 @@ export default memo(function SetForm(
       const { name, value } = target
 
       try {
-        const words: string[] | [] = await apiService({ url: getApiDictionaryPath(value) })
+        const words: string[] | [] = await apiService({ url: getApiDictionaryPath(value, source) })
 
         setDictionary({ name, words })
       } catch (error) {
         console.log(error)
       }
-    }, 500)
+    }, 800)
   }
 
   const getTranslates = async (name: string, value: string): Promise<void> => {
     try {
-      const words: string[] = await apiService({ url: getApiTranslatePath(value) })
+      const words: string[] = await apiService({ url: getApiTranslatePath(value, source, target) })
 
       setTranslate({ name, words })
     } catch (error) {
@@ -96,8 +98,13 @@ export default memo(function SetForm(
               blockStyle: 'relative w-full',
               errors: errors?.list?.[index] as Merge<FieldError, FieldErrorsImpl>,
               register: {
-                ...register(`list.${index}.term` as const,
-                  { required: 'Required!', disabled: !action, onChange: ({ target }) => onChange(target) })
+                ...register(
+                  `list.${index}.term` as const,
+                  {
+                    required: 'Required!', disabled: !action || !source || !target || !!errors.source || !!errors.target,
+                    onChange: ({ target }) => onChange(target)
+                  }
+                )
               }
             }}
             data={dictionary.name === `list.${index}.term` ? dictionary.words : []}
@@ -105,7 +112,9 @@ export default memo(function SetForm(
             setValue={(value: string) => setTranslateQuery(`list.${index}.term`, value)}
             clearData={() => setDictionary({ name: '', words: [] })}
           />
-          <span className='mt-1 mx-auto text-xs'>From: English</span>
+          <span className='mt-1 mx-auto text-xs'>
+            From: {languageOptions.find(({ value }) => value === getValues('source'))?.label}
+          </span>
         </div>
 
         <div className='w-full md:w-[47%] flex flex-col'>
@@ -119,7 +128,7 @@ export default memo(function SetForm(
               errors: errors?.list?.[index] as Merge<FieldError, FieldErrorsImpl>,
               register: {
                 ...register(`list.${index}.definition` as const,
-                  { required: 'Required!', disabled: !action })
+                  { required: 'Required!', disabled: !action || !target || !source || !!errors.source || !!errors.target })
               }
             }}
             data={translate.name === `list.${index}.definition` ? translate.words : []}
@@ -127,7 +136,9 @@ export default memo(function SetForm(
             setValue={(value: string) => setValue(`list.${index}.definition`, value)}
             clearData={() => setTranslate({ name: '', words: [] })}
           />
-          <span className='mt-1 mx-auto text-xs'>To: Russian</span>
+          <span className='mt-1 mx-auto text-xs'>
+            To: {languageOptions.find(({ value }) => value === getValues('target'))?.label}
+          </span>
         </div>
         {action && list.length > 1 &&
           <button type='button' className='mx-auto mt-5 md:m-0 md:mb-5' onClick={() => remove(index)}>
@@ -139,16 +150,68 @@ export default memo(function SetForm(
 
   return (
     <form className='flex flex-col'>
-      <Input
-        name='title'
-        label={!action ? 'Title' : ''}
-        placeholder='Add a title...'
-        inputStyle='p-4 text-lg rounded-xl bg-amber-100 w-full md:w-1/2'
-        blockStyle='mb-3'
-        errors={errors}
-        register={{ ...register('title', { required: 'Required!', disabled: !action }) }}
-        inputRef={inputRef}
-      />
+      <div className='flex justify-between flex-col lg:flex-row'>
+        <Input
+          name='title'
+          label={!action ? 'Title' : ''}
+          placeholder='Add a title...'
+          inputStyle='p-4 text-lg rounded-xl bg-amber-100 w-full'
+          blockStyle='mb-3 lg:w-2/5'
+          errors={errors}
+          register={{ ...register('title', { required: 'Required!', disabled: !action }) }}
+          inputRef={inputRef}
+        />
+        <div className='flex w-full flex-col justify-between gap-5 lg:w-5/12 md:flex-row'>
+          <div>
+            <p className='ml-3 text-xs'>Language source:</p>
+            <Select
+              style='select bg-pink-100'
+              name='source'
+              options={languageOptions}
+              placeholder='Choose a language'
+              register={{
+                ...register('source', {
+                  required: 'Required!',
+                  onChange: ({ target }) => {
+                    if (target.value === getValues('target')) setError('source', { message: 'Need to be different than target' })
+                    else if (errors.source || errors.target) {
+                      clearErrors('source')
+                      clearErrors('target')
+                    }
+                  }
+                })
+              }}
+              errors={errors}
+              disabled={!!(source && list.length > 1) || !isCreating}
+              isRequired
+            />
+          </div>
+          <div>
+            <p className='ml-3 text-xs'>Language target:</p>
+            <Select
+              style='select bg-pink-100'
+              name='target'
+              options={languageOptions}
+              placeholder='Choose a language'
+              register={{
+                ...register('target', {
+                  required: 'Required',
+                  onChange: ({ target }) => {
+                    if (target.value === getValues('source')) setError('target', { message: 'Need to be different than source' })
+                    else if (errors.source || errors.target) {
+                      clearErrors('source')
+                      clearErrors('target')
+                    }
+                  }
+                })
+              }}
+              errors={errors}
+              disabled={!!(target && list.length > 1) || !isCreating}
+              isRequired
+            />
+          </div>
+        </div>
+      </div>
       {fields.map((field, index) => <Fragment key={field.id}>{pairBlock(index)}</Fragment>)}
       {action && <>
         <Button
