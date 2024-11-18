@@ -27,7 +27,8 @@ export default memo(function SetForm(
 ) {
   const [dictionary, setDictionary] = useState<DataType>({ name: '', words: [] })
   const [translate, setTranslate] = useState<DataType>({ name: '', words: [] })
-  const [isLoading, setLoading] = useState(false)
+  const [translatesLoadingIndex, setTranslatesLoadingIndex] = useState<null | number>(null)
+  const [dictionaryLoadingIndex, setDictionaryLoadingIndex] = useState<null | number>(null)
 
   const {
     watch, register, handleSubmit, control, formState: { errors }, setValue, getFieldState, getValues, setError, clearErrors
@@ -47,18 +48,25 @@ export default memo(function SetForm(
 
   const submit = async (data: SetType): Promise<void> => func && await func(data)
 
-  const onChange = async (target: { name: string, value: string }): Promise<void> => {
+  const onChange = async (target: { name: string, value: string }, index: number): Promise<void> => {
+    if (!target.value) return
+
     clearTimeout(timeoutRef.current as NodeJS.Timeout)
 
     timeoutRef.current = setTimeout(async () => {
       const { name, value } = target
 
+      setDictionaryLoadingIndex(index)
+
       try {
         const words: string[] | [] = await apiService({ url: getApiDictionaryPath(value, source) })
 
         setDictionary({ name, words })
+        setDictionaryLoadingIndex(null)
       } catch (error) {
         console.log(error)
+
+        setDictionaryLoadingIndex(null)
       }
     }, 800)
   }
@@ -73,27 +81,32 @@ export default memo(function SetForm(
     }
   }
 
-  const setTranslateQuery = async (name: `list.${number}.term`, value: string): Promise<void> => {
+  const setTranslateQuery = async (name: `list.${number}.term`, value: string, index: number): Promise<void> => {
     const definitionName = name.replace('term', 'definition') as `list.${number}.definition`
 
     setValue(definitionName, '')
     setValue(name, value)
-    setLoading(true)
+    setTranslatesLoadingIndex(index)
 
     await getTranslates(definitionName, value)
 
-    setLoading(false)
+    setTranslatesLoadingIndex(null)
   }
 
   const pairBlock = (index: number): ReactElement => {
     return (
       <div className='flex mt-5 p-5 flex-col w-full justify-between relative bg-lime-200 rounded-xl md:flex-row'>
-        <div className='w-full md:w-[47%] flex flex-col'>
+        <div className='text-center'><p className='pb-3 md:py-3 text-xs'>{index + 1}</p></div>
+        <div className='w-full md:w-[47%] flex flex-col relative'>
+          {
+            dictionaryLoadingIndex === index
+            && <span className='absolute text-xs z-10 top-3 right-5 text-slate-400'>Search results...</span>
+          }
           <Autocomplete
             inputProps={{
               name: 'term',
               label: !action ? 'Term' : '',
-              placeholder: 'Term...',
+              placeholder: 'Term',
               inputStyle: 'set-input',
               blockStyle: 'relative w-full',
               errors: errors?.list?.[index] as Merge<FieldError, FieldErrorsImpl>,
@@ -102,14 +115,14 @@ export default memo(function SetForm(
                   `list.${index}.term` as const,
                   {
                     required: 'Required!', disabled: !action || !source || !target || !!errors.source || !!errors.target,
-                    onChange: ({ target }) => onChange(target)
+                    onChange: ({ target }) => onChange(target, index)
                   }
                 )
               }
             }}
             data={dictionary.name === `list.${index}.term` ? dictionary.words : []}
             q={getFieldState(`list.${index}.term`).isDirty ? list[index].term : ''}
-            setValue={(value: string) => setTranslateQuery(`list.${index}.term`, value)}
+            setValue={(value: string) => setTranslateQuery(`list.${index}.term`, value, index)}
             clearData={() => setDictionary({ name: '', words: [] })}
           />
           <span className='mt-1 mx-auto text-xs'>
@@ -117,12 +130,16 @@ export default memo(function SetForm(
           </span>
         </div>
 
-        <div className='w-full md:w-[47%] flex flex-col'>
+        <div className='w-full md:w-[47%] flex flex-col relative'>
+          {
+            translatesLoadingIndex === index
+            && <span className='absolute text-xs z-10 top-8 right-5 md:top-3 text-slate-400'>Search results...</span>
+          }
           <Autocomplete
             inputProps={{
               name: 'definition',
               label: !action ? 'Definition' : '',
-              placeholder: isLoading ? 'Translates loading...' : 'Definition...',
+              placeholder: 'Definition',
               inputStyle: 'set-input',
               blockStyle: 'relative w-full mt-5 md:mt-0',
               errors: errors?.list?.[index] as Merge<FieldError, FieldErrorsImpl>,
@@ -149,7 +166,7 @@ export default memo(function SetForm(
   }
 
   return (
-    <form className='flex flex-col'>
+    <form className='flex flex-col' onKeyDown={(e) => dictionaryLoadingIndex !== null && e.preventDefault()}>
       <div className='flex justify-between flex-col lg:flex-row'>
         <Input
           name='title'
@@ -216,10 +233,10 @@ export default memo(function SetForm(
       {action && <>
         <Button
           type='button'
-          css='w-fit m-auto mt-5 border-none bg-lime-300 hover:bg-lime-100'
+          css='btn w-fit m-auto mt-5 border-none bg-lime-300 hover:bg-lime-100'
           click={() => append({ term: '', definition: '' })}
         >Add</Button>
-        <Button css='w-fit mt-4' type='button' click={handleSubmit(submit)}>{isCreating ? 'Create' : 'Update'}</Button>
+        <Button css='btn w-fit mt-4' type='button' click={handleSubmit(submit)}>{isCreating ? 'Create' : 'Update'}</Button>
       </>}
     </form>
   )

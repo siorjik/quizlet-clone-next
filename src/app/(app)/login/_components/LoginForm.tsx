@@ -112,7 +112,7 @@ export default function Login() {
         css='w-full flex flex-col items-center'
         btnData={{ text: 'Login' }}
       />
-      <p className='mt-10' onClick={() => setShow(true)}>
+      <p className='mt-8' onClick={() => setShow(true)}>
         Forgot your password? <span className='link'>Password Recovery</span>
       </p>
       <AuthProviderBlock submit={submitViaProvider} />
