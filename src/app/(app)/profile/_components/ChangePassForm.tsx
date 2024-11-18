@@ -30,7 +30,7 @@ export default function ChangePassForm() {
       type: 'password',
       label: 'Current password',
       inputStyle: 'input',
-      blockStyle: 'w-full mb-8',
+      blockStyle: 'w-full',
       isRequired: true,
     },
     {
@@ -38,7 +38,7 @@ export default function ChangePassForm() {
       type: 'password',
       label: 'New password',
       inputStyle: 'input',
-      blockStyle: 'w-full mb-8',
+      blockStyle: 'w-full mt-8',
       isRequired: true,
     },
   ]

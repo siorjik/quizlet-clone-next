@@ -30,6 +30,14 @@ select {
   .select {
     @apply rounded-xl p-3 w-full border-r-[10px] border-transparent
   }
+
+  .btn {
+    @apply border-2 rounded-md px-4 py-1 transition-all
+  }
+
+  .btn-mid {
+    @apply border-2 rounded-md px-5 py-2 hover:bg-slate-200 transition-all
+  }
 }
 
 /* tabs */

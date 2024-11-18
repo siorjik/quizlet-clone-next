@@ -52,7 +52,7 @@ export default function CreateAccForm() {
       type: 'email',
       label: 'Email',
       inputStyle: 'input',
-      blockStyle: 'w-full mb-8',
+      blockStyle: 'w-full',
       isRequired: true,
     },
     {
@@ -60,7 +60,7 @@ export default function CreateAccForm() {
       type: 'text',
       label: 'Name',
       inputStyle: 'input',
-      blockStyle: 'w-full mb-8',
+      blockStyle: 'w-full mt-8',
       isRequired: true,
     },
   ]
@@ -73,6 +73,7 @@ export default function CreateAccForm() {
         css='w-full flex flex-col items-center'
         btnData={{ text: 'Create Account' }}
         schema={registerFormTypeSchema}
+        data={{ email: '', name: '' }}
         isReset
       />
       <AuthProviderBlock submit={submitViaProvider} />

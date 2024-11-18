@@ -7,9 +7,11 @@ export default function Button({
 ) {
   const hover = hoverColor || 'hover:bg-slate-200'
 
+  const style = !css ? 'btn' : `${css}`
+
   return (
     <button
-      className={`border-2 rounded-md px-4 py-1 ${hover} ${css} transition-all`}
+      className={`${style} ${hover}`}
       type={type as 'button' | 'submit'}
       onClick={click}
       disabled={isDisabled}

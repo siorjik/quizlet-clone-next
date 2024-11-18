@@ -33,7 +33,7 @@ export default function InfoForm() {
       type: 'email',
       label: 'Email',
       inputStyle: 'input',
-      blockStyle: 'w-full mb-8',
+      blockStyle: 'w-full',
       isRequired: true,
     },
     {
@@ -41,7 +41,7 @@ export default function InfoForm() {
       type: 'text',
       label: 'Name',
       inputStyle: 'input',
-      blockStyle: 'w-full mb-8',
+      blockStyle: 'w-full mt-8',
       isRequired: true,
     },
   ]

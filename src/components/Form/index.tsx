@@ -42,7 +42,7 @@ export default function Form(props: FormPropsType) {
             register={{...register(item.name, { ...item.validation })}}
           />
         </Fragment>))}
-      <Button css='w-fit' type='submit' hoverColor={hoverColor}>{text || 'Submit'}</Button>
+      <Button css='btn w-fit' type='submit' hoverColor={hoverColor}>{text || 'Submit'}</Button>
     </form>
   )
 }

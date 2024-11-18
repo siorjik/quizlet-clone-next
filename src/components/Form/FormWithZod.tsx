@@ -62,7 +62,7 @@ export default function Form(props: FormPropsType) {
         </Fragment>))}
       {
         !isDisabled && Object.keys(dirtyFields).length > 0
-        && <Button css='w-fit' type='submit' hoverColor={hoverColor}>{text || 'Submit'}</Button>
+        && <Button css='btn mt-8 w-fit' type='submit' hoverColor={hoverColor}>{text || 'Submit'}</Button>
       }
     </form>
   )
