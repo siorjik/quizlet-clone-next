@@ -11,6 +11,10 @@ select {
 }
 
 @layer components {
+  h3 {
+    @apply text-lg
+  }
+  
   .set-input {
     @apply p-2 rounded-xl bg-lime-100 w-full
   }
@@ -36,7 +40,7 @@ select {
   }
 
   .btn-mid {
-    @apply border-2 rounded-md px-5 py-2 hover:bg-slate-200 transition-all
+    @apply border-2 rounded-md px-5 py-2 inline-block hover:bg-slate-200 transition-all
   }
 }
 

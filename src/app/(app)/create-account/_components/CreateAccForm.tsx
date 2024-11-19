@@ -17,7 +17,7 @@ import { registerFormTypeSchema } from '@/types/forms/auth'
 export default function CreateAccForm() {
   const [isLoading, setLoading] = useState(false)
 
-  const { execute } = useAction(createUser, {
+  const { execute, hasErrored } = useAction(createUser, {
     onSuccess: ({ data }) => {
       setLoading(false)
 
@@ -74,7 +74,7 @@ export default function CreateAccForm() {
         btnData={{ text: 'Create Account' }}
         schema={registerFormTypeSchema}
         data={{ email: '', name: '' }}
-        isReset
+        isErr={hasErrored}
       />
       <AuthProviderBlock submit={submitViaProvider} />
       <ToastMessage />

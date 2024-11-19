@@ -43,8 +43,12 @@ export default function Auth() {
     else {
       const res = await signIn('credentials', { redirect: false, ...data })
 
-      if (res?.error) toast(res.error, { position: 'bottom-left', type: 'error' })
-      else {
+      if (res?.error) {
+        toast(res.error, { position: 'bottom-left', type: 'error' })
+        setLoading(false)
+
+        throw new Error(res.error)
+      } else {
         setTimeout(() => window.location.reload(), 1000)
 
         setShow(false)
@@ -77,7 +81,7 @@ export default function Auth() {
       label: 'Password',
       type: 'password',
       inputStyle: 'input',
-      blockStyle: 'w-full mb-8',
+      blockStyle: 'w-full',
       isRequired: true,
     },
     {
@@ -85,7 +89,7 @@ export default function Auth() {
       type: 'text',
       label: 'Name',
       inputStyle: 'input',
-      blockStyle: 'w-full mb-8',
+      blockStyle: 'w-full',
       isRequired: true,
     },
   ]

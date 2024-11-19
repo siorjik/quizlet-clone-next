@@ -48,6 +48,7 @@ export default function InfoForm() {
 
   return (
     <>
+      <h3 className='mb-8'>Data updating:</h3>
       <Form
         fieldsData={fieldsData}
         submit={submit}
