@@ -96,7 +96,7 @@ export default memo(function SetForm(
   const pairBlock = (index: number): ReactElement => {
     return (
       <div className='flex mt-5 p-5 flex-col w-full justify-between relative bg-lime-200 rounded-xl md:flex-row'>
-        <div className='text-center'><p className='pb-3 md:py-3 text-xs'>{index + 1}</p></div>
+        <div className='text-center'><p className='pb-3 md:py-3 text-sm'>{index + 1}</p></div>
         <div className='w-full md:w-[47%] flex flex-col relative'>
           {
             dictionaryLoadingIndex === index
@@ -173,59 +173,69 @@ export default memo(function SetForm(
           label={!action ? 'Title' : ''}
           placeholder='Add a title...'
           inputStyle='p-4 text-lg rounded-xl bg-amber-100 w-full'
-          blockStyle='mb-3 lg:w-2/5'
+          blockStyle='lg:w-2/5'
           errors={errors}
           register={{ ...register('title', { required: 'Required!', disabled: !action }) }}
           inputRef={inputRef}
         />
-        <div className='flex w-full flex-col justify-between gap-5 lg:w-5/12 md:flex-row'>
-          <div>
-            <p className='ml-3 text-xs'>Language source:</p>
-            <Select
-              style='select bg-purple-200'
-              name='source'
-              options={languageOptions}
-              placeholder='Choose a language'
-              register={{
-                ...register('source', {
-                  required: 'Required!',
-                  onChange: ({ target }) => {
-                    if (target.value === target) setError('source', { message: 'Need to be different than target' })
-                    else if (errors.source || errors.target) {
-                      clearErrors('source')
-                      clearErrors('target')
-                    }
-                  }
-                })
-              }}
-              errors={errors}
-              disabled={!!(source && list.length > 1) || !isCreating}
-              isRequired
-            />
+        <div 
+          className='
+            md:mt-5 lg:mt-0 flex flex-col md:flex-row justify-between w-full
+            gap-0 md:gap-10 lg:gap-5 xl:gap-10 lg:w-fit xl:w-3/6
+          '
+        >
+          <div className='mt-4 mb-4 flex justify-center cursor-default'>
+            <span className='bg-green-200 px-3 py-3 rounded-xl h-fit self-end text-sm'>Items amount: {list.length}</span>
           </div>
-          <div>
-            <p className='ml-3 text-xs'>Language target:</p>
-            <Select
-              style='select bg-purple-200'
-              name='target'
-              options={languageOptions}
-              placeholder='Choose a language'
-              register={{
-                ...register('target', {
-                  required: 'Required!',
-                  onChange: ({ target }) => {
-                    if (target.value === source) setError('target', { message: 'Need to be different than source' })
-                    else if (errors.source || errors.target) {
-                      clearErrors('source')
-                      clearErrors('target')
+          <div className='flex flex-col justify-between gap-4 md:gap-10 lg:gap-5 xl:gap-10 md:flex-row'>
+            <div>
+              <p className='ml-3 text-xs'>Language source:</p>
+              <Select
+                style='select text-sm bg-purple-200'
+                name='source'
+                options={languageOptions}
+                placeholder='Choose a language'
+                register={{
+                  ...register('source', {
+                    required: 'Required!',
+                    onChange: ({ target }) => {
+                      if (target.value === target) setError('source', { message: 'Need to be different than target' })
+                      else if (errors.source || errors.target) {
+                        clearErrors('source')
+                        clearErrors('target')
+                      }
                     }
-                  }
-                })
-              }}
-              errors={errors}
-              disabled={!!(target && list.length > 1) || !isCreating}
-              isRequired
-            />
+                  })
+                }}
+                errors={errors}
+                disabled={!!(source && list.length > 1) || !isCreating}
+                isRequired
+              />
+            </div>
+            <div>
+              <p className='ml-3 text-xs'>Language target:</p>
+              <Select
+                style='select text-sm bg-purple-200'
+                name='target'
+                options={languageOptions}
+                placeholder='Choose a language'
+                register={{
+                  ...register('target', {
+                    required: 'Required!',
+                    onChange: ({ target }) => {
+                      if (target.value === source) setError('target', { message: 'Need to be different than source' })
+                      else if (errors.source || errors.target) {
+                        clearErrors('source')
+                        clearErrors('target')
+                      }
+                    }
+                  })
+                }}
+                errors={errors}
+                disabled={!!(target && list.length > 1) || !isCreating}
+                isRequired
+              />
+            </div>
           </div>
         </div>
       </div>
