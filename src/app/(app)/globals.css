@@ -32,7 +32,7 @@ select {
   }
 
   .select {
-    @apply rounded-xl p-3 w-full border-r-[10px] border-transparent
+    @apply h-11 rounded-xl p-3 w-full border-r-[10px] border-transparent
   }
 
   .btn {
