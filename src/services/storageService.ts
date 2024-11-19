@@ -53,6 +53,7 @@ export default class StorageService {
 
       return url
     } catch (error) {
+      console.log('56 - ', error)
       throw error
     }
   }

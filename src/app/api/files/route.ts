@@ -15,7 +15,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ url })
   } catch (error) {
     const err = error as ApiErrType
-
+console.log('18 - ', err)
     return NextResponse.json({ ...err })  
   }
 }
