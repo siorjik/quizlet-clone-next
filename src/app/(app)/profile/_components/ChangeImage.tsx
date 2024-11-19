@@ -68,7 +68,7 @@ export default function ChangeImage() {
 
       toast.success('Image was uploaded', { position: 'bottom-center', type: 'success' })
     } catch (error) {
-      console.log(error)
+      console.log('71 - ', error)
 
       const err = error as Error
 
