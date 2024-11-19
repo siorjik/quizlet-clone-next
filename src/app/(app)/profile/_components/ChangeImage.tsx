@@ -53,11 +53,11 @@ export default function ChangeImage() {
         headers: { 'X-File-Name': image.file?.name! }
       })
 
-      if (!res.ok) throw new Error()
+      if (!res.ok) throw new Error('Uploading error')
 
       const { url } = await res.json()
 
-      if (!url) throw new Error()
+      if (!url) throw new Error('Uploaded image url not found')
 
       await apiService({ url: '/api/users', method: 'PATCH', body: { image: url } })
 
@@ -70,9 +70,11 @@ export default function ChangeImage() {
     } catch (error) {
       console.log(error)
 
+      const err = error as Error
+
       setLoading(false)
 
-      toast.error('Something went wrong', { position: 'bottom-center', type: 'error' })
+      toast.error(err.message || 'Something went wrong', { position: 'bottom-center', type: 'error' })
     }
   }
 
