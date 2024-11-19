@@ -79,26 +79,29 @@ export default function ChangeImage() {
   const showControlBlock = image.url && !String(image.url).includes('https')
 
   return (
-    <div className='flex flex-col justify-center items-center'>
-      <div>
-        <input
-          className='absolute h-[200px] w-[200px] opacity-0 cursor-pointer rounded-full'
-          type='file'
-          onChange={onChange}
-        />
-        <Image
-          className='rounded-full border-4 border-pink-400 object-cover w-[200px] h-[200px]'
-          src={image.url ?? userIcon}
-          width={200}
-          height={200}
-          alt='user'
-        />
-        {showControlBlock &&  <div className='mt-5 gap-5 flex justify-center'>
-          <Button click={() => setImage({ file: null, url: null })}>Cancel</Button>
-          <Button click={upload}>Save</Button>
-        </div>}
+    <>
+      <h3 className='mb-8'>Image updating:</h3>
+      <div className='flex flex-col justify-center items-center'>
+        <div>
+          <input
+            className='absolute h-[200px] w-[200px] opacity-0 cursor-pointer rounded-full'
+            type='file'
+            onChange={onChange}
+          />
+          <Image
+            className='rounded-full border-4 border-pink-400 object-cover w-[200px] h-[200px]'
+            src={image.url ?? userIcon}
+            width={200}
+            height={200}
+            alt='user'
+          />
+          {showControlBlock && <div className='mt-5 gap-5 flex justify-center'>
+            <Button click={() => setImage({ file: null, url: null })}>Cancel</Button>
+            <Button click={upload}>Save</Button>
+          </div>}
+        </div>
+        {isLoading && <Spinner />}
       </div>
-      {isLoading && <Spinner />}
-    </div>
+    </>
   )
 }

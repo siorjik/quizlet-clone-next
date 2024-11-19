@@ -182,7 +182,7 @@ export default memo(function SetForm(
           <div>
             <p className='ml-3 text-xs'>Language source:</p>
             <Select
-              style='select bg-pink-100'
+              style='select bg-purple-200'
               name='source'
               options={languageOptions}
               placeholder='Choose a language'
@@ -206,13 +206,13 @@ export default memo(function SetForm(
           <div>
             <p className='ml-3 text-xs'>Language target:</p>
             <Select
-              style='select bg-pink-100'
+              style='select bg-purple-200'
               name='target'
               options={languageOptions}
               placeholder='Choose a language'
               register={{
                 ...register('target', {
-                  required: 'Required',
+                  required: 'Required!',
                   onChange: ({ target }) => {
                     if (target.value === source) setError('target', { message: 'Need to be different than source' })
                     else if (errors.source || errors.target) {
@@ -236,7 +236,7 @@ export default memo(function SetForm(
           css='btn w-fit m-auto mt-5 border-none bg-lime-300 hover:bg-lime-100'
           click={() => append({ term: '', definition: '' })}
         >Add</Button>
-        <Button css='btn w-fit mt-4' type='button' click={handleSubmit(submit)}>{isCreating ? 'Create' : 'Update'}</Button>
+        <Button css='btn-mid w-fit mt-4' type='button' click={handleSubmit(submit)}>{isCreating ? 'Create' : 'Update'}</Button>
       </>}
     </form>
   )

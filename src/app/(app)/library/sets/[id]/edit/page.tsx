@@ -29,7 +29,7 @@ export default async function Edit({ params }: { params: { id: string } }) {
     <div className='flex flex-col items-center'>
       <div className='w-full'>
         <Link
-          className='mb-8 inline-block border-2 rounded-md px-5 py-2 hover:bg-slate-200 transition-all'
+          className='mb-8 btn-mid'
           href={getSetAppPath(params.id)}
         >Cancel</Link>
         <SetEditForm id={params.id} data={set} />

@@ -22,17 +22,14 @@ type FormPropsType = {
   schema: ZodSchema
   isDisabled?: boolean
   data?: z.infer<ZodSchema>
+  isErr?: boolean
 }
 
 export default function Form(props: FormPropsType) {
   const {
     submit, fieldsData, css, btnData: { text, hoverColor } = {}, isReset = false, schema, onSuccess, isDisabled = false,
-    data = null
+    data = null, isErr = false
   } = props
-
-  useEffect(() => {
-    if (isDisabled && !isSubmitted) reset() 
-  }, [isDisabled])
 
   const {
     register, handleSubmit, reset, formState: { errors, isSubmitted, dirtyFields }, getValues
@@ -40,6 +37,10 @@ export default function Form(props: FormPropsType) {
     resolver: zodResolver(schema),
     defaultValues: data
   })
+
+  useEffect(() => {
+    if (isDisabled && !isSubmitted) reset()
+  }, [isDisabled])
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
     try {
@@ -61,7 +62,7 @@ export default function Form(props: FormPropsType) {
           <Input { ...item } errors={errors} register={{...register(item.name), disabled: isDisabled}} />
         </Fragment>))}
       {
-        !isDisabled && Object.keys(dirtyFields).length > 0
+        ((!isDisabled && Object.keys(dirtyFields).length > 0) || isErr)
         && <Button css='btn mt-8 w-fit' type='submit' hoverColor={hoverColor}>{text || 'Submit'}</Button>
       }
     </form>

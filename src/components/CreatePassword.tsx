@@ -17,7 +17,7 @@ import { createPassword } from '@/actions/auth/mutations'
 export default function CreatePassword({ token }: { token: string }) {
   const [isLoading, setLoading] = useState(false)
 
-  const { execute, isExecuting } = useAction(createPassword, {
+  const { execute, isExecuting, hasErrored } = useAction(createPassword, {
     onSuccess: () => {
       setLoading(false)
 
@@ -57,7 +57,7 @@ export default function CreatePassword({ token }: { token: string }) {
       type: 'password',
       label: 'Confirm Password',
       inputStyle: 'input',
-      blockStyle: 'w-full mb-8',
+      blockStyle: 'w-full',
       isRequired: true,
     },
   ]
@@ -70,7 +70,8 @@ export default function CreatePassword({ token }: { token: string }) {
         css='w-4/5 md:w-1/2 max-w-sm flex flex-col items-center'
         btnData={{ text: 'Create Password' }}
         schema={createPassFormTypeSchema}
-        isReset
+        data={{ password: '', confirmPassword: '' }}
+        isErr={hasErrored}
       />
       <p className='mt-10'>
         Go to <Link className='link' href={loginAppPath}>Sign In</Link>

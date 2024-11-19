@@ -45,6 +45,7 @@ export default function ChangePassForm() {
 
   return (
     <>
+      <h3 className='mb-8'>Password updating:</h3>
       <Form
         submit={submit}
         fieldsData={fieldsData}
