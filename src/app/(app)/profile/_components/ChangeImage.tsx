@@ -26,12 +26,20 @@ export default function ChangeImage() {
   }, [getAuthUrlCallback, session?.user?.image, image.url])
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileMb = 1024 * 1024 * 10 // 10Mb
+
     if (e.target.files) {
       const file = e.target.files[0]
       const ext = file.name.substring(file.name.lastIndexOf('.') + 1)
+      const isAllowedSize = file.size < fileMb
 
       if (ext !== 'png' && ext !== 'jpg' && ext !== 'jpeg') {
         toast.error('File type not supported! Need to be .png, .jpg or .jpeg', { position: 'bottom-center', type: 'error' })
+        return
+      }
+
+      if (!isAllowedSize) {
+        toast.error('File size too large! Need to be less than 10Mb', { position: 'bottom-center', type: 'error' })
         return
       }
 
@@ -68,7 +76,7 @@ export default function ChangeImage() {
 
       toast.success('Image was uploaded', { position: 'bottom-center', type: 'success' })
     } catch (error) {
-      console.log('71 - ', error)
+      console.log(error)
 
       const err = error as Error
 
