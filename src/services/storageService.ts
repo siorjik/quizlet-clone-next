@@ -30,8 +30,6 @@ export default class StorageService {
   }
 
   async uploadFile(fileStr: string, fileName: string) {
-    console.log('fileStr - ', fileStr)
-    console.log('fileName - ', fileName)
     try {
       const { data: authData } = await this.b2.authorize()
 
@@ -55,7 +53,6 @@ export default class StorageService {
 
       return url
     } catch (error) {
-      console.log('56 - ', error)
       throw error
     }
   }
