@@ -184,13 +184,8 @@ export default memo(function SetForm(
             gap-4 md:gap-10 lg:w-3/6
           '
         >
-          <div 
-            className='
-              py-3 px-4 md:my-0 flex justify-center self-center md:self-end
-              cursor-default bg-green-200 rounded-full
-            '
-          >
-            <span className='text-sm text-center'>{list.length}</span>
+          <div className='py-3 px-4 md:my-0 self-center md:self-end cursor-default bg-green-200 rounded-full text-sm'>
+            {list.length}
           </div>
           <div className='flex flex-col md:flex-row justify-between gap-4 md:gap-10'>
             <div>
