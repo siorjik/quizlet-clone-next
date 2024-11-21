@@ -180,14 +180,19 @@ export default memo(function SetForm(
         />
         <div 
           className='
-            md:mt-5 lg:mt-0 flex flex-col md:flex-row justify-between w-full
-            gap-0 md:gap-10 lg:gap-5 xl:gap-10 lg:w-fit xl:w-3/6
+            mt-5 lg:mt-0 flex flex-col md:flex-row justify-between w-full
+            gap-4 md:gap-10 lg:w-3/6
           '
         >
-          <div className='mt-4 mb-4 flex justify-center cursor-default'>
-            <span className='bg-green-200 px-3 py-3 rounded-xl h-fit self-end text-sm'>Items amount: {list.length}</span>
+          <div 
+            className='
+              py-3 px-4 md:my-0 flex justify-center self-center md:self-end
+              cursor-default bg-green-200 rounded-full
+            '
+          >
+            <span className='text-sm text-center'>{list.length}</span>
           </div>
-          <div className='flex flex-col justify-between gap-4 md:gap-10 lg:gap-5 xl:gap-10 md:flex-row'>
+          <div className='flex flex-col md:flex-row justify-between gap-4 md:gap-10'>
             <div>
               <p className='ml-3 text-xs'>Language source:</p>
               <Select
