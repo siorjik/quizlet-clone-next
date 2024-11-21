@@ -184,7 +184,7 @@ export default memo(function SetForm(
             gap-4 md:gap-10 lg:w-3/6
           '
         >
-          <div className='py-3 px-4 md:my-0 self-center md:self-end cursor-default bg-green-200 rounded-full text-sm'>
+          <div className='py-[11px] px-[16px] md:my-0 self-center md:self-end cursor-default bg-green-200 rounded-full text-sm'>
             {list.length}
           </div>
           <div className='flex flex-col md:flex-row justify-between gap-4 md:gap-10'>
