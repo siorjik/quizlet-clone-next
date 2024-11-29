@@ -13,9 +13,10 @@ export default async (word: string, language: string) => {
   `
 
   const input = `
-    Suggest 3 unique words in lower case which started from '${word}' or return '${word}' if it is not in the dictionary.
+    Suggest 5 unique words in lower case which started from '${word}' or return '${word}' if it is not in the dictionary.
     Return data in JSON format according following format: { words: string[] }.
   `
+
   const model = new ChatOpenAI({ temperature: 0, modelName: 'gpt-3.5-turbo-1106', maxTokens: 100 })
 
   const parser = StructuredOutputParser.fromZodSchema(
