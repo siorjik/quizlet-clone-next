@@ -27,19 +27,20 @@ const getMappedTranslates = (data: string[]): string[] => {
 }
 
 export default async (word: string, inputLanguage: string, outputLanguage: string) => {
-  const system = `You are an expert translator.`
+  const system = 'You are an expert translator.'
 
   const input = `
     Translate '${word}' with unique variants
     from ${languageOptions.find(item => item.value === inputLanguage)?.label.toLowerCase()}
     to ${languageOptions.find(item => item.value === outputLanguage)?.label.toLowerCase()}.
-    Return data in JSON format according following format: { translate: string, translates: string[] }.
+    Return data in JSON format according following format: { translates: string[] }.
   `
+
   const model = new ChatOpenAI({ temperature: 0, modelName: 'gpt-3.5-turbo-1106', maxTokens: 100 })
 
   const parser = StructuredOutputParser.fromZodSchema(
     z.object({
-      translates: z.array(z.string()).describe('The list of minor translated texts'),
+      translates: z.array(z.string()).describe('The list of translated texts'),
     })
   )
 
@@ -65,7 +66,5 @@ export default async (word: string, inputLanguage: string, outputLanguage: strin
 
   const res: { translates: string[] } = await fixParser.parse(response.output)
 
-  const uniqueTranslates = Array.from(new Set(res.translates))
-
-  return getMappedTranslates([...uniqueTranslates])
+  return getMappedTranslates(res.translates)
 }

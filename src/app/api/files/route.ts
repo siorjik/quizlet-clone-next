@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
   const url = req.nextUrl.searchParams.get('url')
 
   try {
-    const authorizedUrl = await storageService.getAuthFileUrl(url!)
+    const authorizedUrl = storageService.getAuthFileUrl(url!)
 
     return NextResponse.json({ url: authorizedUrl })
   } catch (error) {

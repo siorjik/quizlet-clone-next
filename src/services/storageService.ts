@@ -57,7 +57,7 @@ export default class StorageService {
     }
   }
 
-  async getAuthFileUrl(url: string) {
+  getAuthFileUrl(url: string) {
     try {
       return `${url}?Authorization=${this.storageAuth.authToken}`
     } catch (error) {
@@ -65,7 +65,7 @@ export default class StorageService {
     }
   }
 
-  async deleteAuth() {
+  deleteAuth() {
     this.storageAuth = { authToken: '', downloadURL: '' }
   }
 }
