@@ -74,6 +74,11 @@ jobs:
           start: yarn start
           # wait-on: 'http://localhost:3000'
           browser: chrome
+        env:
+          CYPRESS_APP_URL: ${{ secrets.CYPRESS_APP_URL }}
+          CYPRESS_EMAIL: ${{ secrets.CYPRESS_EMAIL }}
+          CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
+        config-file: cypress.config.ts
         
       - name: Build the docker image
         run: docker build .
