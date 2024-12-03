@@ -75,7 +75,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
           height={30}
           alt='user' />}
       </Link>
-      <span className='cursor-pointer' onClick={isAuth ? logout : () => push(loginAppPath)}>
+      <span id='logout' className='cursor-pointer' onClick={isAuth ? logout : () => push(loginAppPath)}>
         <Image
           className={`${isSmall ? 'h-[25px] w-[25px]' : 'h-[30px] w-[30px]'} transition-all`}
           src={isAuth ? logoutIcon : loginIcon} alt='logout' />

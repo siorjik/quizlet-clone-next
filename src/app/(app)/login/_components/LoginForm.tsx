@@ -94,7 +94,7 @@ export default function Login() {
   ]
 
   const modalContent = (
-    <div className=''>
+    <div data-id='recovery-form'>
       <Form
         submit={passwordRecovery}
         fieldsData={[fieldsData[0]]}
@@ -112,8 +112,8 @@ export default function Login() {
         css='w-full flex flex-col items-center'
         btnData={{ text: 'Login' }}
       />
-      <p className='mt-8' onClick={() => setShow(true)}>
-        Forgot your password? <span className='link'>Password Recovery</span>
+      <p className='mt-8'>
+        Forgot your password? <span data-id='recovery' className='link' onClick={() => setShow(true)}>Password Recovery</span>
       </p>
       <AuthProviderBlock submit={submitViaProvider} />
       <ToastMessage />
