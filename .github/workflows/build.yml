@@ -44,9 +44,9 @@ jobs:
           CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
         run: |
           echo '{
-            "appUrl": "${CYPRESS_APP_URL}",
-            "email": "${CYPRESS_EMAIL}",
-            "password": "${CYPRESS_PASSWORD}"
+            "appUrl": "'"$CYPRESS_APP_URL"'",
+            "email": "'"$CYPRESS_EMAIL"'",
+            "password": "'"$CYPRESS_PASSWORD"'"
           }' > cypress.env.json
 
       - name: Check env file
@@ -61,10 +61,10 @@ jobs:
       - name: Check build
         run: yarn build
 
-      - name: Check unit test
+      - name: Check unit tests
         run: yarn jest
 
-      - name: Check e2e test
+      - name: Check e2e tests
         run: yarn cypress run
         
       - name: Build the docker image
