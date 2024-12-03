@@ -50,7 +50,7 @@ jobs:
           }' > cypress.env.json
 
       - name: Check env file
-        run: cat .env
+        run: cat .env.production.local
 
       - name: Check cypress env file
         run: cat cypress.env.json
