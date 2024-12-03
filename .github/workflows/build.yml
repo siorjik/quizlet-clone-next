@@ -72,6 +72,8 @@ jobs:
         with:
           build: yarn build
           start: yarn start
+          # wait-on: 'http://localhost:3000'
+          browser: chrome
         
       - name: Build the docker image
         run: docker build .
