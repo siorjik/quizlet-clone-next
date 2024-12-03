@@ -15,7 +15,7 @@ jobs:
       - name: Get code
         uses: actions/checkout@v4
       
-      - name: Create .env file
+      - name: Create .env.production.local file
         env:
           APP_ENV: ${{ vars.APP_ENV }}
           API_HOST: ${{ secrets.API_HOST }}
@@ -27,15 +27,15 @@ jobs:
           STORAGE_ID: ${{ secrets.STORAGE_ID }}
           STORAGE_NAME: ${{ secrets.STORAGE_NAME }}
         run: |
-          echo "APP_ENV=${APP_ENV}" > .env
-          echo "API_HOST=${API_HOST}" >> .env
-          echo "NEXT_PUBLIC_APP_HOST=${NEXT_PUBLIC_APP_HOST}" >> .env
-          echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}" >> .env
-          echo "NEXTAUTH_URL=${NEXTAUTH_URL}" >> .env
-          echo "STORAGE_ACCESS_KEY=${STORAGE_ACCESS_KEY}" >> .env
-          echo "STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID}" >> .env
-          echo "STORAGE_ID=${STORAGE_ID}" >> .env
-          echo "STORAGE_NAME=${STORAGE_NAME}" >> .env
+          echo "APP_ENV=${APP_ENV}" > .env.production.local
+          echo "API_HOST=${API_HOST}" >> .env.production.local
+          echo "NEXT_PUBLIC_APP_HOST=${NEXT_PUBLIC_APP_HOST}" >> .env.production.local
+          echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}" >> .env.production.local
+          echo "NEXTAUTH_URL=${NEXTAUTH_URL}" >> .env.production.local
+          echo "STORAGE_ACCESS_KEY=${STORAGE_ACCESS_KEY}" >> .env.production.local
+          echo "STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID}" >> .env.production.local
+          echo "STORAGE_ID=${STORAGE_ID}" >> .env.production.local
+          echo "STORAGE_NAME=${STORAGE_NAME}" >> .env.production.local
 
       - name: Create cypress.env.json file
         env:
@@ -74,6 +74,7 @@ jobs:
           start: yarn start
           # wait-on: 'http://localhost:3000'
           browser: chrome
+          config: baseUrl=http://localhost:3000
           config-file: cypress.config.ts
         env:
           CYPRESS_APP_URL: ${{ secrets.CYPRESS_APP_URL }}
