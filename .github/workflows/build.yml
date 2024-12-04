@@ -18,14 +18,17 @@ jobs:
       - name: Create .env.production.local file
         env:
           APP_ENV: ${{ vars.APP_ENV }}
-          API_HOST: ${{ secrets.API_HOST }}
-          NEXT_PUBLIC_APP_HOST: ${{ secrets.NEXT_PUBLIC_APP_HOST }}
+          # API_HOST: ${{ secrets.API_HOST }}
+          # NEXT_PUBLIC_APP_HOST: ${{ secrets.NEXT_PUBLIC_APP_HOST }}
+          API_HOST: http://localhost:8080
+          NEXT_PUBLIC_APP_HOST: http://localhost:3000
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
           STORAGE_ACCESS_KEY: ${{ secrets.STORAGE_ACCESS_KEY }}
           STORAGE_ACCESS_KEY_ID: ${{ secrets.STORAGE_ACCESS_KEY_ID }}
           STORAGE_ID: ${{ secrets.STORAGE_ID }}
           STORAGE_NAME: ${{ secrets.STORAGE_NAME }}
+          FAIL: ${{ secrets.FAIL }}
         run: |
           echo "APP_ENV=${APP_ENV}" > .env.production.local
           echo "API_HOST=${API_HOST}" >> .env.production.local
@@ -36,6 +39,7 @@ jobs:
           echo "STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID}" >> .env.production.local
           echo "STORAGE_ID=${STORAGE_ID}" >> .env.production.local
           echo "STORAGE_NAME=${STORAGE_NAME}" >> .env.production.local
+          echo "FAIL=${FAIL}" >> .env.production.local
 
       # - name: Create cypress.env.json file
       #   env:
@@ -77,9 +81,12 @@ jobs:
           config: baseUrl=http://localhost:3000
           # config-file: cypress.config.ts
         env:
-          CYPRESS_APP_URL: ${{ secrets.CYPRESS_APP_URL }}
-          CYPRESS_EMAIL: ${{ secrets.CYPRESS_EMAIL }}
-          CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
+          # CYPRESS_APP_URL: ${{ secrets.CYPRESS_APP_URL }}
+          # CYPRESS_EMAIL: ${{ secrets.CYPRESS_EMAIL }}
+          # CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
+          CYPRESS_APP_URL: http://localhost:3000
+          CYPRESS_EMAIL: test@test.com
+          CYPRESS_PASSWORD: 12345
         
       - name: Build the docker image
         run: docker build .
