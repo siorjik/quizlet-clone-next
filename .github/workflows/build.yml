@@ -20,8 +20,8 @@ jobs:
           APP_ENV: ${{ vars.APP_ENV }}
           # API_HOST: ${{ secrets.API_HOST }}
           # NEXT_PUBLIC_APP_HOST: ${{ secrets.NEXT_PUBLIC_APP_HOST }}
-          API_HOST: http://localhost:8080
           NEXT_PUBLIC_APP_HOST: http://localhost:3000
+          API_HOST: http://localhost:8080
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
           STORAGE_ACCESS_KEY: ${{ secrets.STORAGE_ACCESS_KEY }}
@@ -78,15 +78,17 @@ jobs:
           start: yarn start
           # wait-on: 'http://localhost:3000'
           browser: chrome
+          # headed: true
           config: baseUrl=http://localhost:3000
           # config-file: cypress.config.ts
-        env:
+        # env:
           # CYPRESS_APP_URL: ${{ secrets.CYPRESS_APP_URL }}
           # CYPRESS_EMAIL: ${{ secrets.CYPRESS_EMAIL }}
           # CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
-          CYPRESS_APP_URL: http://localhost:3000
-          CYPRESS_EMAIL: test@test.com
-          CYPRESS_PASSWORD: 12345
+          # CYPRESS_APP_URL: http://localhost:3000
+          # CYPRESS_EMAIL: test@test.com
+          # CYPRESS_PASSWORD: 12345
+        env: appUrl=http://localhost:3000,email=test@test.com,password=12345
         
       - name: Build the docker image
         run: docker build .
