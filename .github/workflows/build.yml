@@ -60,8 +60,8 @@ jobs:
       - name: Yarn install
         run: yarn install
         
-      # - name: Check build
-      #   run: yarn build
+      - name: Check build
+        run: yarn build
 
       - name: Start Next app
         run: yarn start &
