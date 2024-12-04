@@ -67,14 +67,20 @@ jobs:
       - name: Check build
         run: yarn build
 
-      - name: Check unit tests
-        run: yarn jest
+      - name: Start app
+        run: yarn start
 
-      # - name: Check e2e tests
-      #   run: yarn cypress run
+      - name: Wait for the server to be ready
+        run: npx wait-on http://127.0.0.1:3000
+
+      # - name: Check unit tests
+      #   run: yarn jest
 
       - name: Check e2e tests
-        uses: cypress-io/github-action@v5
+        run: yarn cypress run
+
+      # - name: Check e2e tests
+      #   uses: cypress-io/github-action@v5
         # with:
           # build: yarn build
           # start: yarn start
