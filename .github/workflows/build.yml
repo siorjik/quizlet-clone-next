@@ -81,7 +81,7 @@ jobs:
           # wait-on: 'http://localhost:3000'
           browser: chrome
           # headed: true
-          config: baseUrl=http://localhost:3000
+          config: pageLoadTimeout=100000,baseUrl=http://localhost:3000
           # config-file: cypress.config.ts
         # env:
           # CYPRESS_APP_URL: ${{ secrets.CYPRESS_APP_URL }}
