@@ -10,7 +10,7 @@ on:
 jobs:
   check-build:
     runs-on: ubuntu-latest
-    environment: prod
+    environment: local
     steps:
       - name: Get code
         uses: actions/checkout@v4
@@ -80,11 +80,12 @@ jobs:
         with:
           build: yarn build
           start: yarn start
-          # wait-on: 'http://localhost:3000'
-          wait-on: 'https://language-for-you.online'
+          wait-on: 'http://localhost:3000'
+          # wait-on: 'https://language-for-you.online'
           browser: chrome
           # headed: true
-          config: pageLoadTimeout=60000,baseUrl=https://language-for-you.online
+          # config: pageLoadTimeout=60000,baseUrl=https://language-for-you.online
+          config: pageLoadTimeout=60000,baseUrl=http://localhost:3000
           # config-file: cypress.config.ts
         env:
           CYPRESS_appUrl: ${{ secrets.CYPRESS_APP_URL }}
