@@ -66,11 +66,11 @@ jobs:
       - name: Start Next app
         run: yarn start &
         env:
-          PORT: 3000
+          PORT: 4000
           HOST: 0.0.0.0
 
       - name: Wait for the server to be ready
-        run: npx wait-on http://localhost:3000
+        run: npx wait-on http://localhost:4000
 
       # - name: Check unit tests
       #   run: yarn jest
@@ -83,12 +83,12 @@ jobs:
         with:
           # build: yarn build
           start: yarn start
-          wait-on: 'http://localhost:3000'
+          # wait-on: 'http://localhost:3000'
           # wait-on: 'https://language-for-you.online'
           browser: chrome
           # headed: true
           # config: pageLoadTimeout=60000,baseUrl=https://language-for-you.online
-          config: pageLoadTimeout=60000,baseUrl=http://localhost:3000
+          config: pageLoadTimeout=60000,baseUrl=http://localhost:4000
           # config-file: cypress.config.ts
         env:
           CYPRESS_appUrl: ${{ secrets.CYPRESS_APP_URL }}
