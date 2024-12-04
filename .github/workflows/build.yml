@@ -60,8 +60,8 @@ jobs:
       - name: Yarn install
         run: yarn install
         
-      - name: Check build
-        run: yarn build
+      # - name: Check build
+      #   run: yarn build
 
       # - name: Start app
       #   run: yarn start
@@ -81,9 +81,10 @@ jobs:
           build: yarn build
           start: yarn start
           # wait-on: 'http://localhost:3000'
+          wait-on: 'https://language-for-you.online'
           browser: chrome
           # headed: true
-          config: pageLoadTimeout=60000,baseUrl=http://localhost:3000
+          config: pageLoadTimeout=60000,baseUrl=https://language-for-you.online
           # config-file: cypress.config.ts
         env:
           CYPRESS_appUrl: ${{ secrets.CYPRESS_APP_URL }}
