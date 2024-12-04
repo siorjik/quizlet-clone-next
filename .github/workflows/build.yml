@@ -63,26 +63,26 @@ jobs:
       # - name: Check build
       #   run: yarn build
 
-      # - name: Start Next app
-      #   run: yarn start &
-      #   env:
-      #     PORT: 4000
-      #     HOST: 0.0.0.0
+      - name: Start Next app
+        run: yarn start &
+        env:
+          PORT: 3000
+          # HOST: 0.0.0.0
 
-      # - name: Wait for the server to be ready
-      #   run: npx wait-on http://localhost:4000
+      - name: Wait for the server to be ready
+        run: npx wait-on http://localhost:3000
 
       # - name: Check unit tests
       #   run: yarn jest
 
-      # - name: Check e2e tests
-      #   run: yarn cypress run
-
       - name: Check e2e tests
-        uses: cypress-io/github-action@v6
-        with:
-          build: yarn build
-          start: yarn start
+        run: yarn cypress run
+
+      # - name: Check e2e tests
+      #   uses: cypress-io/github-action@v6
+      #   with:
+      #     build: yarn build
+      #     start: yarn start
           # wait-on: 'http://localhost:5000'
           # wait-on: 'https://language-for-you.online'
           # browser: chrome
@@ -103,15 +103,15 @@ jobs:
         #   CYPRESS_password: 12345
 
       - uses: actions/upload-artifact@v3
-        # if: failure()
-        if: always()
+        if: failure()
+        # if: always()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
 
       - uses: actions/upload-artifact@v3
-        # if: failure()
-        if: always()
+        if: failure()
+        # if: always()
         with:
           name: cypress-videos
           path: cypress/videos
