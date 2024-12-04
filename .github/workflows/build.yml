@@ -27,14 +27,14 @@ jobs:
           STORAGE_ID: ${{ secrets.STORAGE_ID }}
           STORAGE_NAME: ${{ secrets.STORAGE_NAME }}
         run: |
-          echo "APP_ENV=${APP_ENV}" > .env.production.local
-          echo "API_HOST=${API_HOST}" >> .env.production.local
-          echo "NEXT_PUBLIC_APP_HOST=${NEXT_PUBLIC_APP_HOST}" >> .env.production.local
-          echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}" >> .env.production.local
-          echo "NEXTAUTH_URL=${NEXTAUTH_URL}" >> .env.production.local
-          echo "STORAGE_ACCESS_KEY=${STORAGE_ACCESS_KEY}" >> .env.production.local
-          echo "STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID}" >> .env.production.local
-          echo "STORAGE_ID=${STORAGE_ID}" >> .env.production.local
+          echo "APP_ENV=${APP_ENV}" > .env.local
+          echo "API_HOST=${API_HOST}" >> .env.local
+          echo "NEXT_PUBLIC_APP_HOST=${NEXT_PUBLIC_APP_HOST}" >> .env.local
+          echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}" >> .env.local
+          echo "NEXTAUTH_URL=${NEXTAUTH_URL}" >> .env.local
+          echo "STORAGE_ACCESS_KEY=${STORAGE_ACCESS_KEY}" >> .env.local
+          echo "STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID}" >> .env.local
+          echo "STORAGE_ID=${STORAGE_ID}" >> .env.local
           echo "STORAGE_NAME=${STORAGE_NAME}" >> .env.local
 
       - name: Create cypress.env.json file
