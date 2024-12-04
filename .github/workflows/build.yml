@@ -20,8 +20,8 @@ jobs:
           APP_ENV: ${{ vars.APP_ENV }}
           # API_HOST: ${{ secrets.API_HOST }}
           # NEXT_PUBLIC_APP_HOST: ${{ secrets.NEXT_PUBLIC_APP_HOST }}
-          NEXT_PUBLIC_APP_HOST: http://127.0.0.1:3000
-          API_HOST: http://127.0.0.1:8080
+          NEXT_PUBLIC_APP_HOST: http://localhost:3000
+          API_HOST: http://localhost:8080
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
           STORAGE_ACCESS_KEY: ${{ secrets.STORAGE_ACCESS_KEY }}
@@ -29,11 +29,11 @@ jobs:
           STORAGE_ID: ${{ secrets.STORAGE_ID }}
           STORAGE_NAME: ${{ secrets.STORAGE_NAME }}
           FAIL: ${{ secrets.FAIL }}
-          NEXT_PUBLIC_FAIL: http://127.0.0.1:3000
+          NEXT_PUBLIC_FAIL: http://localhost:3000
         run: |
           echo "APP_ENV=${APP_ENV}" > .env.production.local
           echo "API_HOST=${API_HOST}" >> .env.production.local
-          echo "NEXT_PUBLIC_APP_HOST=http://127.0.0.1:3000" >> .env.production.local
+          echo "NEXT_PUBLIC_APP_HOST=http://localhost:3000" >> .env.production.local
           echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}" >> .env.production.local
           echo "NEXTAUTH_URL=${NEXTAUTH_URL}" >> .env.production.local
           echo "STORAGE_ACCESS_KEY=${STORAGE_ACCESS_KEY}" >> .env.production.local
@@ -43,23 +43,23 @@ jobs:
           echo "FAIL=${FAIL}" >> .env.production.local
           echo "NEXT_PUBLIC_FAIL=${NEXT_PUBLIC_FAIL}" >> .env.production.local
 
-      - name: Create cypress.env.json file
-        env:
-          CYPRESS_APP_URL: ${{ secrets.CYPRESS_APP_URL }}
-          CYPRESS_EMAIL: ${{ secrets.CYPRESS_EMAIL }}
-          CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
-        run: |
-          echo '{
-            "appUrl": "'"$CYPRESS_APP_URL"'",
-            "email": "'"$CYPRESS_EMAIL"'",
-            "password": "'"$CYPRESS_PASSWORD"'"
-          }' > cypress.env.json
+      # - name: Create cypress.env.json file
+      #   env:
+      #     CYPRESS_APP_URL: ${{ secrets.CYPRESS_APP_URL }}
+      #     CYPRESS_EMAIL: ${{ secrets.CYPRESS_EMAIL }}
+      #     CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
+      #   run: |
+      #     echo '{
+      #       "appUrl": "'"$CYPRESS_APP_URL"'",
+      #       "email": "'"$CYPRESS_EMAIL"'",
+      #       "password": "'"$CYPRESS_PASSWORD"'"
+      #     }' > cypress.env.json
 
       - name: Check env file
         run: cat .env.production.local
 
-      - name: Check cypress env file
-        run: cat cypress.env.json
+      # - name: Check cypress env file
+      #   run: cat cypress.env.json
 
       - name: Yarn install
         run: yarn install
@@ -67,39 +67,39 @@ jobs:
       - name: Check build
         run: yarn build
 
-      - name: Start app
-        run: yarn start
+      # - name: Start app
+      #   run: yarn start
 
-      - name: Wait for the server to be ready
-        run: npx wait-on http://127.0.0.1:3000
+      # - name: Wait for the server to be ready
+      #   run: npx wait-on http://localhost:3000
 
       # - name: Check unit tests
       #   run: yarn jest
 
-      - name: Check e2e tests
-        run: yarn cypress run
-
       # - name: Check e2e tests
-      #   uses: cypress-io/github-action@v5
-        # with:
+      #   run: yarn cypress run
+
+      - name: Check e2e tests
+        uses: cypress-io/github-action@v6
+        with:
           # build: yarn build
-          # start: yarn start
-          # wait-on: 'http://localhost:3000'
-          # browser: chrome
+          start: yarn start
+          wait-on: 'http://localhost:3000'
+          browser: chrome
           # headed: true
-          # config: pageLoadTimeout=100000,baseUrl=http://127.0.0.1:3000
+          config: pageLoadTimeout=60000,baseUrl=http://localhost:3000
           # config-file: cypress.config.ts
         # env:
-          # CYPRESS_APP_URL: ${{ secrets.CYPRESS_APP_URL }}
-          # CYPRESS_EMAIL: ${{ secrets.CYPRESS_EMAIL }}
-          # CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
-          # CYPRESS_APP_URL: http://localhost:3000
-          # CYPRESS_EMAIL: test@test.com
-          # CYPRESS_PASSWORD: 12345
-        # env:
-        #   CYPRESS_appUrl: http://127.0.0.1:3000
-        #   CYPRESS_email: test@test.com
-        #   CYPRESS_password: 12345
+        #   CYPRESS_APP_URL: ${{ secrets.CYPRESS_APP_URL }}
+        #   CYPRESS_EMAIL: ${{ secrets.CYPRESS_EMAIL }}
+        #   CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
+        #   CYPRESS_APP_URL: http://localhost:3000
+        #   CYPRESS_EMAIL: test@test.com
+        #   CYPRESS_PASSWORD: 12345
+        env:
+          CYPRESS_appUrl: http://localhost:3000
+          CYPRESS_email: test@test.com
+          CYPRESS_password: 12345
         
       - name: Build the docker image
         run: docker build .
