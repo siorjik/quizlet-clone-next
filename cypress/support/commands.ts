@@ -36,7 +36,7 @@
 //   }
 // }
 Cypress.on('uncaught:exception', (err) => {
-  cy.log(JSON.stringify(err))
+  // cy.log(JSON.stringify(err))
   if (err.message.includes('NEXT_REDIRECT')) return false
   if (err.message.includes('Minified React error #419')) return false
 })

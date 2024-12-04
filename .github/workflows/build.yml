@@ -10,12 +10,12 @@ on:
 jobs:
   check-build:
     runs-on: ubuntu-latest
-    environment: prod
+    environment: local
     steps:
       - name: Get code
         uses: actions/checkout@v4
       
-      - name: Create .env.production.local file
+      - name: Create .env.local file
         env:
           APP_ENV: ${{ vars.APP_ENV }}
           API_HOST: ${{ secrets.API_HOST }}
@@ -35,7 +35,7 @@ jobs:
           echo "STORAGE_ACCESS_KEY=${STORAGE_ACCESS_KEY}" >> .env.production.local
           echo "STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID}" >> .env.production.local
           echo "STORAGE_ID=${STORAGE_ID}" >> .env.production.local
-          echo "STORAGE_NAME=${STORAGE_NAME}" >> .env.production.local
+          echo "STORAGE_NAME=${STORAGE_NAME}" >> .env.local
 
       - name: Create cypress.env.json file
         env:
@@ -50,7 +50,7 @@ jobs:
           }' > cypress.env.json
 
       - name: Check env file
-        run: cat .env.production.local
+        run: cat .env.local
 
       - name: Check cypress env file
         run: cat cypress.env.json
@@ -74,7 +74,7 @@ jobs:
           start: yarn start
           # wait-on: 'http://localhost:3000'
           browser: chrome
-          config: baseUrl=https://language-for-you.online
+          config: baseUrl=http://localhost:3000
           # config-file: cypress.config.ts
         env:
           CYPRESS_APP_URL: ${{ secrets.CYPRESS_APP_URL }}

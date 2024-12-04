@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "launch": "yarn build && yarn start",
     "lint": "next lint",
     "jest": "jest",
     "jest:watch": "jest --watch",
