@@ -63,11 +63,14 @@ jobs:
       - name: Check build
         run: yarn build
 
-      - name: Start app
-        run: yarn start && npx wait-on http://localhost:3000
+      - name: Start Next app
+        run: yarn start &
+        env:
+          PORT: 3000
+          HOST: 0.0.0.0
 
-      # - name: Wait for the server to be ready
-      #   run: npx wait-on http://localhost:3000
+      - name: Wait for the server to be ready
+        run: npx wait-on http://localhost:3000
 
       # - name: Check unit tests
       #   run: yarn jest
