@@ -66,7 +66,7 @@ jobs:
       - name: Start Next app
         run: yarn start &
         env:
-          PORT: 4000
+          PORT: 3000
           HOST: 0.0.0.0
 
       - name: Wait for the server to be ready
@@ -82,13 +82,13 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           # build: yarn build
-          start: yarn start --port 3000 --host 0.0.0.0
+          start: yarn start --port 4000
           # wait-on: 'http://localhost:3000'
           # wait-on: 'https://language-for-you.online'
           browser: chrome
           # headed: true
           # config: pageLoadTimeout=60000,baseUrl=https://language-for-you.online
-          config: pageLoadTimeout=60000,baseUrl=http://localhost:4000
+          config: pageLoadTimeout=60000,baseUrl=http://localhost:3000
           # config-file: cypress.config.ts
         env:
           CYPRESS_appUrl: ${{ secrets.CYPRESS_APP_URL }}
