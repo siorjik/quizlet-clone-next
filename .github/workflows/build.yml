@@ -79,8 +79,8 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           build: yarn build
-          start: yarn start
-          wait-on: 'http://localhost:3000'
+          start: yarn start --port 3000
+          # wait-on: 'http://localhost:3000'
           # wait-on: 'https://language-for-you.online'
           browser: chrome
           # headed: true
