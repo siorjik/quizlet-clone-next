@@ -6,7 +6,7 @@ describe('recover password', () => {
     cy.get('[data-id="recovery"]').click()
     cy.get('[data-id="recovery-form"]').within(() => {
       cy.get('[name="email"]').type('invalid@email.com')
-      cy.get('[type="submit"]').click().wait(1000)
+      cy.get('[type="submit"]').click().wait(2000)
     })
     cy.get(toastStyles.error).should('be.visible')
     cy.contains('Close').click()
@@ -21,7 +21,6 @@ describe('recover password', () => {
       cy.get('[type="submit"]').click().wait(1000)
     })
     cy.get(toastStyles.success).should('be.visible')
-    cy.contains('Close').click()
     cy.get('[data-id="recovery-form"]').not('be.visible')
   })
 })

@@ -2,9 +2,10 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import apiErrorService from '@/services/apiErrorService'
 import dictionaryService from '@/services/dictionaryService'
+import { ApiErrType } from '@/types/ErrorTypes'
 
 export async function GET(req: NextRequest):
-  Promise<NextResponse<string[] | { error: { message: string, status: number } }>> {
+  Promise<NextResponse<string[] | ApiErrType>> {
   let res: string[] = []
 
   try {
@@ -19,8 +20,8 @@ export async function GET(req: NextRequest):
 
     return NextResponse.json(res)
   } catch (error) {
-    const err = error as Error
+    const err = error as Error & ApiErrType
 
-    return apiErrorService(err, 400)
+    return apiErrorService(err)
   }
 }

@@ -65,8 +65,8 @@ jobs:
 
       - name: Start Next app
         run: yarn start &
-        env:
-          PORT: 3000
+        # env:
+        #   PORT: 3000
           # HOST: 0.0.0.0
 
       - name: Wait for the server to be ready
