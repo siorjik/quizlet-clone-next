@@ -20,8 +20,8 @@ jobs:
           APP_ENV: ${{ vars.APP_ENV }}
           # API_HOST: ${{ secrets.API_HOST }}
           # NEXT_PUBLIC_APP_HOST: ${{ secrets.NEXT_PUBLIC_APP_HOST }}
-          NEXT_PUBLIC_APP_HOST: http://localhost:3000
-          API_HOST: http://localhost:8080
+          NEXT_PUBLIC_APP_HOST: http://127.0.0.1:3000
+          API_HOST: http://127.0.0.1:8080
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
           STORAGE_ACCESS_KEY: ${{ secrets.STORAGE_ACCESS_KEY }}
@@ -29,11 +29,11 @@ jobs:
           STORAGE_ID: ${{ secrets.STORAGE_ID }}
           STORAGE_NAME: ${{ secrets.STORAGE_NAME }}
           FAIL: ${{ secrets.FAIL }}
-          NEXT_PUBLIC_FAIL: http://localhost:3000
+          NEXT_PUBLIC_FAIL: http://127.0.0.1:3000
         run: |
           echo "APP_ENV=${APP_ENV}" > .env.production.local
           echo "API_HOST=${API_HOST}" >> .env.production.local
-          echo "NEXT_PUBLIC_APP_HOST=${NEXT_PUBLIC_APP_HOST}" >> .env.production.local
+          echo "NEXT_PUBLIC_APP_HOST=http://localhost:3000" >> .env.production.local
           echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}" >> .env.production.local
           echo "NEXTAUTH_URL=${NEXTAUTH_URL}" >> .env.production.local
           echo "STORAGE_ACCESS_KEY=${STORAGE_ACCESS_KEY}" >> .env.production.local
@@ -78,7 +78,7 @@ jobs:
         with:
           build: yarn build
           start: yarn start
-          # wait-on: 'http://localhost:3000'
+          wait-on: 'http://localhost:3000'
           browser: chrome
           # headed: true
           config: pageLoadTimeout=100000,baseUrl=http://localhost:3000
