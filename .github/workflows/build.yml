@@ -39,23 +39,23 @@ jobs:
           echo "STORAGE_ID=${STORAGE_ID}" >> .env.production.local
           echo "STORAGE_NAME=${STORAGE_NAME}" >> .env.production.local
 
-      # - name: Create cypress.env.json file
-      #   env:
-      #     CYPRESS_APP_URL: ${{ secrets.CYPRESS_APP_URL }}
-      #     CYPRESS_EMAIL: ${{ secrets.CYPRESS_EMAIL }}
-      #     CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
-      #   run: |
-      #     echo '{
-      #       "appUrl": "'"$CYPRESS_APP_URL"'",
-      #       "email": "'"$CYPRESS_EMAIL"'",
-      #       "password": "'"$CYPRESS_PASSWORD"'"
-      #     }' > cypress.env.json
+      - name: Create cypress.env.json file
+        env:
+          CYPRESS_APP_URL: ${{ secrets.CYPRESS_APP_URL }}
+          CYPRESS_EMAIL: ${{ secrets.CYPRESS_EMAIL }}
+          CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
+        run: |
+          echo '{
+            "appUrl": "'"$CYPRESS_APP_URL"'",
+            "email": "'"$CYPRESS_EMAIL"'",
+            "password": "'"$CYPRESS_PASSWORD"'"
+          }' > cypress.env.json
 
       - name: Check env file
         run: cat .env.production.local
 
-      # - name: Check cypress env file
-      #   run: cat cypress.env.json
+      - name: Check cypress env file
+        run: cat cypress.env.json
 
       - name: Yarn install
         run: yarn install
@@ -82,10 +82,10 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           build: yarn build
-          start: yarn start
+          start: yarn dev
           # wait-on: 'http://localhost:5000'
           # wait-on: 'https://language-for-you.online'
-          browser: chrome
+          # browser: chrome
           # headed: true
           # config: pageLoadTimeout=60000,baseUrl=https://language-for-you.online
           # config: pageLoadTimeout=60000,baseUrl=http://localhost:5000
@@ -103,16 +103,10 @@ jobs:
         #   CYPRESS_password: 12345
 
       - uses: actions/upload-artifact@v3
-        if: failure()
+        # if: failure()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
-
-      - uses: actions/upload-artifact@v3
-        if: failure()
-        with:
-          name: cypress-videos
-          path: cypress/videos
         
       - name: Build the docker image
         run: docker build .
