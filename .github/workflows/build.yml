@@ -29,6 +29,7 @@ jobs:
           STORAGE_ID: ${{ secrets.STORAGE_ID }}
           STORAGE_NAME: ${{ secrets.STORAGE_NAME }}
           FAIL: ${{ secrets.FAIL }}
+          NEXT_PUBLIC_FAIL: http://localhost:3000
         run: |
           echo "APP_ENV=${APP_ENV}" > .env.production.local
           echo "API_HOST=${API_HOST}" >> .env.production.local
@@ -40,6 +41,7 @@ jobs:
           echo "STORAGE_ID=${STORAGE_ID}" >> .env.production.local
           echo "STORAGE_NAME=${STORAGE_NAME}" >> .env.production.local
           echo "FAIL=${FAIL}" >> .env.production.local
+          echo "NEXT_PUBLIC_FAIL=${NEXT_PUBLIC_FAIL}" >> .env.production.local
 
       # - name: Create cypress.env.json file
       #   env:
