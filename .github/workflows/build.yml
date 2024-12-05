@@ -20,8 +20,6 @@ jobs:
           APP_ENV: ${{ vars.APP_ENV }}
           API_HOST: ${{ secrets.API_HOST }}
           NEXT_PUBLIC_APP_HOST: ${{ secrets.NEXT_PUBLIC_APP_HOST }}
-          # NEXT_PUBLIC_APP_HOST: http://localhost:3000
-          # API_HOST: http://localhost:8080
           NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
           NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
           STORAGE_ACCESS_KEY: ${{ secrets.STORAGE_ACCESS_KEY }}
@@ -51,11 +49,11 @@ jobs:
             "password": "'"$CYPRESS_PASSWORD"'"
           }' > cypress.env.json
 
-      - name: Check env file
-        run: cat .env.production.local
+      # - name: Check env file
+      #   run: cat .env.production.local
 
-      - name: Check cypress env file
-        run: cat cypress.env.json
+      # - name: Check cypress env file
+      #   run: cat cypress.env.json
 
       - name: Yarn install
         run: yarn install
@@ -65,15 +63,12 @@ jobs:
 
       - name: Start Next app
         run: yarn start &
-        # env:
-        #   PORT: 3000
-          # HOST: 0.0.0.0
 
       - name: Wait for the server to be ready
         run: npx wait-on http://localhost:3000
 
-      # - name: Check unit tests
-      #   run: yarn jest
+      - name: Check unit tests
+        run: yarn jest
 
       - name: Check e2e tests
         run: yarn cypress run

@@ -18,7 +18,7 @@ export default function CreateAccForm() {
   const [isLoading, setLoading] = useState(false)
 
   const { execute, hasErrored } = useAction(createUser, {
-    onSuccess: ({ data }) => {
+    onSuccess: () => {
       setLoading(false)
 
       toast(
@@ -26,6 +26,7 @@ export default function CreateAccForm() {
         { position: 'bottom-center', type: 'success' }
       )
     },
+    
     onError: ({ error }) => {
       setLoading(false)
 
@@ -38,6 +39,7 @@ export default function CreateAccForm() {
 
     execute({ email: data.email, name: data.name })
   }
+
   const submitViaProvider = async (name: string): Promise<void> => {
     setLoading(true)
 

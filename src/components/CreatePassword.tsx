@@ -26,6 +26,7 @@ export default function CreatePassword({ token }: { token: string }) {
         { position: 'bottom-center', type: 'success' }
       )
     },
+    
     onError: ({ error }) => {
       setLoading(false)
 
