@@ -29,7 +29,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ vars.WEB_IMAGE }}:latest
+          tags: ${{ secrets.WEB_IMAGE }}:latest
 
   hosting-deploy:
     needs: docker-hub-deploy
@@ -46,8 +46,8 @@ jobs:
             cd ~/projects/quizlet-clone-next
             sudo docker-compose stop
             sudo docker-compose pull
-            sudo env APP_ENV=${{ vars.APP_ENV }} API_HOST=${{ secrets.API_HOST }} NEXT_PUBLIC_APP_HOST=${{ vars.NEXT_PUBLIC_APP_HOST }} \
-              NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} NEXTAUTH_URL=${{ vars.NEXTAUTH_URL }} \
+            sudo env APP_ENV=${{ vars.APP_ENV }} API_HOST=${{ secrets.API_HOST }} NEXT_PUBLIC_APP_HOST=${{ secrets.NEXT_PUBLIC_APP_HOST }} \
+              NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }} NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }} \
               GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} \
               GIT_AUTH_CLIENT_ID=${{ secrets.GIT_AUTH_CLIENT_ID }} GIT_AUTH_CLIENT_SECRET=${{ secrets.GIT_AUTH_CLIENT_SECRET }} \
               OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} LANGCHAIN_API_KEY=${{ secrets.LANGCHAIN_API_KEY }} LANGCHAIN_ENDPOINT=${{ secrets.LANGCHAIN_ENDPOINT }} \

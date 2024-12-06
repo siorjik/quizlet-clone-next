@@ -4,6 +4,7 @@ import apiService from '@/services/apiService'
 import { ApiErrType } from '@/types/ErrorTypes'
 import { getUpdatePasswordApiPath } from '@/utils/paths'
 import getSession from '@/helpers/getSession'
+import apiErrorService from '@/services/apiErrorService'
 
 export async function PATCH(req: NextRequest): Promise<NextResponse<{ success: boolean } | ApiErrType>> {
   const { _id } = await getSession(req)
@@ -17,8 +18,8 @@ export async function PATCH(req: NextRequest): Promise<NextResponse<{ success: b
 
     return NextResponse.json(resp)
   } catch (error) {
-    const err = error as ApiErrType
+    const err = error as ApiErrType & Error
 
-    return NextResponse.json({ ...err })
+    return apiErrorService(err)
   }
 }
