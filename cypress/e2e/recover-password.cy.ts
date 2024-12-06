@@ -13,7 +13,7 @@ describe('recover password', () => {
 
     cy.visit('/login')
     cy.get('[data-id="recovery"]').click()
-    cy.get('[data-id="recovery-form"]').within(() => {
+    cy.get('[data-id="recovery-form"]').should('be.visible').within(() => {
       cy.get('[name="email"]').type('invalid@email.com')
       cy.get('[type="submit"]').click()
     })
