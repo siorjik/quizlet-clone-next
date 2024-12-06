@@ -3,7 +3,9 @@ import { NextResponse } from 'next/server'
 import { ApiErrType } from '@/types/ErrorTypes'
 
 export default (
-  err: Error & ApiErrType, status: number = 500
+  err: Error & ApiErrType
 ): NextResponse<ApiErrType> => {
-  return NextResponse.json({ error: err.error || 'error', message: err.message, statusCode: err.statusCode || status })
+  return NextResponse.json({
+    error: err.error || 'server error', message: err.message || 'server error', statusCode: err.statusCode || 500
+  })
 }

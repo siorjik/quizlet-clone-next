@@ -58,10 +58,10 @@ jobs:
       - name: Yarn install
         run: yarn install
         
-      - name: Check build
+      - name: Yarn build
         run: yarn build
 
-      - name: Start Next app
+      - name: Yarn start
         run: yarn start &
 
       - name: Wait for the server to be ready
@@ -73,40 +73,14 @@ jobs:
       - name: Check e2e tests
         run: yarn cypress run
 
-      # - name: Check e2e tests
-      #   uses: cypress-io/github-action@v6
-      #   with:
-      #     build: yarn build
-      #     start: yarn start
-          # wait-on: 'http://localhost:5000'
-          # wait-on: 'https://language-for-you.online'
-          # browser: chrome
-          # headed: true
-          # config: pageLoadTimeout=60000,baseUrl=https://language-for-you.online
-          # config: pageLoadTimeout=60000,baseUrl=http://localhost:5000
-          # config-file: cypress.config.ts
-        # env:
-        #   CYPRESS_appUrl: ${{ secrets.CYPRESS_APP_URL }}
-        #   CYPRESS_email: ${{ secrets.CYPRESS_EMAIL }}
-        #   CYPRESS_password: ${{ secrets.CYPRESS_PASSWORD }}
-        #   CYPRESS_APP_URL: http://localhost:3000
-        #   CYPRESS_EMAIL: test@test.com
-        #   CYPRESS_PASSWORD: 12345
-        # env:
-        #   CYPRESS_appUrl: http://localhost:3000
-        #   CYPRESS_email: test@test.com
-        #   CYPRESS_password: 12345
-
       - uses: actions/upload-artifact@v3
         if: failure()
-        # if: always()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
 
       - uses: actions/upload-artifact@v3
         if: failure()
-        # if: always()
         with:
           name: cypress-videos
           path: cypress/videos

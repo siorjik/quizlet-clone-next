@@ -13,10 +13,10 @@ describe('login', () => {
     cy.get(toastStyles.error).should('be.visible')
   })
 
-  it.skip('should login by credentials - success', () => {
-    // cy.intercept('POST', '/api/auth/callback/credentials', {
-    //   body: {"url":"http://localhost:3000/api/auth/signin/credentials"}
-    // }).as('login')
+  it('should login by credentials - success', () => {
+    cy.intercept('POST', '/api/auth/callback/credentials', {
+      body: {"url":"http://localhost:3000/api/auth/signin/credentials"}
+    }).as('login')
 
     cy.intercept('GET', '/api/auth/session', {
       statusCode: 200,
@@ -24,12 +24,13 @@ describe('login', () => {
         user: {
           name: 'Logged In User',
           email: 'user@example.com',
-          // image: 'https://via.placeholder.com/150',
           image: '',
         },
         expires: '9999-12-31T23:59:59.999Z',
+        // accessToken: 'sessionToken',
       },
     }).as('getSessionLoggedIn')
+    cy.setCookie("next-auth.session-token", "a valid cookie from your browser session")
 
     cy.visit('/login')
     cy.get('[name="email"]').type(Cypress.env('email'))
@@ -38,13 +39,15 @@ describe('login', () => {
     cy.url().should('eq', `${Cypress.env('appUrl')}/home`)
     cy.getCookie('next-auth.session-token').should('be.exist')
 
-    // cy.intercept('GET', '/api/auth/session', {
-    //   statusCode: 200,
-    //   body: {},
-    // }).as('getSessionLoggedOut')
+    cy.intercept('GET', '/api/auth/session', {
+      statusCode: 200,
+      body: {},
+    }).as('getSessionLoggedOut')
+    cy.clearCookie('next-auth.session-token')
 
-    // cy.get('#logout').click() // logout
-    // cy.contains('Improve your English!').should('be.visible')
-    // cy.getCookie('next-auth.session-token').should('not.exist')
+    cy.get('#logout').click() // logout
+    cy.visit('/') // go to '/home' manually
+    cy.contains('Improve your English!').should('be.visible')
+    cy.getCookie('next-auth.session-token').should('not.exist')
   })
 })

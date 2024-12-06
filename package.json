@@ -8,11 +8,11 @@
     "start": "next start",
     "launch": "yarn build && yarn start",
     "lint": "next lint",
-    "jest": "jest",
+    "test": "jest",
     "jest:watch": "jest --watch",
     "cypress:open": "cypress open",
     "cypress": "cypress run",
-    "test": "yarn jest && yarn cypress"
+    "test:all": "yarn jest && yarn cypress"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
