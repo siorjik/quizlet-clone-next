@@ -4,13 +4,12 @@ import apiErrorService from '@/services/apiErrorService'
 import dictionaryService from '@/services/dictionaryService'
 import { ApiErrType } from '@/types/ErrorTypes'
 
-export async function GET(req: NextRequest):
+export async function POST(req: NextRequest):
   Promise<NextResponse<string[] | ApiErrType>> {
   let res: string[] = []
 
   try {
-    const word = req.nextUrl.searchParams.get('word')
-    const language = req.nextUrl.searchParams.get('language')
+    const { word, language } = await req.json()
 
     if (word) {
       const { words } = await dictionaryService(word, language!) as { words: string[] }
