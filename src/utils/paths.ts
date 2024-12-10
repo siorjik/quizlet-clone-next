@@ -20,7 +20,7 @@ export const getSetFlashCardsAppPath = (id: string) => `${getSetAppPath(id)}/fla
 export const videosAppPath = `${libraryAppPath}/videos`
 
 /***** api *****/
-export const getApiDictionaryPath = (word: string, language: string) => `/api/dictionary?word=${word}&language=${language}`
+export const dictionaryApiPath = '/api/dictionary'
 export const getApiTranslatePath = (word: string, inputLanguage: string, outputLanguage: string) =>
   `/api/translate?word=${word}&inputLanguage=${inputLanguage}&outputLanguage=${outputLanguage}`
 

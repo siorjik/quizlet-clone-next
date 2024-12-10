@@ -13,7 +13,7 @@ import trashIcon from '@/../public/images/trash.svg'
 import { SetType } from '@/types/SetTypes'
 import Autocomplete from '../Autocomplete'
 import apiService from '@/services/apiService'
-import { getApiDictionaryPath, getApiTranslatePath } from '@/utils/paths'
+import { dictionaryApiPath, getApiTranslatePath } from '@/utils/paths'
 import { languageOptions } from '@/utils/constants'
 
 const defaultValues = { list: [{ term: '', definition: '' }], title: '', source: '', target: '' }
@@ -59,13 +59,15 @@ export default memo(function SetForm(
       setDictionaryLoadingIndex(index)
 
       try {
-        const words: string[] | [] = await apiService({ url: getApiDictionaryPath(value, source) })
+        const words: string[] | [] = await apiService({
+          url: dictionaryApiPath, method: 'POST', body: { word: value, language: source }
+        })
 
         setDictionary({ name, words })
         setDictionaryLoadingIndex(null)
       } catch (error) {
         console.log(error)
-
+        
         setDictionaryLoadingIndex(null)
       }
     }, 800)
