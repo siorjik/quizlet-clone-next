@@ -21,8 +21,7 @@ export const videosAppPath = `${libraryAppPath}/videos`
 
 /***** api *****/
 export const dictionaryApiPath = '/api/dictionary'
-export const getApiTranslatePath = (word: string, inputLanguage: string, outputLanguage: string) =>
-  `/api/translate?word=${word}&inputLanguage=${inputLanguage}&outputLanguage=${outputLanguage}`
+export const translateApiPath = '/api/translate'
 
 // auth
 export const loginApiPath = getApiPath('auth/login', true)

@@ -4,12 +4,10 @@ import apiErrorService from '@/services/apiErrorService'
 import translateService from '@/services/translateService'
 import { ApiErrType } from '@/types/ErrorTypes'
 
-export async function GET(req: NextRequest):
+export async function POST(req: NextRequest):
   Promise<NextResponse<string[] | [] | ApiErrType>> {
   try {
-    const word = req.nextUrl.searchParams.get('word')
-    const inputLanguage = req.nextUrl.searchParams.get('inputLanguage')
-    const outputLanguage = req.nextUrl.searchParams.get('outputLanguage')
+    const { word, inputLanguage, outputLanguage } = await req.json()
 
     return NextResponse.json(word ? await translateService(word, inputLanguage!, outputLanguage!) : [])
   } catch (error) {

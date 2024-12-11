@@ -13,7 +13,7 @@ import trashIcon from '@/../public/images/trash.svg'
 import { SetType } from '@/types/SetTypes'
 import Autocomplete from '../Autocomplete'
 import apiService from '@/services/apiService'
-import { dictionaryApiPath, getApiTranslatePath } from '@/utils/paths'
+import { dictionaryApiPath, translateApiPath } from '@/utils/paths'
 import { languageOptions } from '@/utils/constants'
 
 const defaultValues = { list: [{ term: '', definition: '' }], title: '', source: '', target: '' }
@@ -75,7 +75,9 @@ export default memo(function SetForm(
 
   const getTranslates = async (name: string, value: string): Promise<void> => {
     try {
-      const words: string[] = await apiService({ url: getApiTranslatePath(value, source, target) })
+      const words: string[] = await apiService({
+        url: translateApiPath, method: 'POST', body: { word: value, inputLanguage: source, outputLanguage: target }
+      })
 
       setTranslate({ name, words })
     } catch (error) {
@@ -86,13 +88,17 @@ export default memo(function SetForm(
   const setTranslateQuery = async (name: `list.${number}.term`, value: string, index: number): Promise<void> => {
     const definitionName = name.replace('term', 'definition') as `list.${number}.definition`
 
-    setValue(definitionName, '')
-    setValue(name, value)
-    setTranslatesLoadingIndex(index)
-
-    await getTranslates(definitionName, value)
-
-    setTranslatesLoadingIndex(null)
+    try {
+      setValue(definitionName, '')
+      setValue(name, value)
+      setTranslatesLoadingIndex(index)
+  
+      await getTranslates(definitionName, value)
+  
+      setTranslatesLoadingIndex(null)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   const pairBlock = (index: number): ReactElement => {
