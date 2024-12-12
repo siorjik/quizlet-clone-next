@@ -37,7 +37,7 @@ export default function Modal({ isShow, close, title, content }: ModalPropsType)
       {title && <h3 className='mb-5 pb-5 border-b border-violet-300 text-xl'>{title}</h3>}
       <div>{content}</div>
       <div className='mt-5 pt-5 border-t border-violet-300'>
-        <Button click={close} hoverColor='hover:bg-violet-300'>Close</Button>
+        <Button click={close} bg='violet'>Close</Button>
       </div>
     </div>
   )

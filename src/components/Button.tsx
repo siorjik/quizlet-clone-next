@@ -3,16 +3,21 @@
 import { ButtonTypes } from '@/types/ButtonTypes'
 
 export default function Button({
-  children, type = 'button', css = '', click = () => { }, hoverColor = '', isDisabled = false }: ButtonTypes
+  bg = 'slate', size = 'md', children, type = 'button', css = '', click = () => { }, isDisabled = false }: ButtonTypes
 ) {
-  const hover = hoverColor || 'hover:bg-slate-200'
+  const sizeStyle = { sm: '', md: 'px-4 py-2', lg: 'px-5 py-3' }
 
-  const style = !css ? 'btn' : `${css}`
+  const bgStyle = {
+    slate: 'bg-slate-200 hover:bg-slate-300',
+    violet: 'bg-violet-200 hover:bg-violet-300',
+    lime: 'bg-lime-200 hover:bg-lime-300',
+    sky: 'bg-sky-100 hover:bg-sky-200'
+  }
 
   return (
     <button
-      className={`${style} ${hover}`}
-      type={type as 'button' | 'submit'}
+      className={`${sizeStyle[size]} ${bgStyle[bg as keyof typeof bgStyle]} ${css} border-2 rounded-md transition-all`}
+      type={type}
       onClick={click}
       disabled={isDisabled}
     >

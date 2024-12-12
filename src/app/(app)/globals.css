@@ -35,12 +35,12 @@ select {
     @apply h-11 rounded-xl p-3 w-full border-r-[10px] border-transparent
   }
 
-  .btn {
-    @apply border-2 rounded-md px-4 py-1 transition-all
+  .btn-md {
+    @apply border-2 rounded-md px-4 py-2 transition-all
   }
 
-  .btn-mid {
-    @apply border-2 rounded-md px-5 py-2 inline-block hover:bg-slate-200 transition-all
+  .btn-lg {
+    @apply border-2 rounded-md px-5 py-3 transition-all
   }
 }
 

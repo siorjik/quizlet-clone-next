@@ -13,10 +13,7 @@ type FormPropsType = {
   submit: (data: z.infer<ZodSchema>) => Promise<void>,
   fieldsData: InputType[],
   css: string,
-  btnData?: {
-    hoverColor?: string,
-    text: string,
-  },
+  btnData?: { text: string, bg?: string },
   isReset?: boolean,
   onSuccess?: () => void,
   schema: ZodSchema
@@ -27,7 +24,7 @@ type FormPropsType = {
 
 export default function Form(props: FormPropsType) {
   const {
-    submit, fieldsData, css, btnData: { text, hoverColor } = {}, isReset = false, schema, onSuccess, isDisabled = false,
+    submit, fieldsData, css, btnData: { text, bg } = {}, isReset = false, schema, onSuccess, isDisabled = false,
     data = null, isErr = false
   } = props
 
@@ -63,7 +60,7 @@ export default function Form(props: FormPropsType) {
         </Fragment>))}
       {
         ((!isDisabled && Object.keys(dirtyFields).length > 0) || isErr)
-        && <Button css='btn mt-8 w-fit' type='submit' hoverColor={hoverColor}>{text || 'Submit'}</Button>
+        && <Button bg={bg} css='mt-8 w-fit' type='submit'>{text || 'Submit'}</Button>
       }
     </form>
   )

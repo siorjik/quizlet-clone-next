@@ -255,10 +255,11 @@ export default memo(function SetForm(
       {action && <>
         <Button
           type='button'
-          css='btn w-fit m-auto mt-5 border-none bg-lime-300 hover:bg-lime-100'
+          bg='lime'
+          css='w-fit m-auto mt-5 border-none'
           click={() => append({ term: '', definition: '' })}
         >Add</Button>
-        <Button css='btn-mid w-fit mt-4' type='button' click={handleSubmit(submit)}>{isCreating ? 'Create' : 'Update'}</Button>
+        <Button size='lg' css='w-fit mt-4' type='button' click={handleSubmit(submit)}>{isCreating ? 'Create' : 'Update'}</Button>
       </>}
     </form>
   )

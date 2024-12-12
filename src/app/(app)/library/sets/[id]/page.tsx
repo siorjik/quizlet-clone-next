@@ -35,8 +35,8 @@ export default async function Set({ params }: { params: { id: string } }) {
       <div className='w-full'>
         <BreadCrumbs data={breadCrumbsData} />
         <div className='mb-8'>
-          <Link className='btn-mid mr-3' href={getEditSetAppPath(params.id)}>Edit</Link>
-          <Link className='btn-mid' href={getSetFlashCardsAppPath(params.id)}>Flashcards</Link>
+          <Link className='btn-lg mr-3 inline-block' href={getEditSetAppPath(params.id)}>Edit</Link>
+          <Link className='btn-lg inline-block' href={getSetFlashCardsAppPath(params.id)}>Flashcards</Link>
         </div>
         <SetForm data={set} />
       </div>

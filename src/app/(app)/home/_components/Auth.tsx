@@ -105,7 +105,7 @@ export default function Auth() {
             }
             fieldsData={[fieldsData[0], fieldsData[1]]}
             css='w-64 flex flex-col items-center'
-            btnData={{ text: 'Login', hoverColor: 'hover:bg-violet-300' }}
+            btnData={{ text: 'Login', bg: 'violet' }}
             schema={loginFormTypeSchema}
             data={{ email: '', password: '' }}
           />
@@ -119,7 +119,7 @@ export default function Auth() {
             }
             fieldsData={[fieldsData[0], fieldsData[2]]}
             css='w-64 flex flex-col items-center'
-            btnData={{ text: 'Create Account', hoverColor: 'hover:bg-violet-300' }}
+            btnData={{ text: 'Create Account', bg: 'violet' }}
             schema={registerFormTypeSchema}
             data={{ name: '', email: '' }}
           />
