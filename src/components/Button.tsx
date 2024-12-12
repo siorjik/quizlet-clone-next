@@ -9,14 +9,14 @@ export default function Button({
 
   const bgStyle = {
     slate: 'bg-slate-200 hover:bg-slate-300',
-    violet: 'bg-violet-200 hover:bg-violet-300',
+    violet: 'bg-violet-300 hover:bg-violet-400',
     lime: 'bg-lime-200 hover:bg-lime-300',
     sky: 'bg-sky-100 hover:bg-sky-200'
   }
 
   return (
     <button
-      className={`${sizeStyle[size]} ${bgStyle[bg as keyof typeof bgStyle]} ${css} border-2 rounded-md transition-all`}
+      className={`${sizeStyle[size]} ${bgStyle[bg as keyof typeof bgStyle]} rounded-md ${css} transition-all`}
       type={type}
       onClick={click}
       disabled={isDisabled}
