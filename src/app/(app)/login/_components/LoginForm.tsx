@@ -99,7 +99,7 @@ export default function Login() {
         submit={passwordRecovery}
         fieldsData={[fieldsData[0]]}
         css='w-64 md:w-4/5 mx-auto flex flex-col items-center'
-        btnData={{ text: 'Recover Password', hoverColor: 'hover:bg-violet-300' }}
+        btnData={{ text: 'Recover Password', bg: 'violet' }}
       />
     </div>
   )

@@ -15,11 +15,11 @@ export default function AuthProviderBlock({ submit }: { submit: (name: string) =
         <hr className='w-[43%] h-[2px] mt-[12px] bg-slate-200' />
       </div>
       <div className='w-full flex justify-around'>
-        <Button css='btn mr-1 flex items-center h-fit' click={() => submit('google')}>
-          <Image className='mr-3' src={googleIcon} alt='google' />Google
+        <Button bg='sky' click={() => submit('google')}>
+          <div className='flex'><Image className='mr-3' src={googleIcon} alt='google' />Google</div>
         </Button>
-        <Button css='btn ml-1 flex items-center h-fit' click={() => submit('github')}>
-          <Image className='mr-3' src={githubIcon} alt='github' />Github
+        <Button bg='sky' click={() => submit('github')}>
+          <div className='flex'><Image className='mr-3' src={githubIcon} alt='github' />Github</div>
         </Button>
       </div>
     </>

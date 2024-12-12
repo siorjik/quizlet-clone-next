@@ -30,7 +30,7 @@ export default async function Sets() {
   return (
     <div className='flex flex-col items-center'>
       <div className='w-full'>
-        <Link className='mb-5 btn-mid'
+        <Link className='mb-5 btn-lg inline-block'
           href={createSetAppPath}
         >Create</Link>
         {sets.map((set) => <SetItem key={set._id} data={set} />)}
