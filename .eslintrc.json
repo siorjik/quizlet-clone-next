@@ -1,10 +1,26 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": [
+    "next/core-web-vitals",
+    "plugin:storybook/recommended"
+  ],
   "rules": {
     "import/no-anonymous-default-export": 0,
-    "max-len": ["warn", { "code": 130 }],
+    "max-len": [
+      "warn",
+      {
+        "code": 130
+      }
+    ],
     "react-hooks/exhaustive-deps": 0,
-    "no-unused-vars": ["warn", { "args": "none" }],
-    "semi": ["warn", "never"]
+    "no-unused-vars": [
+      "warn",
+      {
+        "args": "none"
+      }
+    ],
+    "semi": [
+      "warn",
+      "never"
+    ]
   }
 }

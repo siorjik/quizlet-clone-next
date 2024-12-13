@@ -5,7 +5,7 @@ import { ButtonTypes } from '@/types/ButtonTypes'
 export default function Button({
   bg = 'slate', size = 'md', children, type = 'button', css = '', click = () => { }, isDisabled = false }: ButtonTypes
 ) {
-  const sizeStyle = { sm: '', md: 'px-4 py-2', lg: 'px-5 py-3' }
+  const sizeStyle = { sm: 'px-2 py-1 text-sm', md: 'px-4 py-2', lg: 'px-5 py-3' }
 
   const bgStyle = {
     slate: 'bg-slate-200 hover:bg-slate-300',
