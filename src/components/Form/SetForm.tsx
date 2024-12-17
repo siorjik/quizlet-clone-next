@@ -6,7 +6,7 @@ import Image from 'next/image'
 
 import Input from '../Input'
 import Button from '../Button'
-import Select from '../Select'
+import Select from '../Select/FormSelect'
 
 import trashIcon from '@/../public/images/trash.svg'
 

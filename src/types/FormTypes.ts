@@ -12,5 +12,6 @@ export type FormInputPropType = InputType & {
 
 export type FormSelectPropType = SelectType & {
   errors:  FormErrorType,
-  register: UseFormRegisterReturn
+  register: UseFormRegisterReturn,
+  validation?: { required?: string, pattern?: { value: string, message: string } }
 }

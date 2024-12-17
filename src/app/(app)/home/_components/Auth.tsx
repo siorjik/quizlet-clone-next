@@ -17,6 +17,7 @@ import { createUser } from '@/actions/auth/mutations'
 export default function Auth() {
   const [isShow, setShow] = useState(false)
   const [isLoading, setLoading] = useState(false)
+  const [isErr, setErr] = useState(false)
 
   const { execute } = useAction(createUser, {
     onSuccess: ({ data }) => {
@@ -29,6 +30,8 @@ export default function Auth() {
     },
     onError: ({ error }) => {
       toast(error.serverError, { position: 'bottom-left', type: 'error' })
+
+      setErr(true)
     }
   })
 
@@ -56,6 +59,11 @@ export default function Auth() {
     }
 
     setLoading(false)
+  }
+
+  const close = (): void => {
+    setShow(false)
+    setErr(false)
   }
 
   const submitViaProvider = async (name: string): Promise<void> => {
@@ -122,6 +130,7 @@ export default function Auth() {
             btnData={{ text: 'Create Account', bg: 'violet' }}
             schema={registerFormTypeSchema}
             data={{ name: '', email: '' }}
+            isErr={isErr}
           />
         </div>
       </div>
@@ -135,7 +144,7 @@ export default function Auth() {
         <span>Improve your English! Just </span>
         <span className='link' onClick={() => setShow(true)}>join</span>
       </div>
-      <Modal isShow={isShow} close={() => setShow(false)} title='Welcome!' content={modalContent} />
+      <Modal isShow={isShow} close={close} title='Welcome!' content={modalContent} />
       {isLoading && <Spinner />}
     </>
   )

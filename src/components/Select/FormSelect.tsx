@@ -4,7 +4,7 @@ import { ReactNode } from 'react'
 
 import { FormSelectPropType } from '@/types/FormTypes'
 
-export default function Select(props: FormSelectPropType) {
+export default function FormSelect(props: FormSelectPropType) {
   const { name, options, placeholder, style, errors, register, label, isRequired, disabled = false } = props
 
   return (
@@ -15,7 +15,7 @@ export default function Select(props: FormSelectPropType) {
           {isRequired && <span className='ml-1 text-red-500'>*</span>}
         </label>
       }
-      <select className={style} {...register} disabled={disabled} defaultValue=''>
+      <select className={`select ${style}`} {...register} disabled={disabled} defaultValue=''>
         <option value='' disabled>{placeholder}</option>
         {options.map(({ label, value }) => <option key={value} value={value}>{label}</option>)}
       </select>
