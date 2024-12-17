@@ -66,7 +66,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
   const src = imageUrl
 
   const getUserBlock = (isMobile: boolean = false) => (
-    <div className={`user flex justify-between ${isMobile ? 'space-x-5' : ''}`}>
+    <div className={`user flex justify-between ${isMobile ? 'space-x-2' : ''}`}>
       <Link href={isAuth ? profileAppPath : createAccountAppPath}>
         {imageUrl && <Image
           className={`${isSmall ? 'h-[25px] w-[25px]' : 'h-[30px] w-[30px]'} rounded-full transition-all`}
@@ -107,7 +107,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
       {
         session !== undefined && (
           <>
-            <div className='hidden md:grid grid-cols-[100px_1fr_80px]'>
+            <div className='hidden md:grid grid-cols-[100px_1fr_70px]'>
               <Link href='/'>
                 <Image
                   className={`

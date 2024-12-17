@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
+import Image from 'next/image'
 import Slider from 'react-slick'
 
 import "slick-carousel/slick/slick.css"
@@ -10,10 +11,11 @@ import rightIcon from '@/../public/images/chevron-right.svg'
 
 import { SetType } from '@/types/SetTypes'
 import useKeyPress from '@/hooks/useKeyPress'
-import Image from 'next/image'
+import Select from '@/components/Select'
 
 export default function SliderComp({ data }: { data: SetType }) {
   const [mode, setMode] = useState<'term' | 'definition'>('term')
+  const [selectedMode, setSelectedMode] = useState<'term' | 'definition'>('term')
   const [animation, setAnimation] = useState<string>('')
   const [counting, setCounting] = useState<{ amount: number, current: number }>({ amount: 0, current: 0 })
   const [isShowContent, setShowContent] = useState(true)
@@ -36,7 +38,7 @@ export default function SliderComp({ data }: { data: SetType }) {
         setTimeout(() => setShowContent(true), 350)
       }
 
-      if (animation === yAnimation && mode !== 'term') setMode('term')
+      if (animation === yAnimation && mode !== selectedMode) setMode(selectedMode)
 
       setTimeout(() => {
         setAnimation('')
@@ -99,6 +101,16 @@ export default function SliderComp({ data }: { data: SetType }) {
 
   return (
     <>
+      <div className='w-40 mb-8 mx-auto'>
+        <Select
+          style='text-sm bg-green-200'
+          name='mode'
+          options={[{ label: 'Term', value: 'term' }, { label: 'Definition', value: 'definition' }]}
+          label='Choose a mode'
+          value='term'
+          onChange={(value) => setSelectedMode(value as 'term' | 'definition')}
+        />
+      </div>
       <div className='flex justify-center'>
         <Slider
           {...settings}
