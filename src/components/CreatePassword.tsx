@@ -1,12 +1,10 @@
 'use client'
 
-import { useState } from 'react'
 import { toast } from 'react-toastify'
 import Link from 'next/link'
 import { useAction } from 'next-safe-action/hooks'
 import { z } from 'zod'
 
-import Spinner from '@/components/Spinner'
 import ToastMessage from '@/components/ToastMessage'
 import Form from '@/components/Form/FormWithZod'
 
@@ -15,12 +13,8 @@ import { createPassFormTypeSchema } from '@/types/forms/auth'
 import { createPassword } from '@/actions/auth/mutations'
 
 export default function CreatePassword({ token }: { token: string }) {
-  const [isLoading, setLoading] = useState(false)
-
-  const { execute, isExecuting, hasErrored } = useAction(createPassword, {
+  const { execute, hasErrored } = useAction(createPassword, {
     onSuccess: () => {
-      setLoading(false)
-
       toast(
         'Password was created! Let`s login!',
         { position: 'bottom-center', type: 'success' }
@@ -28,8 +22,6 @@ export default function CreatePassword({ token }: { token: string }) {
     },
     
     onError: ({ error }) => {
-      setLoading(false)
-
       toast(error.serverError, { position: 'bottom-left', type: 'error' })
     }
   })
@@ -73,12 +65,12 @@ export default function CreatePassword({ token }: { token: string }) {
         schema={createPassFormTypeSchema}
         data={{ password: '', confirmPassword: '' }}
         isErr={hasErrored}
+        showSpinner
       />
       <p className='mt-10'>
         Go to <Link className='link' href={loginAppPath}>Sign In</Link>
       </p>
       <ToastMessage />
-      {isLoading || isExecuting && <Spinner />}
     </>
   )
 }
