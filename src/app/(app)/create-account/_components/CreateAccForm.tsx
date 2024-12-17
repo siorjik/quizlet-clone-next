@@ -19,8 +19,6 @@ export default function CreateAccForm() {
 
   const { execute, hasErrored } = useAction(createUser, {
     onSuccess: () => {
-      setLoading(false)
-
       toast(
         'User was created. Check email to create a password and finish registration.',
         { position: 'bottom-center', type: 'success' }
@@ -28,15 +26,11 @@ export default function CreateAccForm() {
     },
     
     onError: ({ error }) => {
-      setLoading(false)
-
       toast(error.serverError, { position: 'bottom-left', type: 'error' })
     }
   })
 
   const submit = async (data: z.infer<typeof registerFormTypeSchema>): Promise<void> => {
-    setLoading(true)
-
     execute({ email: data.email, name: data.name })
   }
 
@@ -77,6 +71,7 @@ export default function CreateAccForm() {
         schema={registerFormTypeSchema}
         data={{ email: '', name: '' }}
         isErr={hasErrored}
+        showSpinner
       />
       <AuthProviderBlock submit={submitViaProvider} />
       <ToastMessage />
