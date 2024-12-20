@@ -7,6 +7,7 @@ import TrashIcon from '@/components/Icon/TrashIcon'
 import { SetType } from '@/types/SetTypes'
 import { getSetApiPath, getSetAppPath } from '@/utils/paths'
 import apiService from '@/services/apiService'
+import { languageOptions } from '@/utils/constants'
 
 export default function SetItem({ data }: { data: SetType }) {
   const { _id, title, list } = data
@@ -35,6 +36,16 @@ export default function SetItem({ data }: { data: SetType }) {
           <div className='flex items-center w-[85%] whitespace-nowrap'>
             <span className='text-xs'>{list.length} items</span>
             &nbsp;|&nbsp;
+            {
+              data.source && data.target
+              && <>
+                <span className='text-xs'>
+                  from {languageOptions.find(({ value }) => value === data.source)?.label}
+                  &nbsp;to {languageOptions.find(({ value }) => value === data.target)?.label}
+                </span>
+                &nbsp;|&nbsp;
+              </>
+            }
             <span className='overflow-hidden text-ellipsis'>{title}</span>
           </div>
           <span onClick={async (e) => await remove(e, _id as string)}><TrashIcon /></span>
