@@ -1,5 +1,6 @@
-/* eslint-disable no-unused-vars */
+
 export enum EventNames {
+  // eslint-disable-next-line no-unused-vars
   isShowMobMenu = 'isShowMobMenu'
 }
 

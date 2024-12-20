@@ -3,6 +3,7 @@
 import { Fragment, ReactElement, memo, useEffect, useRef, useState } from 'react'
 import { useForm, useFieldArray, Merge, FieldError, FieldErrorsImpl } from 'react-hook-form'
 import Image from 'next/image'
+import { toast } from 'react-toastify'
 
 import Input from '../Input'
 import Button from '../Button'
@@ -82,6 +83,8 @@ export default memo(function SetForm(
       setTranslate({ name, words })
     } catch (error) {
       console.log(error)
+
+      toast('Something went wrong with translate', { position: 'bottom-center', type: 'error' })
     }
   }
 
