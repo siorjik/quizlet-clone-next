@@ -70,6 +70,8 @@ export default memo(function SetForm(
         console.log(error)
         
         setDictionaryLoadingIndex(null)
+
+        toast('Something went wrong with dictionary', { position: 'bottom-center', type: 'error' })
       }
     }, 800)
   }
