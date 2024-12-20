@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react'
 import Image from 'next/image'
 import Slider from 'react-slick'
+import Select from '@/components/Select'
 
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
@@ -11,7 +12,7 @@ import rightIcon from '@/../public/images/chevron-right.svg'
 
 import { SetType } from '@/types/SetTypes'
 import useKeyPress from '@/hooks/useKeyPress'
-import Select from '@/components/Select'
+import { languageOptions } from '@/utils/constants'
 
 export default function SliderComp({ data }: { data: SetType }) {
   const [mode, setMode] = useState<'term' | 'definition'>('term')
@@ -101,11 +102,22 @@ export default function SliderComp({ data }: { data: SetType }) {
 
   return (
     <>
-      <div className='w-40 mb-8 mx-auto'>
+      <div className='w-48 mb-8 mx-auto'>
         <Select
           style='text-sm bg-green-200'
           name='mode'
-          options={[{ label: 'Term', value: 'term' }, { label: 'Definition', value: 'definition' }]}
+          options={[
+            {
+              label: data.source ?
+                `Term (${languageOptions.find(({ value }) => value === data.source)?.label})` : 'Term',
+              value: 'term'
+            },
+            {
+              label: data.target ?
+                `Definition (${languageOptions.find(({ value }) => value === data.target)?.label})` : 'Definition',
+              value: 'definition'
+            }
+          ]}
           label='Choose a mode'
           value='term'
           onChange={(value) => setSelectedMode(value as 'term' | 'definition')}
