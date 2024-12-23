@@ -88,14 +88,14 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
 
     if (pathname === path || (pathname.startsWith(path) && path !== '/')) {
       if (isMobile) css = 'text-gray-700 font-bold'
-      else css = '!border-cyan-600 pb-[1.4rem]'
+      else css = '!border-cyan-600 pb-[1.1rem]'
     }
 
     return (
       <Link
         className={`
           px-2 text-gray-500 border-b-2 border-transparent font-semibold hover:border-cyan-500
-          ${isSmall || isMobile ? '!pb-2' : 'pb-[1.4rem]'} ${css} transition-[border-color,padding]
+          ${isSmall || isMobile ? '!pb-2' : 'pb-[1.1rem]'} ${css} transition-[border-color,padding]
         `}
         href={path}
       >{title}</Link>
@@ -111,7 +111,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
               <Link href='/'>
                 <Image
                   className={`
-                  absolute ${isSmall ? 'h-[30px] w-[30px] bottom-[5px]' : 'h-[50px] w-[50px] bottom-[10px]'} transition-all
+                  absolute ${isSmall ? 'h-[30px] w-[30px] bottom-[5px]' : 'h-[45px] w-[45px] bottom-[7px]'} transition-all
                 `}
                   src={logo} alt='logo' />
               </Link>
@@ -136,7 +136,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
                     {menu.map((item, index) => <Fragment key={index}>{getMenuItem(item, true)}</Fragment>)}
                     <div className='user flex justify-evenly mt-3 border-t-2 border-slate-300 pt-4'>
                       <Link href={isAuth ? profileAppPath : createAccountAppPath}>
-                        <Image className='rounded-full' src={src} width={30} height={30} alt='user' />
+                        <Image className='h-full rounded-full' src={src} width={30} height={30} alt='user' />
                       </Link>
                       <span
                         className='cursor-pointer'

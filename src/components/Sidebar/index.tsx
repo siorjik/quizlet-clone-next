@@ -77,7 +77,7 @@ export default function Sidebar({ pathname }: { pathname: string }) {
               }
 
               <div className={`
-                absolute w-[200px] h-[calc(100dvh-70px)] z-[1]
+                absolute w-[200px] h-[calc(100dvh-60px)] z-[1]
                 ${!isStretch ? 'left-[-200px]' : 'left-[0]'} bg-orange-100 transition-all
               `}>
                 <button className='mb-5 m-3' onClick={() => setStretch(!isStretch)}>
