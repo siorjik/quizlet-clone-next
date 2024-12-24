@@ -38,14 +38,14 @@ export default function ChangePassForm() {
       type: 'password',
       label: 'New password',
       inputStyle: 'input',
-      blockStyle: 'w-full mt-8',
+      blockStyle: 'w-full mt-5',
       isRequired: true,
     },
   ]
 
   return (
     <>
-      <h3 className='mb-8'>Password updating:</h3>
+      <h3 className='mb-5'>Password updating:</h3>
       <Form
         submit={submit}
         fieldsData={fieldsData}

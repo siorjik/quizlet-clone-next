@@ -40,14 +40,14 @@ export default function InfoForm() {
       type: 'text',
       label: 'Name',
       inputStyle: 'input',
-      blockStyle: 'w-full mt-8',
+      blockStyle: 'w-full mt-5',
       isRequired: true,
     },
   ]
 
   return (
     <>
-      <h3 className='mb-8'>Data updating:</h3>
+      <h3 className='mb-5'>Data updating:</h3>
       <Form
         fieldsData={fieldsData}
         submit={submit}
