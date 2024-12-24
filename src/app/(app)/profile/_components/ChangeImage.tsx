@@ -90,7 +90,7 @@ export default function ChangeImage() {
 
   return (
     <>
-      <h3 className='mb-8'>Image updating:</h3>
+      <h3 className='mb-5'>Image updating:</h3>
       <div className='flex flex-col justify-center items-center'>
         <div>
           <input

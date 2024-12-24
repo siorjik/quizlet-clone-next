@@ -108,7 +108,7 @@ export default memo(function SetForm(
 
   const pairBlock = (index: number): ReactElement => {
     return (
-      <div className='flex mt-5 p-5 flex-col w-full justify-between relative bg-lime-200 rounded-xl md:flex-row'>
+      <div className='flex mt-3 p-5 flex-col w-full justify-between relative bg-lime-200 rounded-xl md:flex-row'>
         <div className='text-center'><p className='pb-3 md:py-3 text-sm'>{index + 1}</p></div>
         <div className='w-full md:w-[47%] flex flex-col relative'>
           {
@@ -261,10 +261,10 @@ export default memo(function SetForm(
         <Button
           type='button'
           bg='lime'
-          css='w-fit m-auto mt-5 border-none'
+          css='w-fit m-auto mt-3 border-none'
           click={() => append({ term: '', definition: '' })}
         >Add</Button>
-        <Button size='lg' css='w-fit mt-4' type='button' click={handleSubmit(submit)}>{isCreating ? 'Create' : 'Update'}</Button>
+        <Button size='lg' css='w-fit' type='button' click={handleSubmit(submit)}>{isCreating ? 'Create' : 'Update'}</Button>
       </>}
     </form>
   )
