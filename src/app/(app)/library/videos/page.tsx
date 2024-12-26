@@ -1,5 +1,5 @@
 export default function Videos () {
   return (
-    <h2>Videos</h2>
+    <h2>In progress...</h2>
   )
 }
