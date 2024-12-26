@@ -135,7 +135,7 @@ export default function SliderComp({ data }: { data: SetType }) {
               `}
               key={index}
               onClick={() => setAnimation(xAnimation)}
-            ><span className='text-2xl text-center'>{isShowContent ? item[mode] : ''}</span>
+            ><span className='text-3xl text-center'>{isShowContent ? item[mode] : ''}</span>
             </div>
           ))}
         </Slider>

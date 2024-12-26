@@ -42,7 +42,7 @@ export default async function FlashCards({ params }: { params: { id: string } })
     <div className='flex flex-col items-center'>
       <div className='w-full'>
         <BreadCrumbs data={breadCrumbsData} />
-        <h2 className='page-title'>{set.title}</h2>
+        <h2 className='page-title font-bold'>{set.title}</h2>
         <Slider data={set} />
       </div>
     </div>

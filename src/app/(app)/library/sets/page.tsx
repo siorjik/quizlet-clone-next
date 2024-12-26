@@ -33,7 +33,10 @@ export default async function Sets() {
         <Link className='mb-5 btn-lg inline-block'
           href={createSetAppPath}
         >Create</Link>
-        {sets.map((set) => <SetItem key={set._id} data={set} />)}
+        {
+          sets.length ? sets.map((set) => <SetItem key={set._id} data={set} />) :
+            <p className='text-center'>There aren`t any sets yet...</p>
+        }
       </div>
     </div>
   )
