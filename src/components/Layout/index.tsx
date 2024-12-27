@@ -51,19 +51,22 @@ export default function Layout({ children }: { children: ReactNode }) {
         <header
           className={`
           ${isSmallHeader ? 'h-10 p-2 text-sm !bg-cyan-300/[0.5] absolute w-full' : 'h-[60px] py-4 px-5 text-lg'}
-          fixed w-full bg-cyan-300 z-10 transition-all
+          fixed w-full bg-cyan-300 z-10 transition-all duration-300
         `}
         >
           <Navigation isSmall={isSmallHeader} />
         </header>
         {
           isShowSidebar &&
-          <aside className={`col-start-1 col-end-2 ${isSmallHeader ? 'mt-[40px]' : 'mt-[60px]'} bg-orange-100 transition-all`}
+          <aside
+            className={`
+              col-start-1 col-end-2 ${isSmallHeader ? 'mt-[40px]' : 'mt-[60px]'} bg-orange-100 transition-all duration-300
+            `}
           ><Sidebar pathname={pathname} /></aside>
         }
         <main
           className={`
-          w-full grid ${isSmallHeader ? 'h-[100dvh]' : 'h-[calc(100dvh-60px)] mt-[60px]'}
+          w-full grid ${isSmallHeader ? 'h-[100dvh]' : 'h-[calc(100dvh-60px)] mt-[60px]'} duration-300
           grid-rows-[1fr_minmax(60px,auto)] col-start-2 col-end-3 bg-slate-50 overflow-auto transition-all scroll-smooth
         `}
           ref={mainRef}>

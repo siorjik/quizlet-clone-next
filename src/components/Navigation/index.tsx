@@ -69,7 +69,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
     <div className={`user flex justify-between ${isMobile ? 'space-x-2' : ''}`}>
       <Link href={isAuth ? profileAppPath : createAccountAppPath}>
         {imageUrl && <Image
-          className={`${isSmall ? 'h-[25px] w-[25px]' : 'h-[30px] w-[30px]'} rounded-full transition-all`}
+          className={`${isSmall ? 'h-[25px] w-[25px]' : 'h-[30px] w-[30px]'} rounded-full transition-all duration-300`}
           src={src}
           width={30}
           height={30}
@@ -77,7 +77,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
       </Link>
       <span id='logout' className='cursor-pointer' onClick={isAuth ? logout : () => push(loginAppPath)}>
         <Image
-          className={`${isSmall ? 'h-[25px] w-[25px]' : 'h-[30px] w-[30px]'} transition-all`}
+          className={`${isSmall ? 'h-[25px] w-[25px]' : 'h-[30px] w-[30px]'} transition-all duration-300`}
           src={isAuth ? logoutIcon : loginIcon} alt='logout' />
       </span>
     </div>
@@ -95,7 +95,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
       <Link
         className={`
           px-2 text-gray-500 border-b-2 border-transparent font-semibold hover:border-cyan-500
-          ${isSmall || isMobile ? '!pb-2' : 'pb-[1.1rem]'} ${css} transition-[border-color,padding]
+          ${isSmall || isMobile ? '!pb-3' : 'pb-[1.1rem]'} ${css} transition-[border-color,padding] duration-300
         `}
         href={path}
       >{title}</Link>
@@ -111,7 +111,8 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
               <Link href='/'>
                 <Image
                   className={`
-                  absolute ${isSmall ? 'h-[30px] w-[30px] bottom-[5px]' : 'h-[45px] w-[45px] bottom-[7px]'} transition-all
+                  absolute ${isSmall ? 'h-[30px] w-[30px] bottom-[5px]' : 'h-[45px] w-[45px] bottom-[7px]'}
+                  transition-all duration-300
                 `}
                   src={logo} alt='logo' />
               </Link>
