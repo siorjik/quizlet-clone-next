@@ -18,6 +18,7 @@ const sidebarPathList: string[] = [setsAppPath, videosAppPath]
 
 export default function Layout({ children }: { children: ReactNode }) {
   const [isSmallHeader, setSmallHeader] = useState(false)
+  const [isShowBtn, setShowBtn] = useState(false)
 
   const pathname = usePathname()
   const { data: session, status } = useSession()
@@ -29,10 +30,15 @@ export default function Layout({ children }: { children: ReactNode }) {
 
     const div = mainRef.current!
 
-    div.addEventListener('scroll', () => setSmallHeader(div.scrollTop > 500))
+    const cb = () => {
+      setSmallHeader(div.scrollTop > 5)
+      setShowBtn(div.scrollTop > 400)
+    }
+
+    div.addEventListener('scroll', cb)
 
     return () => {
-      div.removeEventListener('scroll', () => setSmallHeader(div.scrollTop > 500))
+      div.removeEventListener('scroll', cb)
     }
   }, [session])
 
@@ -52,7 +58,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         </header>
         {
           isShowSidebar &&
-          <aside className='col-start-1 col-end-2 mt-[60px] bg-orange-100'
+          <aside className={`col-start-1 col-end-2 ${isSmallHeader ? 'mt-[40px]' : 'mt-[60px]'} bg-orange-100 transition-all`}
           ><Sidebar pathname={pathname} /></aside>
         }
         <main
@@ -67,7 +73,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           </footer>
         </main>
         {
-          isSmallHeader &&
+          isShowBtn &&
           <button
             className='absolute bottom-36 right-10 p-3 rounded-xl bg-orange-300/[0.5]'
             onClick={() => mainRef.current!.scrollTop = 0}
