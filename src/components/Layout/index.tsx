@@ -37,7 +37,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       if (currentScrollTop > lastScrollTop) setSmallHeader(true)
       else setSmallHeader(false)
 
-      lastScrollTop = currentScrollTop
+      setTimeout(() => lastScrollTop = currentScrollTop, 500)
 
       setShowBtn(currentScrollTop > 400)
     }
