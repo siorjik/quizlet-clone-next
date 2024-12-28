@@ -29,17 +29,22 @@ export default function Layout({ children }: { children: ReactNode }) {
     if (!session) return
 
     const div = mainRef.current!
+    let lastScrollTop = div.scrollTop
 
     const cb = () => {
-      setSmallHeader(div.scrollTop > 5)
-      setShowBtn(div.scrollTop > 400)
+      const currentScrollTop = div.scrollTop
+
+      if (currentScrollTop > lastScrollTop) setSmallHeader(true)
+      else setSmallHeader(false)
+
+      lastScrollTop = currentScrollTop
+
+      setShowBtn(currentScrollTop > 400)
     }
 
     div.addEventListener('scroll', cb)
 
-    return () => {
-      div.removeEventListener('scroll', cb)
-    }
+    return () => div.removeEventListener('scroll', cb)
   }, [session])
 
   const isShowSidebar = sidebarPathList.find(item => item === pathname)
