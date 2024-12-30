@@ -120,7 +120,7 @@ export default memo(function SetForm(
             inputProps={{
               name: 'term',
               label: !action ? 'Term' : '',
-              placeholder: action === 'create' && !source ? 'Choose a language target and source first...' : 'Term',
+              placeholder: action === 'create' && (!source || !source) ? 'Choose a language target and source first...' : 'Term',
               inputStyle: 'set-input',
               blockStyle: 'relative w-full',
               errors: errors?.list?.[index] as Merge<FieldError, FieldErrorsImpl>,
@@ -153,7 +153,8 @@ export default memo(function SetForm(
             inputProps={{
               name: 'definition',
               label: !action ? 'Definition' : '',
-              placeholder: action === 'create' && !target  ? 'Choose a language target and source first...' : 'Definition',
+              placeholder:
+                action === 'create' && (!target || !source)  ? 'Choose a language target and source first...' : 'Definition',
               inputStyle: 'set-input',
               blockStyle: 'relative w-full mt-5 md:mt-0',
               errors: errors?.list?.[index] as Merge<FieldError, FieldErrorsImpl>,
