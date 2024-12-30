@@ -32,7 +32,8 @@ export default memo(function SetForm(
   const [dictionaryLoadingIndex, setDictionaryLoadingIndex] = useState<null | number>(null)
 
   const {
-    watch, register, handleSubmit, control, formState: { errors }, setValue, getFieldState, getValues, setError, clearErrors
+    watch, register, handleSubmit, control, formState: { errors },
+    setValue, getFieldState, getValues, setError, clearErrors, trigger
   } = useForm({ defaultValues: data ? { ...data } : { ...defaultValues } })
   const { fields, remove, append } = useFieldArray({ name: 'list', control })
 
@@ -119,7 +120,7 @@ export default memo(function SetForm(
             inputProps={{
               name: 'term',
               label: !action ? 'Term' : '',
-              placeholder: 'Term',
+              placeholder: action === 'create' && !source ? 'Choose a language source first...' : 'Term',
               inputStyle: 'set-input',
               blockStyle: 'relative w-full',
               errors: errors?.list?.[index] as Merge<FieldError, FieldErrorsImpl>,
@@ -152,7 +153,7 @@ export default memo(function SetForm(
             inputProps={{
               name: 'definition',
               label: !action ? 'Definition' : '',
-              placeholder: 'Definition',
+              placeholder: action === 'create' && !target  ? 'Choose a language target first...' : 'Definition',
               inputStyle: 'set-input',
               blockStyle: 'relative w-full mt-5 md:mt-0',
               errors: errors?.list?.[index] as Merge<FieldError, FieldErrorsImpl>,
@@ -188,7 +189,11 @@ export default memo(function SetForm(
           inputStyle='p-4 text-lg rounded-xl bg-amber-100 w-full'
           blockStyle='lg:w-2/5'
           errors={errors}
-          register={{ ...register('title', { required: 'Required!', disabled: !action }) }}
+          register={{
+            ...register('title', { required: 'Required!', disabled: !action,
+              onChange: ({ target }) =>  target.value && errors.title && clearErrors('title')
+            })
+          }}
           inputRef={inputRef}
         />
         <div 
@@ -262,7 +267,12 @@ export default memo(function SetForm(
           type='button'
           bg='lime'
           css='w-fit m-auto mt-3 border-none'
-          click={() => append({ term: '', definition: '' })}
+          click={() => {
+            if (!getValues('title')) trigger('title')
+            else if (!source) trigger('source')
+            else if (!target) trigger('target')
+            else append({ term: '', definition: '' })
+          }}
         >Add</Button>
         <Button size='lg' css='w-fit' type='button' click={handleSubmit(submit)}>{isCreating ? 'Create' : 'Update'}</Button>
       </>}
