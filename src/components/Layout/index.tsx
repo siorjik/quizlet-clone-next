@@ -11,6 +11,7 @@ import Navigation from '../Navigation'
 import Sidebar from '../Sidebar'
 import ToastMessage from '../ToastMessage'
 import Spinner from '../Spinner'
+import ThemeBtn from '../ThemeBtn'
 
 import { setsAppPath, videosAppPath } from '@/utils/paths'
 
@@ -56,7 +57,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         <header
           className={`
           ${isSmallHeader ? 'h-10 p-2 text-sm !bg-cyan-300/[0.5] absolute w-full' : 'h-[60px] py-4 px-5 text-lg'}
-          fixed w-full bg-cyan-300 z-10 transition-all duration-300
+          fixed w-full bg-cyan-300 dark:bg-cyan-600 z-10 transition-all duration-300
         `}
         >
           <Navigation isSmall={isSmallHeader} />
@@ -65,7 +66,8 @@ export default function Layout({ children }: { children: ReactNode }) {
           isShowSidebar &&
           <aside
             className={`
-              col-start-1 col-end-2 ${isSmallHeader ? 'mt-[40px]' : 'mt-[60px]'} bg-orange-100 transition-all duration-300
+              col-start-1 col-end-2 ${isSmallHeader ? 'mt-[40px]' : 'mt-[60px]'}
+              bg-orange-100 dark:bg-orange-400 transition-all duration-300
             `}
           ><Sidebar pathname={pathname} /></aside>
         }
@@ -76,8 +78,13 @@ export default function Layout({ children }: { children: ReactNode }) {
         `}
           ref={mainRef}>
           <div className='py-5 px-5 w-full max-w-7xl mx-auto'>{children}</div>
-          <footer className='h-[60px] py-4 flex items-center text-sm bg-gradient-to-t from-red-400 to-red-200'>
-            <div className='px-5 mx-auto w-full max-w-7xl'>&copy; {new Date().getFullYear()}</div>
+          <footer className='
+            h-[60px] py-4 flex items-center text-sm bg-gradient-to-t from-red-400 dark:from-red-500 to-red-200 dark:to-red-300
+          '>
+            <div className='px-5 mx-auto w-full max-w-7xl flex justify-between'>
+              <span>&copy; {new Date().getFullYear()}</span>
+              <ThemeBtn />
+            </div>
           </footer>
         </main>
         {

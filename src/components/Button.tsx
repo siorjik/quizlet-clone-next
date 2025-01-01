@@ -8,10 +8,10 @@ export default function Button({
   const sizeStyle = { sm: 'px-2 py-1 text-sm', md: 'px-4 py-2', lg: 'px-5 py-3' }
 
   const bgStyle = {
-    slate: 'bg-slate-200 hover:bg-slate-300',
-    violet: 'bg-violet-300 hover:bg-violet-400',
-    lime: 'bg-lime-200 hover:bg-lime-300',
-    sky: 'bg-sky-100 hover:bg-sky-200'
+    slate: 'bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-500',
+    violet: 'bg-violet-300 dark:bg-violet-600 hover:bg-violet-400 dark:hover:bg-violet-700',
+    lime: 'bg-lime-200 dark:bg-lime-600 hover:bg-lime-300 dark:hover:bg-lime-700',
+    sky: 'bg-sky-100 dark:bg-sky-300 hover:bg-sky-200 dark:hover:bg-sky-400'
   }
 
   return (

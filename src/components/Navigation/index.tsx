@@ -88,13 +88,14 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
 
     if (pathname === path || (pathname.startsWith(path) && path !== '/')) {
       if (isMobile) css = 'text-gray-700 font-bold'
-      else css = '!border-cyan-600 pb-[1.1rem]'
+      else css = '!border-cyan-600 dark:!border-yellow-600 pb-[1.1rem]'
     }
 
     return (
       <Link
         className={`
-          px-2 text-gray-500 border-b-2 border-transparent font-semibold hover:border-cyan-500
+          px-2 text-gray-500 dark:text-gray-200 border-b-2 border-transparent font-semibold
+          hover:border-cyan-500 dark:hover:border-yellow-500
           ${isSmall || isMobile ? '!pb-3' : 'pb-[1.1rem]'} ${css} transition-[border-color,padding] duration-300
         `}
         href={path}
@@ -132,7 +133,12 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
                   className='fixed w-screen h-screen top-0 right-0 flex justify-center bg-slate-500/[0.3]'
                   onClick={() => setShowMobMenu(!isShowMobMenu)}
                 >
-                  <div className='mob-menu-content flex flex-col self-start w-72 bg-slate-200 py-5 my-20 rounded-md'>
+                  <div
+                    className='
+                      mob-menu-content flex flex-col self-start w-72
+                      bg-slate-200 dark:bg-slate-500 py-5 my-20 rounded-md
+                    '
+                  >
                     <Image className='mx-auto mb-5' height={70} width={70} src={logo} alt='logo' />
                     {menu.map((item, index) => <Fragment key={index}>{getMenuItem(item, true)}</Fragment>)}
                     <div className='user flex justify-evenly mt-3 border-t-2 border-slate-300 pt-4'>

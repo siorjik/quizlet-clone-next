@@ -109,7 +109,7 @@ export default memo(function SetForm(
 
   const pairBlock = (index: number): ReactElement => {
     return (
-      <div className='flex mt-3 p-5 flex-col w-full justify-between relative bg-lime-200 rounded-xl md:flex-row'>
+      <div className='flex mt-3 p-5 flex-col w-full justify-between relative bg-lime-200 dark:bg-lime-700 rounded-xl md:flex-row'>
         <div className='text-center'><p className='pb-3 md:py-3 text-sm'>{index + 1}</p></div>
         <div className='w-full md:w-[47%] flex flex-col relative'>
           {
@@ -187,7 +187,7 @@ export default memo(function SetForm(
           name='title'
           label={!action ? 'Title' : ''}
           placeholder='Add a title...'
-          inputStyle='p-4 text-lg rounded-xl bg-amber-100 w-full'
+          inputStyle='p-4 text-lg rounded-xl bg-amber-100 dark:bg-amber-600 w-full'
           blockStyle='lg:w-2/5'
           errors={errors}
           register={{
@@ -206,15 +206,15 @@ export default memo(function SetForm(
           <div
             className='
               h-[42px] w-[42px] md:my-0 flex justify-center items-center self-center md:self-end
-              cursor-default bg-green-200 rounded-full text-sm
+              cursor-default bg-green-200 dark:bg-green-600 rounded-full text-sm
             '
             >
             {list.length}</div>
-          <div className='flex flex-col md:flex-row justify-between gap-4 md:gap-10'>
+          <div className='mb-3 md:mb-0 flex flex-col md:flex-row justify-between gap-4 md:gap-10'>
             <div>
               <p className='ml-3 text-xs'>Language source:</p>
               <Select
-                style='select text-sm bg-purple-200'
+                style='select text-sm bg-purple-200 dark:bg-purple-500'
                 name='source'
                 options={languageOptions}
                 placeholder='Choose a language'
@@ -238,7 +238,7 @@ export default memo(function SetForm(
             <div>
               <p className='ml-3 text-xs'>Language target:</p>
               <Select
-                style='select text-sm bg-purple-200'
+                style='select text-sm bg-purple-200 dark:bg-purple-500'
                 name='target'
                 options={languageOptions}
                 placeholder='Choose a language'

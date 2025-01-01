@@ -14,9 +14,13 @@ select {
   h3 {
     @apply text-lg
   }
+
+  body, main {
+    @apply dark:bg-slate-700
+  }
   
   .set-input {
-    @apply p-2 rounded-xl bg-lime-100 w-full
+    @apply p-2 rounded-xl bg-lime-100 dark:bg-lime-600 w-full
   }
 
   .page-title {
@@ -24,11 +28,11 @@ select {
   }
 
   .input {
-    @apply w-full py-2 px-3 border-2 rounded-md
+    @apply w-full py-2 px-3 border-2 dark:border-0 rounded-md
   }
 
   .link {
-    @apply text-amber-600 border-b-2 border-amber-700 cursor-pointer
+    @apply text-amber-600 dark:text-amber-500 border-b-2 border-amber-700 dark:border-amber-600 cursor-pointer
   }
 
   .select {
