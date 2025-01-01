@@ -7,7 +7,7 @@ describe('create account', () => {
       body: `0:["$@1",["development",null]]\n1:{"serverError":"The user with this email is exist"}\n`
     }).as('createUser')
 
-    cy.visit('/create-account')
+    cy.visit('/create-account').wait(500)
     cy.get('[name="email"]').type(Cypress.env('email'))
     cy.get('[name="name"]').type('test')
     cy.get('[type="submit"]').click()
@@ -20,7 +20,7 @@ describe('create account', () => {
       body: `0:["$@1",["development",null]]\n1:{"data":{"success":true}}\n`
     }).as('createUser')
     
-    cy.visit('/create-account')
+    cy.visit('/create-account').wait(500)
     cy.get('[name="email"]').type('test@test.net')
     cy.get('[name="name"]').type('test')
     cy.get('[type="submit"]').click()

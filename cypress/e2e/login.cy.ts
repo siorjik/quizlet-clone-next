@@ -6,7 +6,7 @@ describe('login', () => {
       body: {"url":"http://localhost:3000/api/auth/error?error=Invalid%20credentials..."}
     }).as('login')
 
-    cy.visit('/login')
+    cy.visit('/login').wait(500)
     cy.get('[name="email"]').type('failed@test.net')
     cy.get('[name="password"]').type('failed test')
     cy.get('[type="submit"]').click()
@@ -39,7 +39,7 @@ describe('login', () => {
       statusCode: 200
     }).as('logout')
 
-    cy.visit('/login')
+    cy.visit('/login').wait(500)
     cy.get('[name="email"]').type(Cypress.env('email'))
     cy.get('[name="password"]').type(Cypress.env('password'))
     cy.get('[type="submit"]').click()

@@ -30,7 +30,7 @@ export default function Modal({ isShow, close, title, content }: ModalPropsType)
     <div
       className={`
         min-w-80 md:min-w-[500px] max-w-3xl max-h-[calc(100dvh-150px)] ${animation}
-        px-8 py-5 overflow-auto flex flex-col bg-violet-200 dark:bg-violet-500 rounded-md animate-ease-in
+        px-8 py-5 overflow-auto flex flex-col bg-violet-200 dark:bg-violet-800 rounded-md animate-ease-in
       `}
       onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
     >
@@ -44,6 +44,7 @@ export default function Modal({ isShow, close, title, content }: ModalPropsType)
 
   const layout = (
     <div
+      data-id='modal'
       className='fixed top-0 h-[100dvh] w-full z-40 flex justify-center items-center bg-violet-200/[0.5] dark:bg-violet-800/[0.5]'
       onClick={() => close()}
     >
