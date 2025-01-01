@@ -27,28 +27,28 @@ export default function SetItem({ data }: { data: SetType }) {
     <>
       <div
         className={`
-          p-5 mb-2 bg-zinc-100 rounded-lg hover:bg-zinc-200 hover:mx-[-5px]
-          cursor-pointer animate-fade-down animate-ease-in-out transition-all
+          p-5 mb-2 bg-zinc-100 dark:bg-zinc-500 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-600
+          md:hover:mx-[-5px] cursor-pointer animate-fade-down animate-ease-in-out transition-all
         `}
         onClick={() => handleClick(_id as string)}
       >
-        <div className='flex justify-between'>
-          <div className='flex items-center w-[85%] whitespace-nowrap'>
-            <span className='text-xs'>{list.length} items</span>
+        <div className='flex justify-between gap-5'>
+          <div className='flex items-center w-[95%] whitespace-nowrap'>
+            <div className='text-xs'>{list.length} items</div>
             &nbsp;|&nbsp;
             {
               data.source && data.target
               && <>
-                <span className='text-xs'>
+                <div className='text-xs'>
                   from {languageOptions.find(({ value }) => value === data.source)?.label}
                   &nbsp;to {languageOptions.find(({ value }) => value === data.target)?.label}
-                </span>
+                </div>
                 &nbsp;|&nbsp;
               </>
             }
-            <span className='overflow-hidden text-ellipsis'>{title}</span>
+            <div className='overflow-hidden text-ellipsis'>{title}</div>
           </div>
-          <span onClick={async (e) => await remove(e, _id as string)}><TrashIcon /></span>
+          <div className='w-[5%]' onClick={async (e) => await remove(e, _id as string)}><TrashIcon /></div>
         </div>
       </div>
     </>

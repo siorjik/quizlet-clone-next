@@ -9,7 +9,7 @@ describe('create password', () => {
       }
     ).as('createPassword')
 
-    cy.visit('/create-password?token=expiredToken')
+    cy.visit('/create-password?token=expiredToken').wait(500)
     cy.get('[name="password"]').type('12345')
     cy.get('[name="confirmPassword"]').type('12345')
     cy.get('[type="submit"]').click()
@@ -24,7 +24,7 @@ describe('create password', () => {
       }
     ).as('createPassword')
 
-    cy.visit('/create-password?token=validToken')
+    cy.visit('/create-password?token=validToken').wait(500)
     cy.get('[name="password"]').type('12345')
     cy.get('[name="confirmPassword"]').type('12345')
     cy.get('[type="submit"]').click()

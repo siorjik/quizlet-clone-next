@@ -104,7 +104,7 @@ export default function SliderComp({ data }: { data: SetType }) {
     <>
       <div className='w-48 mb-8 mx-auto'>
         <Select
-          style='text-sm bg-green-200'
+          style='text-sm bg-green-600'
           name='mode'
           options={[
             {
@@ -131,7 +131,8 @@ export default function SliderComp({ data }: { data: SetType }) {
           {list.map((item, index) => (
             <div
               className={`
-                h-60 lg:h-[400px] p-5 !flex items-center justify-center bg-slate-100 cursor-pointer rounded-lg ${animation}
+                h-60 lg:h-[400px] p-5 !flex items-center justify-center bg-slate-100 dark:bg-slate-500 cursor-pointer
+                rounded-lg ${animation}
               `}
               key={index}
               onClick={() => setAnimation(xAnimation)}

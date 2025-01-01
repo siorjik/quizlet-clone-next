@@ -59,7 +59,7 @@ export default function Form(props: FormPropsType) {
       <form className={css} onSubmit={handleSubmit(onSubmit)}>
         {fieldsData.map((item, index) => (
           <Fragment key={index}>
-            <Input { ...item } errors={errors} register={{...register(item.name), disabled: isDisabled}} />
+            <Input { ...item } errors={errors} register={{ ...register(item.name), disabled: isDisabled }} />
           </Fragment>))}
         {
           ((!isDisabled && Object.keys(dirtyFields).length > 0) || isErr)

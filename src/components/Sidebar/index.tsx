@@ -48,7 +48,8 @@ export default function Sidebar({ pathname }: { pathname: string }) {
     sidebarData.map((item, index) =>
       <Link
         key={index}
-        className={`flex p-3 ${pathname === item.path ? 'bg-orange-200 rounded-r-full mr-1' : ''}`} href={item.path}
+        className={`flex p-3 ${pathname === item.path ? 'bg-orange-200 dark:bg-orange-500 rounded-r-full mr-1' : ''}`}
+        href={item.path}
       >
         <Image src={item.icon} alt='icon' priority />
         <span className='ml-5'>{item.title}</span>
@@ -70,7 +71,7 @@ export default function Sidebar({ pathname }: { pathname: string }) {
             <>
               {
                 !isStretch && !isShowMobMenu && <button
-                  className='absolute left-[20px] top-[57px] bg-slate-200 rounded-full z-10'
+                  className='absolute left-[20px] top-[48px] bg-slate-200 rounded-full z-10'
                   onClick={() => setStretch(!isStretch)}
                 ><Image src={isStretch ? leftArrowIcon : rightArrowIcon} alt='left-arrow' priority />
                 </button>
@@ -78,7 +79,7 @@ export default function Sidebar({ pathname }: { pathname: string }) {
 
               <div className={`
                 absolute w-[200px] h-[calc(100dvh-60px)] z-[1]
-                ${!isStretch ? 'left-[-200px]' : 'left-[0]'} bg-orange-100 transition-all
+                ${!isStretch ? 'left-[-200px]' : 'left-[0]'} bg-orange-100 dark:bg-orange-400 transition-all
               `}>
                 <button className='mb-5 m-3' onClick={() => setStretch(!isStretch)}>
                   <Image src={isStretch ? leftArrowIcon : rightArrowIcon} alt='left-arrow' priority />
