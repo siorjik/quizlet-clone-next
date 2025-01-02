@@ -69,12 +69,12 @@ export default memo(function SetForm(
         setDictionaryLoadingIndex(null)
       } catch (error) {
         console.log(error)
-        
+
         setDictionaryLoadingIndex(null)
 
         toast('Something went wrong with dictionary', { position: 'bottom-center', type: 'error' })
       }
-    }, 800)
+    }, 500)
   }
 
   const getTranslates = async (name: string, value: string): Promise<void> => {
@@ -98,9 +98,9 @@ export default memo(function SetForm(
       setValue(definitionName, '')
       setValue(name, value)
       setTranslatesLoadingIndex(index)
-  
+
       await getTranslates(definitionName, value)
-  
+
       setTranslatesLoadingIndex(null)
     } catch (error) {
       console.log(error)
@@ -114,7 +114,7 @@ export default memo(function SetForm(
         <div className='w-full md:w-[47%] flex flex-col relative'>
           {
             dictionaryLoadingIndex === index
-            && <span className='absolute text-xs z-10 top-3 right-5 text-slate-400'>Search results...</span>
+            && <span className='absolute text-xs z-10 top-3 right-5 text-slate-400 dark:text-slate-600'>Search results...</span>
           }
           <Autocomplete
             inputProps={{
@@ -146,15 +146,17 @@ export default memo(function SetForm(
 
         <div className='w-full md:w-[47%] flex flex-col relative'>
           {
-            translatesLoadingIndex === index
-            && <span className='absolute text-xs z-10 top-8 right-5 md:top-3 text-slate-400'>Search results...</span>
+            translatesLoadingIndex === index &&
+            <span className='absolute text-xs z-10 top-8 right-5 md:top-3 text-slate-400 dark:text-slate-600'>
+              Search results...
+            </span>
           }
           <Autocomplete
             inputProps={{
               name: 'definition',
               label: !action ? 'Definition' : '',
               placeholder:
-                action === 'create' && (!target || !source)  ? 'Choose a language target and source first...' : 'Definition',
+                action === 'create' && (!target || !source) ? 'Choose a language target and source first...' : 'Definition',
               inputStyle: 'set-input',
               blockStyle: 'relative w-full mt-5 md:mt-0',
               errors: errors?.list?.[index] as Merge<FieldError, FieldErrorsImpl>,
@@ -187,17 +189,18 @@ export default memo(function SetForm(
           name='title'
           label={!action ? 'Title' : ''}
           placeholder='Add a title...'
-          inputStyle='p-4 text-lg rounded-xl bg-amber-100 dark:bg-amber-600 w-full'
+          inputStyle='p-4 text-lg rounded-xl bg-amber-100 dark:!bg-amber-700 w-full'
           blockStyle='lg:w-2/5'
           errors={errors}
           register={{
-            ...register('title', { required: 'Required!', disabled: !action,
-              onChange: ({ target }) =>  target.value && errors.title && clearErrors('title')
+            ...register('title', {
+              required: 'Required!', disabled: !action,
+              onChange: ({ target }) => target.value && errors.title && clearErrors('title')
             })
           }}
           inputRef={inputRef}
         />
-        <div 
+        <div
           className='
             mt-5 lg:mt-0 flex flex-col md:flex-row justify-between w-full
             gap-4 md:gap-10 lg:w-3/6
@@ -206,9 +209,9 @@ export default memo(function SetForm(
           <div
             className='
               h-[42px] w-[42px] md:my-0 flex justify-center items-center self-center md:self-end
-              cursor-default bg-green-200 dark:bg-green-600 rounded-full text-sm
+              cursor-default bg-green-200 dark:bg-teal-700 rounded-full text-sm
             '
-            >
+          >
             {list.length}</div>
           <div className='mb-3 md:mb-0 flex flex-col md:flex-row justify-between gap-4 md:gap-10'>
             <div>

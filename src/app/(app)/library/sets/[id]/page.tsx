@@ -31,15 +31,13 @@ export default async function Set({ params }: { params: { id: string } }) {
   }
 
   return (
-    <div className='flex flex-col items-center'>
-      <div className='w-full'>
-        <BreadCrumbs data={breadCrumbsData} />
-        <div className='mb-5'>
-          <Link className='btn-lg mr-3 inline-block' href={getEditSetAppPath(params.id)}>Edit</Link>
-          <Link className='btn-lg inline-block' href={getSetFlashCardsAppPath(params.id)}>Flashcards</Link>
-        </div>
-        <SetForm data={set} />
+    <>
+      <BreadCrumbs data={breadCrumbsData} />
+      <div className='mb-5'>
+        <Link className='btn-lg mr-3 inline-block' href={getEditSetAppPath(params.id)}>Edit</Link>
+        <Link className='btn-lg inline-block' href={getSetFlashCardsAppPath(params.id)}>Flashcards</Link>
       </div>
-    </div>
+      <SetForm data={set} />
+    </>
   )
 }

@@ -87,7 +87,7 @@ export default function Autocomplete(
       }
   ) => (
     <li
-      className={`py-3 px-3 ${active ? 'bg-red-50' : ''}`}
+      className={`py-3 px-3 ${active ? 'bg-red-50 dark:bg-rose-600' : ''}`}
       onMouseEnter={() => setHovered(item)}
       onMouseLeave={() => setHovered(undefined)}
     >
@@ -119,18 +119,22 @@ export default function Autocomplete(
           errors?.[name] && <div className='px-3 text-red-600 text-sm absolute'>{errors[name]?.message as ReactNode}</div>
         }
 
-        {!!list.length && <ul className='absolute max-h-40 p-1 top-12 z-10 bg-red-100 rounded-lg overflow-y-scroll' ref={listRef}>
-          {
-            list.map((item, index) => (
-              <ListItem
-                key={index}
-                active={index === cursor}
-                item={item}
-                setHovered={setHovered}
-              />
-            ))
-          }
-        </ul>}
+        {
+          !!list.length &&
+          <ul className='absolute max-h-40 p-1 top-12 z-10 bg-red-100 dark:bg-rose-800 rounded-lg overflow-y-scroll'
+            ref={listRef}
+          >
+            {
+              list.map((item, index) => (
+                <ListItem
+                  key={index}
+                  active={index === cursor}
+                  item={item}
+                  setHovered={setHovered}
+                />
+              ))
+            }
+          </ul>}
       </div>
     </>
   )
