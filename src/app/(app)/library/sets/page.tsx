@@ -33,7 +33,11 @@ export default async function Sets() {
         href={createSetAppPath}
       >Create</Link>
       {
-        sets.length ? sets.map((set) => <SetItem key={set._id} data={set} />) :
+        sets.length ? sets.map((set) => (
+          <div className='animate-fade-down animate-ease-in-out transition-all' key={set._id}>
+            <SetItem data={set} />
+          </div>
+        )) :
           <p className='text-center'>There aren`t any sets yet...</p>
       }
     </>
