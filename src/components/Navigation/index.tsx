@@ -88,14 +88,14 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
 
     if (pathname === path || (pathname.startsWith(path) && path !== '/')) {
       if (isMobile) css = 'text-gray-700 font-bold'
-      else css = '!border-cyan-600 dark:!border-yellow-600 pb-[1.1rem]'
+      else css = '!border-cyan-600 dark:!border-yellow-500 pb-[1.1rem]'
     }
 
     return (
       <Link
         className={`
-          px-2 text-gray-500 dark:text-gray-200 border-b-2 border-transparent font-semibold
-          hover:border-cyan-500 dark:hover:border-yellow-500
+          px-2 text-gray-500 dark:text-gray-200 border-b-[3px] border-transparent font-semibold
+          hover:border-cyan-500 dark:hover:border-yellow-200
           ${isSmall || isMobile ? '!pb-3' : 'pb-[1.1rem]'} ${css} transition-[border-color,padding] duration-300
         `}
         href={path}

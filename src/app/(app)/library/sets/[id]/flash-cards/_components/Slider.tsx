@@ -28,15 +28,15 @@ export default function SliderComp({ data }: { data: SetType }) {
 
   const sliderRef = useRef<Slider>(null)
 
-  const xAnimation = 'animate-rotate-x'
-  const yAnimation = 'animate-rotate-y'
+  const xAnimation = 'animate-rotate-x animate-duration-500'
+  const yAnimation = 'animate-rotate-y animate-duration-500'
 
   useEffect(() => {
     if (animation) {
       if (isShowContent) {
         setShowContent(false)
 
-        setTimeout(() => setShowContent(true), 350)
+        setTimeout(() => setShowContent(true), 300)
       }
 
       if (animation === yAnimation && mode !== selectedMode) setMode(selectedMode)
@@ -104,7 +104,7 @@ export default function SliderComp({ data }: { data: SetType }) {
     <>
       <div className='w-48 mb-8 mx-auto'>
         <Select
-          style='text-sm bg-green-600'
+          style='text-sm bg-green-300 dark:bg-green-700'
           name='mode'
           options={[
             {
@@ -131,7 +131,7 @@ export default function SliderComp({ data }: { data: SetType }) {
           {list.map((item, index) => (
             <div
               className={`
-                h-60 lg:h-[400px] p-5 !flex items-center justify-center bg-slate-100 dark:bg-slate-500 cursor-pointer
+                h-60 lg:h-[400px] p-5 !flex items-center justify-center bg-slate-100 dark:bg-slate-600 cursor-pointer
                 rounded-lg ${animation}
               `}
               key={index}

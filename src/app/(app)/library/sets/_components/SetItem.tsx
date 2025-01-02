@@ -28,12 +28,12 @@ export default function SetItem({ data }: { data: SetType }) {
       <div
         className={`
           p-5 mb-2 bg-zinc-100 dark:bg-zinc-500 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-600
-          md:hover:mx-[-5px] cursor-pointer animate-fade-down animate-ease-in-out transition-all
+          cursor-pointer md:hover:!scale-[1.02] animate-fade-down animate-ease-in-out transition-all
         `}
         onClick={() => handleClick(_id as string)}
       >
         <div className='flex justify-between gap-5'>
-          <div className='flex items-center w-[95%] whitespace-nowrap'>
+          <div className='flex items-center w-[88%] md:w-[93%] whitespace-nowrap'>
             <div className='text-xs'>{list.length} items</div>
             &nbsp;|&nbsp;
             {
@@ -48,7 +48,7 @@ export default function SetItem({ data }: { data: SetType }) {
             }
             <div className='overflow-hidden text-ellipsis'>{title}</div>
           </div>
-          <div className='w-[5%]' onClick={async (e) => await remove(e, _id as string)}><TrashIcon /></div>
+          <div className='w-[20px]' onClick={async (e) => await remove(e, _id as string)}><TrashIcon /></div>
         </div>
       </div>
     </>

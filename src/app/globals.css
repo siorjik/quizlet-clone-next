@@ -18,6 +18,10 @@ select {
   body, main {
     @apply dark:bg-slate-700
   }
+
+  input::placeholder {
+    @apply text-slate-400 dark:text-slate-700
+  }
   
   .set-input {
     @apply p-2 rounded-xl bg-lime-100 dark:bg-lime-600 w-full
@@ -51,7 +55,7 @@ select {
 /* tabs */
 .rc-tabs-nav {
   margin-bottom: 20px;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid wheat;
 }
 
 .rc-tabs-nav-operations {
@@ -65,12 +69,11 @@ select {
 .rc-tabs-tab {
   padding: 0 15px 10px 15px;
   cursor: pointer;
-  /* border-bottom: 1px solid gray; */
 }
 
 .rc-tabs-tab-active {
   font-weight: bold;
-  border-bottom: 2px solid brown;
+  border-bottom: 3px solid yellowgreen;
 }
 
 .rc-tabs-ink-bar {

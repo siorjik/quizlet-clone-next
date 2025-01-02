@@ -67,21 +67,22 @@ export default function Layout({ children }: { children: ReactNode }) {
           <aside
             className={`
               col-start-1 col-end-2 ${isSmallHeader ? 'mt-[40px]' : 'mt-[60px]'}
-              bg-orange-100 dark:bg-orange-400 transition-all duration-300
+              bg-orange-100 dark:bg-emerald-800 transition-all duration-300
             `}
           ><Sidebar pathname={pathname} /></aside>
         }
         <main
           className={`
           w-full grid ${isSmallHeader ? 'h-[100dvh]' : 'h-[calc(100dvh-60px)] mt-[60px]'} duration-300
-          grid-rows-[1fr_minmax(60px,auto)] col-start-2 col-end-3 bg-slate-50 overflow-auto transition-all scroll-smooth
+          grid-rows-[1fr_minmax(60px,auto)] col-start-2 col-end-3 bg-slate-50 overflow-y-auto transition-all scroll-smooth
         `}
-          ref={mainRef}>
-          <div className='py-5 px-5 w-full max-w-7xl mx-auto'>{children}</div>
+          ref={mainRef}
+        >
+          <div className='h-max py-5 px-5 w-full max-w-7xl mx-auto overflow-x-hidden'>{children}</div>
           <footer className='
-            h-[60px] py-4 flex items-center text-sm bg-gradient-to-t from-red-400 dark:from-red-500 to-red-200 dark:to-red-300
+            h-[60px] py-4 flex text-sm bg-gradient-to-t from-red-400 dark:from-red-600 to-red-200 dark:to-red-400
           '>
-            <div className='px-5 mx-auto w-full max-w-7xl flex justify-between'>
+            <div className='px-5 mx-auto w-full max-w-7xl flex justify-between items-center'>
               <span>&copy; {new Date().getFullYear()}</span>
               <ThemeBtn />
             </div>
