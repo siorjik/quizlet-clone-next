@@ -38,18 +38,31 @@ export default function Layout({ children }: { children: ReactNode }) {
       if (currentScrollTop > lastScrollTop) setSmallHeader(true)
       else setSmallHeader(false)
 
-      setTimeout(() => lastScrollTop = currentScrollTop, 500)
+      lastScrollTop = currentScrollTop
 
       setShowBtn(currentScrollTop > 400)
     }
 
-    div.addEventListener('scroll', cb)
+    div.addEventListener('scroll', throttle(cb))
 
-    return () => div.removeEventListener('scroll', cb)
+    return () => div.removeEventListener('scroll', throttle(cb))
   }, [session])
 
   const isShowSidebar = sidebarPathList.find(item => item === pathname)
   const isShowContent = status === 'unauthenticated' || ((status === 'authenticated' || status === 'loading') && session)
+
+  const throttle = (cb: Function) => {
+    const delay = 100
+    let time = new Date()
+
+    return () => {
+      if ((delay + +time - +new Date()) <= 0) {
+        cb()
+  
+        time = new Date()
+      }
+    }
+  }
 
   return (
     <>
@@ -72,8 +85,8 @@ export default function Layout({ children }: { children: ReactNode }) {
           ><Sidebar pathname={pathname} /></aside>
         }
         <main
-          className={`
-          w-full grid ${isSmallHeader ? 'h-[100dvh]' : 'h-[calc(100dvh-60px)] mt-[60px]'} duration-300
+          className={`h-[100dvh]
+          w-full grid ${isSmallHeader ? 'pt-0' : 'pt-[60px]'} duration-300
           grid-rows-[1fr_minmax(60px,auto)] col-start-2 col-end-3 bg-slate-50 overflow-y-auto transition-all scroll-smooth
         `}
           ref={mainRef}

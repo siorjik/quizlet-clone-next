@@ -28,7 +28,7 @@ export default function SetItem({ data }: { data: SetType }) {
       <div
         className={`
           p-5 mb-2 bg-zinc-100 dark:bg-zinc-500 rounded-lg hover:bg-zinc-200 dark:hover:bg-zinc-600
-          cursor-pointer transition-all md:hover:!scale-[1.03]
+          cursor-pointer md:hover:!scale-[1.02] transition-all
         `}
         onClick={() => handleClick(_id as string)}
       >
