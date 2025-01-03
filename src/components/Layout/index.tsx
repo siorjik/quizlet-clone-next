@@ -35,10 +35,10 @@ export default function Layout({ children }: { children: ReactNode }) {
     const cb = () => {
       const currentScrollTop = div.scrollTop
 
-      if (currentScrollTop > lastScrollTop) setSmallHeader(true)
+      if ((currentScrollTop > lastScrollTop)) setSmallHeader(true)
       else setSmallHeader(false)
 
-      lastScrollTop = currentScrollTop
+      setTimeout(() => lastScrollTop = currentScrollTop, 500)
 
       setShowBtn(currentScrollTop > 400)
     }
@@ -52,7 +52,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   const isShowContent = status === 'unauthenticated' || ((status === 'authenticated' || status === 'loading') && session)
 
   const throttle = (cb: Function) => {
-    const delay = 100
+    const delay = 50
     let time = new Date()
 
     return () => {
