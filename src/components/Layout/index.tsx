@@ -35,10 +35,10 @@ export default function Layout({ children }: { children: ReactNode }) {
     const cb = () => {
       const currentScrollTop = div.scrollTop
 
-      if ((currentScrollTop > lastScrollTop)) setSmallHeader(true)
+      if (currentScrollTop > lastScrollTop && currentScrollTop > 20) setSmallHeader(true)
       else setSmallHeader(false)
 
-      setTimeout(() => lastScrollTop = currentScrollTop, 500)
+      lastScrollTop = currentScrollTop
 
       setShowBtn(currentScrollTop > 400)
     }
@@ -52,13 +52,13 @@ export default function Layout({ children }: { children: ReactNode }) {
   const isShowContent = status === 'unauthenticated' || ((status === 'authenticated' || status === 'loading') && session)
 
   const throttle = (cb: Function) => {
-    const delay = 50
+    const delay = 10
     let time = new Date()
 
     return () => {
       if ((delay + +time - +new Date()) <= 0) {
         cb()
-  
+
         time = new Date()
       }
     }
@@ -85,8 +85,8 @@ export default function Layout({ children }: { children: ReactNode }) {
           ><Sidebar pathname={pathname} /></aside>
         }
         <main
-          className={`h-[100dvh]
-          w-full grid ${isSmallHeader ? 'pt-0' : 'pt-[60px]'} duration-300
+          className={`
+          h-[100dvh] w-full grid pt-[60px]
           grid-rows-[1fr_minmax(60px,auto)] col-start-2 col-end-3 bg-slate-50 overflow-y-auto transition-all scroll-smooth
         `}
           ref={mainRef}
