@@ -100,7 +100,10 @@ export default function Autocomplete(
   return (
     <>
       <div className={`${blockStyle}`}>
-        {label && <label className='absolute px-2 left-5 top-[-8px] text-xs bg-white dark:bg-black rounded-xl'>{label}</label>}
+        {
+          label &&
+          <label className='absolute px-2 left-5 top-[-8px] text-xs bg-white dark:bg-black rounded-xl z-10'>{label}</label>
+        }
         <input
           className={inputStyle}
           placeholder={placeholder}

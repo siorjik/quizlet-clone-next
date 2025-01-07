@@ -74,7 +74,7 @@ export default memo(function SetForm(
 
         toast('Something went wrong with dictionary', { position: 'bottom-center', type: 'error' })
       }
-    }, 500)
+    }, 700)
   }
 
   const getTranslates = async (name: string, value: string): Promise<void> => {
@@ -183,7 +183,7 @@ export default memo(function SetForm(
   }
 
   return (
-    <form className='flex flex-col' onKeyDown={(e) => dictionaryLoadingIndex !== null && e.preventDefault()}>
+    <form className='flex flex-col'>
       <div className='flex justify-between flex-col lg:flex-row'>
         <Input
           name='title'

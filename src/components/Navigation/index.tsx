@@ -87,7 +87,7 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
     let css: string = ''
 
     if (pathname === path || (pathname.startsWith(path) && path !== '/')) {
-      if (isMobile) css = 'text-gray-700 font-bold'
+      if (isMobile) css = 'text-gray-700 font-bold dark:text-orange-300'
       else css = '!border-cyan-600 dark:!border-yellow-500 pb-[1.1rem]'
     }
 
