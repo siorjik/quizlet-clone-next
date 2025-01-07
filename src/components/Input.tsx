@@ -10,7 +10,7 @@ export default function Input(props: FormInputPropType) {
   return (
     <div className={`${blockStyle} relative`}>
       {
-        label && <label className='absolute px-2 left-5 top-[-8px] text-xs bg-white dark:bg-gray-800 rounded-xl'>
+        label && <label className='absolute px-2 left-5 top-[-8px] text-xs bg-white dark:bg-gray-800 rounded-xl z-10'>
           {label}
           {isRequired && <span className='ml-1 text-red-500'>*</span>}
         </label>
