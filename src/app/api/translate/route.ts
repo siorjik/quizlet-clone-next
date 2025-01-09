@@ -10,6 +10,7 @@ export async function POST(req: NextRequest):
     const { word, inputLanguage, outputLanguage } = await req.json()
 
     return NextResponse.json(word ? await translateAIService(word, inputLanguage!, outputLanguage!) : [])
+    // return NextResponse.json(['1', '1, 2', '1, 2, 3', '1, 2, 3, 4'])
   } catch (error) {
     const err = error as Error & ApiErrType
 
