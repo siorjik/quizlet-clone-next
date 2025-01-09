@@ -11,15 +11,12 @@ type FormPropsType = {
   submit: (data: { [key: string]: string }) => Promise<void>,
   fieldsData: InputType[],
   css: string,
-  btnData?: {
-    hoverColor?: string,
-    text: string,
-  },
+  btnData?: { text: string, bg?: string },
   isReset?: boolean,
 }
 
 export default function Form(props: FormPropsType) {
-  const { submit, fieldsData, css, btnData: { text, hoverColor } = {}, isReset = false } = props
+  const { submit, fieldsData, css, btnData: { text, bg } = {}, isReset = false } = props
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm()
 
@@ -42,7 +39,7 @@ export default function Form(props: FormPropsType) {
             register={{...register(item.name, { ...item.validation })}}
           />
         </Fragment>))}
-      <Button css='w-fit' type='submit' hoverColor={hoverColor}>{text || 'Submit'}</Button>
+      <Button bg={bg} css='w-fit' type='submit'>{text || 'Submit'}</Button>
     </form>
   )
 }

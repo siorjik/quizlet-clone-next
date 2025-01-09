@@ -17,27 +17,23 @@ import { registerFormTypeSchema } from '@/types/forms/auth'
 export default function CreateAccForm() {
   const [isLoading, setLoading] = useState(false)
 
-  const { execute } = useAction(createUser, {
-    onSuccess: ({ data }) => {
-      setLoading(false)
-
+  const { execute, hasErrored } = useAction(createUser, {
+    onSuccess: () => {
       toast(
         'User was created. Check email to create a password and finish registration.',
         { position: 'bottom-center', type: 'success' }
       )
     },
+    
     onError: ({ error }) => {
-      setLoading(false)
-
       toast(error.serverError, { position: 'bottom-left', type: 'error' })
     }
   })
 
   const submit = async (data: z.infer<typeof registerFormTypeSchema>): Promise<void> => {
-    setLoading(true)
-
     execute({ email: data.email, name: data.name })
   }
+
   const submitViaProvider = async (name: string): Promise<void> => {
     setLoading(true)
 
@@ -52,7 +48,7 @@ export default function CreateAccForm() {
       type: 'email',
       label: 'Email',
       inputStyle: 'input',
-      blockStyle: 'w-full mb-8',
+      blockStyle: 'w-full',
       isRequired: true,
     },
     {
@@ -60,7 +56,7 @@ export default function CreateAccForm() {
       type: 'text',
       label: 'Name',
       inputStyle: 'input',
-      blockStyle: 'w-full mb-8',
+      blockStyle: 'w-full mt-8',
       isRequired: true,
     },
   ]
@@ -73,7 +69,9 @@ export default function CreateAccForm() {
         css='w-full flex flex-col items-center'
         btnData={{ text: 'Create Account' }}
         schema={registerFormTypeSchema}
-        isReset
+        data={{ email: '', name: '' }}
+        isErr={hasErrored}
+        showSpinner
       />
       <AuthProviderBlock submit={submitViaProvider} />
       <ToastMessage />

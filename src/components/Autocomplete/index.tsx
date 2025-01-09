@@ -11,6 +11,7 @@ export default function Autocomplete(
   const [cursor, setCursor] = useState<number>(0)
   const [hovered, setHovered] = useState<string | undefined>(undefined)
   const [focused, setFocused] = useState<string>('')
+  const [isOver, setOver] = useState(false)
 
   const downPress = useKeyPress('ArrowDown')
   const upPress = useKeyPress('ArrowUp')
@@ -35,6 +36,11 @@ export default function Autocomplete(
 
       return
     }
+
+    const bodyHeight = window.document.body.clientHeight
+    const inputYPosition = inputRef.current?.getBoundingClientRect().top!
+
+    if (bodyHeight - inputYPosition < 200) setOver(true)
   }, [focused])
 
   useEffect(() => {
@@ -87,7 +93,7 @@ export default function Autocomplete(
       }
   ) => (
     <li
-      className={`py-3 px-3 ${active ? 'bg-red-50' : ''}`}
+      className={`py-3 px-3 ${active ? 'bg-red-50 dark:bg-rose-600' : ''}`}
       onMouseEnter={() => setHovered(item)}
       onMouseLeave={() => setHovered(undefined)}
     >
@@ -100,7 +106,10 @@ export default function Autocomplete(
   return (
     <>
       <div className={`${blockStyle}`}>
-        {label && <label className='absolute px-2 left-5 top-[-8px] text-xs bg-white rounded-xl'>{label}</label>}
+        {
+          label &&
+          <label className='absolute px-2 left-5 top-[-8px] text-xs bg-white dark:bg-black rounded-xl z-[1]'>{label}</label>
+        }
         <input
           className={inputStyle}
           placeholder={placeholder}
@@ -112,25 +121,31 @@ export default function Autocomplete(
 
             inputRef.current = el
           }}
-          onBlur={() => setFocused('')}
+          onBlur={() => {
+            setFocused('')
+            setCursor(0)
+          }}
           onFocus={e => setFocused(e.target.name)}
         />
+        {errors?.[name] && <div className='px-3 text-red-600 text-sm absolute'>{errors[name]?.message as ReactNode}</div>}
         {
-          errors?.[name] && <div className='px-3 text-red-600 text-sm absolute'>{errors[name]?.message as ReactNode}</div>
-        }
-
-        {!!list.length && <ul className='absolute max-h-40 overflow-auto p-1 top-12 z-10 bg-red-100 rounded-lg' ref={listRef}>
-          {
-            list.map((item, index) => (
-              <ListItem
-                key={index}
-                active={index === cursor}
-                item={item}
-                setHovered={setHovered}
-              />
-            ))
-          }
-        </ul>}
+          !!list.length &&
+          <ul className={`
+            absolute max-h-40 p-1 ${isOver ? 'bottom-12' : 'top-12'} z-10 bg-red-100 dark:bg-rose-800 rounded-lg overflow-y-scroll
+          `}
+            ref={listRef}
+          >
+            {
+              list.map((item, index) => (
+                <ListItem
+                  key={index}
+                  active={index === cursor}
+                  item={item}
+                  setHovered={setHovered}
+                />
+              ))
+            }
+          </ul>}
       </div>
     </>
   )

@@ -11,8 +11,8 @@ export const registerFormTypeSchema = z.object({
 })
 
 export const createPassFormTypeSchema = z.object({
-  password: z.string().min(1, { message: 'Password is required' }),
-  confirmPassword: z.string().min(1, { message: 'Confirm password is required' }),
+  password: z.string().min(5, { message: 'Password length must be at least 5' }),
+  confirmPassword: z.string().min(5, { message: 'Confirm password length must be at least 5' }),
 }).superRefine((data, ctx) => {
   if (data.password !== data.confirmPassword) {
     ctx.addIssue({
@@ -24,6 +24,11 @@ export const createPassFormTypeSchema = z.object({
 })
 
 export const createPassActionTypeSchema = z.object({
-  password: z.string().min(1, { message: 'Password is required' }),
+  password: z.string().min(5, { message: 'Password length must be at least 5' }),
   token: z.string().min(1, { message: 'Token is required' }),
+})
+
+export const changePassFormTypeSchema = z.object({
+  currentPass: z.string().min(1, { message: 'Password is required' }),
+  newPass: z.string().min(5, { message: 'New password length must be at least 5' }),
 })

@@ -25,23 +25,19 @@ export default async function Set({ params }: { params: { id: string } }) {
 
   const breadCrumbsData: { title: string, path: string }[] = [{ title: 'sets', path: setsAppPath }]
 
-  const linkStyle = 'mr-5 inline-block border-2 rounded-md px-5 py-2 hover:bg-slate-200 transition-all'
-
   if ('error' in set) {
     if (set.error.statusCode !== 401) notFound()
     else redirect(loginAppPath)
   }
 
   return (
-    <div className='flex flex-col items-center'>
-      <div className='w-full'>
-        <BreadCrumbs data={breadCrumbsData} />
-        <div className='mb-8'>
-          <Link className={linkStyle} href={getEditSetAppPath(params.id)}>Edit</Link>
-          <Link className={linkStyle} href={getSetFlashCardsAppPath(params.id)}>Flashcards</Link>
-        </div>
-        <SetForm data={set} />
+    <>
+      <BreadCrumbs data={breadCrumbsData} />
+      <div className='mb-5'>
+        <Link className='btn-lg mr-3 inline-block' href={getEditSetAppPath(params.id)}>Edit</Link>
+        <Link className='btn-lg inline-block' href={getSetFlashCardsAppPath(params.id)}>Flashcards</Link>
       </div>
-    </div>
+      <SetForm data={set} />
+    </>
   )
 }

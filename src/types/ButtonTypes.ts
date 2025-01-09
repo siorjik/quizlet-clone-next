@@ -1,3 +1,6 @@
 import { ReactNode } from 'react'
 
-export type ButtonTypes = { children: ReactNode, type?: string, css?: string, click?: () => void, hoverColor?: string }
+export type ButtonTypes = {
+  bg?: string, size?: 'sm' | 'md' | 'lg', children: ReactNode,
+  type?: 'button' | 'submit', css?: string, click?: () => void, isDisabled?: boolean
+}

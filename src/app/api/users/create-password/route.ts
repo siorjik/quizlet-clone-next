@@ -4,6 +4,7 @@ import apiService from '@/services/apiService'
 import { ApiErrType } from '@/types/ErrorTypes'
 import { UserType } from '@/types/UserTypes'
 import { getCreatePasswordApiPath } from '@/utils/paths'
+import apiErrorService from '@/services/apiErrorService'
 
 export async function POST(req: NextRequest): Promise<NextResponse<UserType | ApiErrType>> {
   try {
@@ -13,8 +14,8 @@ export async function POST(req: NextRequest): Promise<NextResponse<UserType | Ap
 
     return NextResponse.json(resp)
   } catch (error) {
-    const err = error as ApiErrType
+    const err = error as ApiErrType & Error
 
-    return NextResponse.json({ ...err })
+    return apiErrorService(err)
   }
 }

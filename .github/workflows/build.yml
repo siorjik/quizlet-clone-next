@@ -10,19 +10,80 @@ on:
 jobs:
   check-build:
     runs-on: ubuntu-latest
-    environment: dev
+    environment: local
     steps:
       - name: Get code
         uses: actions/checkout@v4
+      
+      - name: Create .env.production.local file
+        env:
+          APP_ENV: ${{ vars.APP_ENV }}
+          API_HOST: ${{ secrets.API_HOST }}
+          NEXT_PUBLIC_APP_HOST: ${{ secrets.NEXT_PUBLIC_APP_HOST }}
+          NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+          NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+          STORAGE_ACCESS_KEY: ${{ secrets.STORAGE_ACCESS_KEY }}
+          STORAGE_ACCESS_KEY_ID: ${{ secrets.STORAGE_ACCESS_KEY_ID }}
+          STORAGE_ID: ${{ secrets.STORAGE_ID }}
+          STORAGE_NAME: ${{ secrets.STORAGE_NAME }}
+        run: |
+          echo "APP_ENV=${APP_ENV}" > .env.production.local
+          echo "API_HOST=${API_HOST}" >> .env.production.local
+          echo "NEXT_PUBLIC_APP_HOST=${NEXT_PUBLIC_APP_HOST}" >> .env.production.local
+          echo "NEXTAUTH_SECRET=${NEXTAUTH_SECRET}" >> .env.production.local
+          echo "NEXTAUTH_URL=${NEXTAUTH_URL}" >> .env.production.local
+          echo "STORAGE_ACCESS_KEY=${STORAGE_ACCESS_KEY}" >> .env.production.local
+          echo "STORAGE_ACCESS_KEY_ID=${STORAGE_ACCESS_KEY_ID}" >> .env.production.local
+          echo "STORAGE_ID=${STORAGE_ID}" >> .env.production.local
+          echo "STORAGE_NAME=${STORAGE_NAME}" >> .env.production.local
+
+      - name: Create cypress.env.json file
+        env:
+          CYPRESS_APP_URL: ${{ secrets.CYPRESS_APP_URL }}
+          CYPRESS_EMAIL: ${{ secrets.CYPRESS_EMAIL }}
+          CYPRESS_PASSWORD: ${{ secrets.CYPRESS_PASSWORD }}
+        run: |
+          echo '{
+            "appUrl": "'"$CYPRESS_APP_URL"'",
+            "email": "'"$CYPRESS_EMAIL"'",
+            "password": "'"$CYPRESS_PASSWORD"'"
+          }' > cypress.env.json
+
+      # - name: Check env file
+      #   run: cat .env.production.local
+
+      # - name: Check cypress env file
+      #   run: cat cypress.env.json
 
       - name: Yarn install
         run: yarn install
         
-      - name: Check build
+      - name: Yarn build
         run: yarn build
 
-      - name: Check test
-        run: yarn test
+      - name: Yarn start
+        run: yarn start &
+
+      - name: Wait for the server to be ready
+        run: npx wait-on http://localhost:3000
+
+      - name: Check unit tests
+        run: yarn jest
+
+      - name: Check e2e tests
+        run: yarn cypress run
+
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-videos
+          path: cypress/videos
         
       - name: Build the docker image
         run: docker build .

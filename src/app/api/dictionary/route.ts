@@ -1,27 +1,31 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import apiErrorService from '@/services/apiErrorService'
+import dictionaryAIService from '@/services/dictionaryAIService'
+import dictionaryService from '@/services/dictionaryService'
+import { ApiErrType } from '@/types/ErrorTypes'
 
-type DictionaryType = { word: string, score: number }[]
+type LanguageType = 'en' | 'ru' | 'ua'
 
-export async function GET(req: NextRequest):
-  Promise<NextResponse<string[] | { error: { message: string, status: number } }>> {
+export async function POST(req: NextRequest):
+  Promise<NextResponse<string[] | ApiErrType>> {
   let res: string[] = []
+  let resp: { words: string[] } = { words: [] }
 
   try {
-    const word = req.nextUrl.searchParams.get('word')
+    const { word, language } = await req.json() as { word: string, language: LanguageType }
 
     if (word) {
-      const resp = await fetch(`${process.env.DICTIONARY_API_URL}?sp=${word}??`)
-      const words: DictionaryType = await resp.json()
+      if (language !== 'en') resp = await dictionaryAIService(word, language!)
+      else resp = await dictionaryService(word)
 
-      res = !!words.length ? words.splice(0, 3).map(item => item.word) : [word]
+      res = resp.words.length ? resp.words : [word]
     }
 
     return NextResponse.json(res)
   } catch (error) {
-    const err = error as Error
+    const err = error as Error & ApiErrType
 
-    return apiErrorService(err, 400)
+    return apiErrorService(err)
   }
 }

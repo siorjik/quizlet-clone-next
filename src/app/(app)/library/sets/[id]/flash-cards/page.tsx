@@ -39,12 +39,10 @@ export default async function FlashCards({ params }: { params: { id: string } })
   ]
 
   return (
-    <div className='flex flex-col items-center'>
-      <div className='w-full'>
-        <BreadCrumbs data={breadCrumbsData} />
-        <h2 className='page-title'>{set.title}</h2>
-        <Slider data={set} />
-      </div>
-    </div>
+    <>
+      <BreadCrumbs data={breadCrumbsData} />
+      <h2 className='page-title font-bold overflow-x-hidden text-ellipsis'>{set.title}</h2>
+      <Slider data={set} />
+    </>
   )
 }

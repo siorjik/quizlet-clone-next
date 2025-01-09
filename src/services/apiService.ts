@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server'
 
 import getSession from '@/helpers/getSession'
 
-type ObjectType = { [k: string]: string | number | boolean | ObjectType[] }
+type ObjectType = { [k: string]: string | number | boolean | File | ObjectType[] }
 type RequestParamsType = {
   url: string, method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH', body?: ObjectType | undefined,
   req?: null | NextRequest, headers?: null | Headers, cache?: RequestCache | undefined,

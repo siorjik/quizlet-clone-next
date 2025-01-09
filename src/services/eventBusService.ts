@@ -1,6 +1,6 @@
 export type DataType = string | boolean | number
 
-const actions: { [k: string]: Set<(data: DataType) => void> } = {}
+export const actions: { [k: string]: Set<(data: DataType) => void> } = {}
 
 export const subscribe = (eventName: string, cb: (data: DataType) => void): void => {
   if (!(eventName in actions)) actions[eventName] = new Set<(data: DataType) => void>()

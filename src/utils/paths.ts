@@ -20,8 +20,8 @@ export const getSetFlashCardsAppPath = (id: string) => `${getSetAppPath(id)}/fla
 export const videosAppPath = `${libraryAppPath}/videos`
 
 /***** api *****/
-export const getApiDictionaryPath = (word: string) => `/api/dictionary?word=${word}`
-export const getApiTranslatePath = (word: string) => `/api/translate?word=${word}`
+export const dictionaryApiPath = '/api/dictionary'
+export const translateApiPath = '/api/translate'
 
 // auth
 export const loginApiPath = getApiPath('auth/login', true)
@@ -36,3 +36,4 @@ export const getSetApiPath = (isRemoteApi: boolean = false) => getApiPath('sets'
 export const getUserApiPath = (isRemoteApi: boolean = false) => getApiPath('users', isRemoteApi)
 export const getCreatePasswordApiPath = (isRemoteApi: boolean = false) => getApiPath('users/create-password', isRemoteApi)
 export const getRecoveryPasswordApiPath = (isRemoteApi: boolean = false) => getApiPath('users/recover-password', isRemoteApi)
+export const getUpdatePasswordApiPath = (isRemoteApi: boolean = false) => getApiPath('users/update-password', isRemoteApi)

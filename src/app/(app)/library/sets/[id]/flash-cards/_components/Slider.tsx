@@ -1,7 +1,9 @@
 'use client'
 
 import { useEffect, useState, useRef } from 'react'
+import Image from 'next/image'
 import Slider from 'react-slick'
+import Select from '@/components/Select'
 
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
@@ -10,10 +12,11 @@ import rightIcon from '@/../public/images/chevron-right.svg'
 
 import { SetType } from '@/types/SetTypes'
 import useKeyPress from '@/hooks/useKeyPress'
-import Image from 'next/image'
+import { languageOptions } from '@/utils/constants'
 
 export default function SliderComp({ data }: { data: SetType }) {
   const [mode, setMode] = useState<'term' | 'definition'>('term')
+  const [selectedMode, setSelectedMode] = useState<'term' | 'definition'>('term')
   const [animation, setAnimation] = useState<string>('')
   const [counting, setCounting] = useState<{ amount: number, current: number }>({ amount: 0, current: 0 })
   const [isShowContent, setShowContent] = useState(true)
@@ -25,18 +28,18 @@ export default function SliderComp({ data }: { data: SetType }) {
 
   const sliderRef = useRef<Slider>(null)
 
-  const xAnimation = 'animate-rotate-x'
-  const yAnimation = 'animate-rotate-y'
+  const xAnimation = 'animate-rotate-x animate-duration-500'
+  const yAnimation = 'animate-rotate-y animate-duration-500'
 
   useEffect(() => {
     if (animation) {
       if (isShowContent) {
         setShowContent(false)
 
-        setTimeout(() => setShowContent(true), 350)
+        setTimeout(() => setShowContent(true), 300)
       }
 
-      if (animation === yAnimation && mode !== 'term') setMode('term')
+      if (animation === yAnimation && mode !== selectedMode) setMode(selectedMode)
 
       setTimeout(() => {
         setAnimation('')
@@ -99,6 +102,27 @@ export default function SliderComp({ data }: { data: SetType }) {
 
   return (
     <>
+      <div className='w-48 mb-8 mx-auto'>
+        <Select
+          style='text-sm bg-green-300 dark:bg-green-700'
+          name='mode'
+          options={[
+            {
+              label: data.source ?
+                `Term (${languageOptions.find(({ value }) => value === data.source)?.label})` : 'Term',
+              value: 'term'
+            },
+            {
+              label: data.target ?
+                `Definition (${languageOptions.find(({ value }) => value === data.target)?.label})` : 'Definition',
+              value: 'definition'
+            }
+          ]}
+          label='Choose a mode'
+          value='term'
+          onChange={(value) => setSelectedMode(value as 'term' | 'definition')}
+        />
+      </div>
       <div className='flex justify-center'>
         <Slider
           {...settings}
@@ -107,11 +131,12 @@ export default function SliderComp({ data }: { data: SetType }) {
           {list.map((item, index) => (
             <div
               className={`
-                h-60 lg:h-[400px] p-5 !flex items-center justify-center bg-slate-100 cursor-pointer rounded-lg ${animation}
+                h-60 lg:h-[400px] p-5 !flex items-center justify-center bg-slate-100 dark:bg-slate-600 cursor-pointer
+                rounded-lg ${animation}
               `}
               key={index}
               onClick={() => setAnimation(xAnimation)}
-            ><span className='text-2xl text-center'>{isShowContent ? item[mode] : ''}</span>
+            ><span className='text-3xl text-center'>{isShowContent ? item[mode] : ''}</span>
             </div>
           ))}
         </Slider>

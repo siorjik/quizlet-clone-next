@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+input, select, textarea {
+  outline: none;
+}
+
+select {
+  cursor: pointer;
+}
+
+@layer components {
+  h3 {
+    @apply text-lg
+  }
+
+  body, main {
+    @apply dark:bg-slate-700
+  }
+
+  input::placeholder {
+    @apply text-slate-400 dark:text-slate-700
+  }
+  
+  .set-input {
+    @apply p-2 rounded-xl bg-lime-100 dark:bg-lime-600 w-full
+  }
+
+  .page-title {
+    @apply mb-10 text-center text-3xl
+  }
+
+  .input {
+    @apply w-full py-2 px-3 border-2 dark:border-0 rounded-md
+  }
+
+  .link {
+    @apply text-amber-600 dark:text-amber-500 border-b-2 border-amber-700 dark:border-amber-600 cursor-pointer
+  }
+
+  .select {
+    @apply h-11 rounded-xl p-3 w-full border-r-[10px] border-transparent
+  }
+
+  .btn-md {
+    @apply border-2 rounded-md px-4 py-2 transition-all
+  }
+
+  .btn-lg {
+    @apply border-2 rounded-md px-5 py-3 transition-all
+  }
+}
+
+/* tabs */
+.rc-tabs-nav {
+  margin-bottom: 20px;
+  border-bottom: 1px solid wheat;
+}
+
+.rc-tabs-nav-operations {
+  display: none;
+}
+
+.rc-tabs-nav-list {
+  display: flex;
+}
+
+.rc-tabs-tab {
+  padding: 0 15px 10px 15px;
+  cursor: pointer;
+}
+
+.rc-tabs-tab-active {
+  font-weight: bold;
+  border-bottom: 3px solid yellowgreen;
+}
+
+.rc-tabs-ink-bar {
+  display: none;
+}

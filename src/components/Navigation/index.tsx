@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, Fragment, useEffect } from 'react'
+import { useState, Fragment, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
@@ -18,13 +18,17 @@ import { broadcast } from '@/services/eventBusService'
 import { EventNames } from '@/utils/constants'
 import apiService from '@/services/apiService'
 import { ApiErrType } from '@/types/ErrorTypes'
+import useFileStorage from '@/hooks/useFileStorage'
 
 export default function Navigation({ isSmall }: { isSmall: boolean }) {
   const [isShowMobMenu, setShowMobMenu] = useState(false)
+  const [imageUrl, setImageUrl] = useState('')
 
   const pathname = usePathname()
   const { push } = useRouter()
   const { data: session } = useSession()
+
+  const { getAuthUrl } = useFileStorage()
 
   const isAuth = !!session
 
@@ -32,6 +36,13 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
     if (isShowMobMenu) broadcast(EventNames.isShowMobMenu, true)
     else broadcast(EventNames.isShowMobMenu, false)
   }, [isShowMobMenu])
+
+  const getAuthUrlCallback = useCallback(() => getAuthUrl(session?.user?.image as string), [session?.user?.image])
+
+  useEffect(() => {
+    if (session?.user?.image) setImageUrl(getAuthUrlCallback())
+    else setImageUrl(isAuth ? userIcon : addUserIcon)
+  }, [getAuthUrlCallback, isAuth, session?.user?.image])
 
   const menu = [
     {
@@ -52,39 +63,40 @@ export default function Navigation({ isSmall }: { isSmall: boolean }) {
     if (typeof res === 'boolean' && res) signOut({ callbackUrl: '/' })
   }
 
-const src = isAuth && session.user?.image ? session.user.image : isAuth && !session.user?.image ? userIcon : addUserIcon
+  const src = imageUrl
 
-const getUserBlock = (isMobile: boolean = false) => (
-  <div className={`user flex justify-between ${isMobile ? 'space-x-5' : ''}`}>
+  const getUserBlock = (isMobile: boolean = false) => (
+    <div className={`user flex justify-between ${isMobile ? 'space-x-2' : ''}`}>
       <Link href={isAuth ? profileAppPath : createAccountAppPath}>
-        <Image
-          className={`${isSmall ? 'h-[25px] w-[25px]' : 'h-[30px] w-[30px]'} rounded-full transition-all`}
+        {imageUrl && <Image
+          className={`${isSmall ? 'h-[25px] w-[25px]' : 'h-[30px] w-[30px]'} rounded-full transition-all duration-300`}
           src={src}
           width={30}
           height={30}
-          alt='user' />
+          alt='user' />}
       </Link>
-      <span className='cursor-pointer' onClick={isAuth ? logout : () => push(loginAppPath)}>
+      <span id='logout' className='cursor-pointer' onClick={isAuth ? logout : () => push(loginAppPath)}>
         <Image
-          className={`${isSmall ? 'h-[25px] w-[25px]' : 'h-[30px] w-[30px]'} transition-all`}
+          className={`${isSmall ? 'h-[25px] w-[25px]' : 'h-[30px] w-[30px]'} transition-all duration-300`}
           src={isAuth ? logoutIcon : loginIcon} alt='logout' />
       </span>
     </div>
   )
-  
+
   const getMenuItem = ({ path, title }: { path: string, title: string }, isMobile?: boolean) => {
     let css: string = ''
-    
+
     if (pathname === path || (pathname.startsWith(path) && path !== '/')) {
-      if (isMobile) css = 'text-gray-700 font-bold'
-      else css = '!border-cyan-600 pb-[1.4rem]'
+      if (isMobile) css = 'text-gray-700 font-bold dark:text-orange-300'
+      else css = '!border-cyan-600 dark:!border-yellow-500 pb-[1.1rem]'
     }
 
     return (
       <Link
         className={`
-          px-2 text-gray-500 border-b-2 border-transparent font-semibold hover:border-cyan-500
-          ${isSmall || isMobile ? '!pb-2' : 'pb-[1.4rem]'} ${css} transition-[border-color,padding]
+          px-2 text-gray-500 dark:text-gray-200 border-b-[3px] border-transparent font-semibold
+          hover:border-cyan-500 dark:hover:border-yellow-200
+          ${isSmall || isMobile ? '!pb-3' : 'pb-[1.1rem]'} ${css} transition-[border-color,padding] duration-300
         `}
         href={path}
       >{title}</Link>
@@ -96,11 +108,12 @@ const getUserBlock = (isMobile: boolean = false) => (
       {
         session !== undefined && (
           <>
-            <div className='hidden md:grid grid-cols-[100px_1fr_80px]'>
+            <div className='hidden md:grid grid-cols-[100px_1fr_70px]'>
               <Link href='/'>
                 <Image
                   className={`
-                  absolute ${isSmall ? 'h-[30px] w-[30px] bottom-[5px]' : 'h-[50px] w-[50px] bottom-[10px]'} transition-all
+                  absolute ${isSmall ? 'h-[30px] w-[30px] bottom-[5px]' : 'h-[45px] w-[45px] bottom-[7px]'}
+                  transition-all duration-300
                 `}
                   src={logo} alt='logo' />
               </Link>
@@ -120,12 +133,17 @@ const getUserBlock = (isMobile: boolean = false) => (
                   className='fixed w-screen h-screen top-0 right-0 flex justify-center bg-slate-500/[0.3]'
                   onClick={() => setShowMobMenu(!isShowMobMenu)}
                 >
-                  <div className='mob-menu-content flex flex-col self-start w-72 bg-slate-200 py-5 my-20 rounded-md'>
+                  <div
+                    className='
+                      mob-menu-content flex flex-col self-start w-72
+                      bg-slate-200 dark:bg-slate-500 py-5 my-20 rounded-md
+                    '
+                  >
                     <Image className='mx-auto mb-5' height={70} width={70} src={logo} alt='logo' />
                     {menu.map((item, index) => <Fragment key={index}>{getMenuItem(item, true)}</Fragment>)}
                     <div className='user flex justify-evenly mt-3 border-t-2 border-slate-300 pt-4'>
                       <Link href={isAuth ? profileAppPath : createAccountAppPath}>
-                        <Image className='rounded-full' src={src} width={30} height={30} alt='user' />
+                        <Image className='h-full rounded-full' src={src} width={30} height={30} alt='user' />
                       </Link>
                       <span
                         className='cursor-pointer'

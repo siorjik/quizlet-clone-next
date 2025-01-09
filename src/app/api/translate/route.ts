@@ -1,38 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import apiErrorService from '@/services/apiErrorService'
-import translateService from '@/services/translateService'
+import translateAIService from '@/services/translateAIService'
+import { ApiErrType } from '@/types/ErrorTypes'
 
-const getUniqueString = (arr: string[]): string => {
-  const resArr = arr.map(item => item.split(', ')).flat()
-
-  return Array.from(new Set(resArr)).join(', ')
-}
-
-const getMappedTranslates = (data: string[]): string[] => {
-  let res: string[] = []
-  let index = 0
-
-  while (index < data.length) {
-    res = [...res, getUniqueString([...res, data[index]])]
-
-    index += 1
-  }
-
-  return res
-}
-
-export async function GET(req: NextRequest):
-  Promise<NextResponse<string[] | [] | { error: { message: string, status: number } }>> {
+export async function POST(req: NextRequest):
+  Promise<NextResponse<string[] | [] | ApiErrType>> {
   try {
-    const word = req.nextUrl.searchParams.get('word')
+    const { word, inputLanguage, outputLanguage } = await req.json()
 
-    const res: { translate: string, translates: string[] } = await translateService(word as string)
-
-    return NextResponse.json(word && res.translate ? getMappedTranslates([...res.translates]) : [])
+    return NextResponse.json(word ? await translateAIService(word, inputLanguage!, outputLanguage!) : [])
+    // return NextResponse.json(['1', '1, 2', '1, 2, 3', '1, 2, 3, 4'])
   } catch (error) {
-    const err = error as Error
+    const err = error as Error & ApiErrType
 
-    return apiErrorService(err, 400)
+    return apiErrorService(err)
   }
 }

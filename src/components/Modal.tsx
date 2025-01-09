@@ -30,21 +30,22 @@ export default function Modal({ isShow, close, title, content }: ModalPropsType)
     <div
       className={`
         min-w-80 md:min-w-[500px] max-w-3xl max-h-[calc(100dvh-150px)] ${animation}
-        px-10 py-5 overflow-auto flex flex-col bg-violet-200 rounded-md animate-ease-in
+        px-8 py-5 overflow-auto flex flex-col bg-violet-200 dark:bg-indigo-900 rounded-md animate-ease-in
       `}
       onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
     >
-      {title && <h3 className='mb-5 pb-5 border-b border-violet-300 text-xl'>{title}</h3>}
+      {title && <h3 className='mb-5 pb-5 border-b border-violet-300 dark:border-violet-500 text-xl'>{title}</h3>}
       <div>{content}</div>
-      <div className='mt-5 pt-5 border-t border-violet-300'>
-        <Button click={close} hoverColor='hover:bg-violet-300'>Close</Button>
+      <div className='mt-5 pt-5 border-t border-violet-300 dark:border-violet-500'>
+        <Button click={close} bg='violet'>Close</Button>
       </div>
     </div>
   )
 
   const layout = (
     <div
-      className='fixed top-0 h-[100dvh] w-full z-40 flex justify-center items-center bg-violet-200/[0.5]'
+      data-id='modal'
+      className='fixed top-0 h-[100dvh] w-full z-40 flex justify-center items-center bg-violet-200/[0.5] dark:bg-slate-800/[0.5]'
       onClick={() => close()}
     >
       {modalContent}
